@@ -1,0 +1,41 @@
+{{ do( ctrl.addResByPath() )}}
+
+<div class="user_edituserinfo">
+	<div class="msg_block">
+		<div class="msg"></div>
+	</div>
+	<div class="form_block">
+		<form id="edituserinfo_form"
+			method="post"
+			onsubmit="return false;"
+			action="{{ROOT}}/user/ajaxEditUserInfo"
+			>
+			<div class="nickname">
+				<span class="h">昵称</span>
+				<span class="c"><input name="nickname" value="{{userinfo['nickname']}}" /></span>
+			</div>
+			<div class="avatar">
+				<span class="h">头像</span>
+				<span class="c">
+					<input type='hidden' name="avatar" value="{{userinfo['avatar'] if userinfo['avatar'] else 'http://'}}" />
+					<a id='upload_avatar_btn' href='#' onclick="return false;">上传</a>
+				</span>
+			</div>
+			<div class="avatar_preview">
+				<div class="h">头像预览</div>
+				<div class="avatar_block">
+					<img class="avatar" src="{{userinfo['avatar'] if userinfo['avatar'] else ROOT+'/static/image/meteor.jpg'}}" alt="avatar" />
+				</div>
+			</div>
+			<div class="submit">
+				<span class="h"></span>
+				<span class="c"><input type="submit" name="submit" /></span>
+			</div>
+		</form>
+	</div>
+	<div id="dialog" class="common_dialog">
+		<a href='#' class='close_button' onclick="return false;">关闭</a>
+		<iframe src="">
+		</iframe>
+	</div>
+</div>

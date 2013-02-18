@@ -1,0 +1,37 @@
+.problem_detail .title{
+	text-align: center;
+	font-size: 18pt;
+	font-weight: bold;
+	color: blue;
+}
+.problem_detail .limit .itemname,
+.problem_detail .limit .content{
+	display:inline;
+	font-size: 9pt;
+	color: green;
+}
+.problem_detail .limit{
+	text-align: center;
+}
+.problem_detail .problem_content .itemname{
+	padding: 5px 15px;
+	color: #7CA9ED;
+	font-size: 18px;
+	font-weight: bold;
+}
+.problem_detail .problem_content .content{
+	height: auto;
+	background-color: #e4f0f8;
+	margin: 3px 10px;
+	padding: 10px 20px;
+	font-size: 14px;
+	text-align: left;
+	border-radius: 8px;
+	border:solid 1px #b2e9f5;
+	white-space: pre-wrap;
+	word-wrap:break-word;
+}
+.problem_detail .bottom_link{
+	padding-top: 30px;
+	text-align: center;
+}

@@ -1,0 +1,93 @@
+pre{
+	margin: 0;
+	padding: 0;
+}
+html{
+	overflow-y: scroll;
+}
+.common_layout_column{
+	float: left;
+}
+.common_page_title{
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #F8F8F8;
+	border: 1px solid #CCC;
+	line-height: 24px;
+	padding: 6px 10px;
+	border-radius: 5px;
+}
+.common_center_block{
+	width: 300px;
+	margin: 0 auto;
+}
+.common_success{
+	color: green;
+}
+.common_failed{
+	color: red;
+}
+.common_hint{
+	font-size: 16px;
+	vertical-align: top;
+	display: inline-block;
+	width: 80px;
+}
+.common_content{
+	display: inline-block;
+}
+.common_valcode_img{
+	width: 100px;
+}
+.common_dialog{
+	display: none;
+	width: 300px;
+	height: 200px;
+	border: solid 1px;
+	background: #F2F5F7;
+}
+.common_emoji{
+	height: 32px;
+	width: 32px;
+}
+pre{
+	background-color: #F8F8F8;
+	border: 1px solid #CCC;
+	font-size: 13px;
+	line-height: 19px;
+	overflow: auto;
+	padding: 6px 10px;
+	border-radius: 3px;
+}
+.common_pager{
+	text-align: center;
+	height: 40px;
+	margin: 20px 0;
+}
+.common_pager .buttons{
+	display: inline-block;
+	margin-bottom: 0;
+	margin-left: 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.common_pager .hints{
+	display: none;
+}
+.common_pager .buttons a,.common_pager .buttons span{
+	line-height: 20px;
+	float: left;
+	padding: 0 14px;
+	line-height: 38px;
+	text-decoration: none;
+	background-color: #F2F5F7;
+	border: 1px solid white;
+}
+.common_pager .buttons a{
+	color: #08c;
+}

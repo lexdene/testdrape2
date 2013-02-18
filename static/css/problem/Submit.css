@@ -1,0 +1,34 @@
+.problem_submit .page_title{
+	text-align: center;
+	font-size: 18pt;
+	font-weight: bold;
+	color: blue;
+}
+.problem_submit .problemInfo,
+.problem_submit .form{
+	text-align: center;
+}
+.problem_submit .problemInfo .itemname,
+.problem_submit .problemInfo .content{
+	display: inline;
+	font-size: 9pt;
+	color: green;
+}
+.problem_submit .form .language .itemname,
+.problem_submit .form .language .select{
+	display: inline;
+}
+.problem_submit .form .code{
+	padding-top: 50px;
+}
+.problem_submit .form .code .textarea{
+	width: 650px;
+	height: 400px;
+	word-wrap: break-word;
+	word-break: break-all;
+	background-color: #F4FBFF;
+	border: #B7CBFF 1px dashed;
+	font-size: 12px;
+	text-align: left;
+	padding: 10px;
+}

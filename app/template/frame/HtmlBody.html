@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
+    <title>{{title}}</title>
+    {% for reses in reslist -%}
+      {%- for res in reses -%}
+        {%- if res[1] == 'js' %}
+          <script language="javascript" src="{{ROOT}}/static/{{res[0] }}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
+        {%- else %}
+          <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/{{res[0]}}.css?{{'.'.join(version.split('.')[0:3])}}" />
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor %}
+<script type="text/javascript">
+var WEB_ROOT = "{{ROOT}}";
+var my_userid= {{my_userid}};
+var joj = {
+	version:'{{version}}',
+	drape:{
+		version : '{{drape_version}}'
+	}
+};
+</script>
+  </head>
+  <body>
+  {{body}}
+  </body>
+</html>

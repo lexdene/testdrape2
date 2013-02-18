@@ -1,0 +1,14 @@
+.user_edituserinfo .msg_block .msg{
+	color: red;
+}
+.user_edituserinfo .avatar_block{
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+	border: solid 1px;
+	text-align:center;
+}
+.user_edituserinfo .avatar_block .avatar{
+	max-width: 200px;
+	max-height: 200px;
+}

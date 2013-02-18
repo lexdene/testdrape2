@@ -1,0 +1,18 @@
+$def with(v)
+
+$v['res'].add('jquery')
+$v['res'].add('jdmd_widget')
+$v['res'].add('jdmd_widget','css')
+
+<div class="user_loginresult">
+	<div class="common_page_title common_center_block">
+	$if v['loginResult']:
+		<div class="common_success">登录成功</div>
+	$else:
+		<div class="common_failed">登录失败</div>
+	</div>
+	<div class="redirect_block">
+		<span class="jdmd_redirect" value="3" redirect="$v['redirect']">3</span>
+		秒钟后跳转至<a href="$v['redirect']">$v['redirect']</a>
+	</div>
+</div>

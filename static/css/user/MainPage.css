@@ -1,0 +1,25 @@
+.user_homepage .left_column{
+	width: 240px;
+	padding: 10px;
+}
+.user_homepage .right_column{
+	width: 660px;
+	padding: 10px;
+}
+.user_homepage .nickname{
+	padding-left: 20px;
+	font-size: 28px;
+	color: dodgerBlue;
+	font-weight: bold;
+}
+.user_homepage .avatar_block{
+	width: 200px;
+	height: 200px;
+	margin: 10px auto;
+	overflow: hidden;
+	text-align: center;
+}
+.user_homepage .avatar_block .avatar{
+	max-width: 200px;
+	max-height: 200px;
+}

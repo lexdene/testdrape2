@@ -1,0 +1,65 @@
+body{
+	background:#C2DDF9;
+	margin: 0;
+}
+.layout_head_line{
+	background: url(../../image/meteor.jpg);
+	padding: 5px 15px;
+}
+.layout_head_line a{
+	color: #CCDE22;
+	text-decoration: none;
+	padding: 5px;
+}
+.layout_head_line a:hover{
+	background-color:MediumVioletRed ;
+}
+.layout_head_line .right_buttons{
+	float: right;
+}
+.body_block{
+	width: 1000px;
+	margin: auto;
+}
+.frontpage{
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #DDD;
+	background: #F2F5F7;
+	padding:1em;
+}
+.frontpage_block{
+	border-radius: 4px;
+	border: 2px solid white;
+	margin-bottom:10px;
+}
+.frontpage_content_block{
+	padding:10px;
+}
+.top_img{
+	height: 120px;
+	border-radius: 4px;
+}
+.top_title{
+	font-size: 40px;
+	color: #CCDE22;
+}
+.top_title_block{
+	padding: 40px;
+}
+.nav_block{
+	width:100px;
+	float:left;
+	margin:0 10px;
+}
+.nav_title{
+	background-color: #6589D1;
+	text-align: center;
+}
+.nav_block a{
+	display:block;
+}
+.clear{
+	clear:both;
+}

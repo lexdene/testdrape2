@@ -1,0 +1,14 @@
+.manual_layout .common_layout_column{
+	padding: 20px 20px 0;
+}
+.manual_layout .right_column{
+	width: 600px;
+}
+.manual_layout .right_column .right_body{
+	border-radius: 5px;
+	border: 2px solid white;
+	padding: 10px;
+}
+.manual_layout .right_column .right_bottom{
+	padding: 10px 10px 0;
+}

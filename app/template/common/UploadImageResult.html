@@ -1,0 +1,13 @@
+{% if result == 'success' %}
+	<div>上传成功！</div>
+{% else %}
+	<div>{{result}}</div>
+	<div>
+		<a href="{{ROOT}}/common/UploadImage?accept={{accept}}">返回</a>
+	</div>
+{% endif %}
+<script type="text/javascript">
+var savepath = '{{savepath}}';
+var result = '{{result}}';
+parent.uploadCallBack(result,savepath);
+</script>

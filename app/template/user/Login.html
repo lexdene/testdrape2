@@ -1,0 +1,43 @@
+{{ do(	ctrl.addResByPath('js') )}}
+
+<div class="user_login common_center_block">
+	<div class="common_page_title">登录</div>
+	<form method="post" id="submit_form"
+		action="{{ROOT}}/user/ajaxLogin"
+		redirect="{{redirect}}"
+		onsubmit="return false;"
+		>
+		<div>
+			<span class="common_hint">登录名</span>
+			<span class="common_content">
+				<input name="loginname" />
+			</span>
+		</div>
+		<div>
+			<span class="common_hint">密码</span>
+			<span class="common_content">
+				<input type="password" name="password" />
+			</span>
+		</div>
+		<div>
+			<span class="common_hint">验证码</span>
+			<span class="common_content">
+				<input name="valcode" />
+			</span>
+		</div>
+		<div>
+			<span class="common_hint"></span>
+			<span class="common_content">
+				<img class="common_valcode_img" src="{{ROOT}}/validatecode/genImage" />
+				<a class="valcode_btn" href="#" onclick="return false">看不清，换一个</a>
+			</span>
+		</div>
+		<div>
+			<span class="common_hint"></span>
+			<span class="common_content">
+				<input type="submit" value="登录" />
+				<a href="{{ROOT}}/user/Register?redirect={{redirect}}">注册</a>
+			</span>
+		</div>
+	</form>
+</div>

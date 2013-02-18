@@ -1,0 +1,78 @@
+.discuss_topic .topic_headblock{
+	padding: 0 15px;
+	border: solid 1px;
+	border-radius: 4px;
+}
+.discuss_topic .topic_title{
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 43px;
+}
+.discuss_topic .building .floor{
+	min-height: 150px;
+	border: solid 1px;
+	border-radius: 4px;
+}
+.discuss_topic .user_panel{
+	margin: 0 10px;
+	width: 160px;
+}
+.discuss_topic .user_panel .nickname{
+	text-align: center;
+}
+.discuss_topic .avatar_block{
+	width: 100px;
+	height: 100px;
+	margin: 10px auto;
+	overflow: hidden;
+	background: white;
+	text-align: center;
+}
+.discuss_topic .avatar_block .avatar{
+	max-width: 100px;
+	max-height: 100px;
+}
+.discuss_topic .floor_text{
+	padding: 10px;
+	word-break: break-all;
+	font-size: 20px;
+	margin-bottom: 30px;
+}
+.discuss_topic .floor_text img{
+	max-width: 450px;
+}
+.discuss_topic .reply_block{
+	padding: 10px 0;
+}
+.discuss_topic .reply_block textarea{
+	height: 200px;
+	width: 450px;
+	border: 1px solid;
+	overflow-y: auto;
+	word-wrap:break-word;
+}
+.discuss_topic .reply_block .reply_to_hint{
+	display: none;
+}
+.discuss_topic .building .floor .floor_right_column{
+	position: relative;
+	width: 600px;
+	min-height: 130px;
+	padding: 10px;
+}
+.discuss_topic .building .floor .floor_right_bottom{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.discuss_topic .building .floor .reply_to_reply{
+	border: solid 1px;
+	padding: 5px;
+	width: 400px;
+}
+.discuss_topic .building .floor .reply_to_reply .content{
+	background-color: white;
+	padding: 5px;
+	border-radius: 5px;
+}

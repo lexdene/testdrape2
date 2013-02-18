@@ -1,0 +1,18 @@
+.problem_showcode .info{
+	margin: 0 auto;
+	width: 200px;
+}
+.problem_showcode .info .h{
+	padding-right: 10px;
+	font-weight: bold;
+	font-size: 14px;
+	color: green;
+}
+.problem_showcode .info .c{
+	font-size: 18px;
+}
+.problem_showcode .code .title .h{
+	font-weight: bold;
+	font-size: 16px;
+	color: green;
+}

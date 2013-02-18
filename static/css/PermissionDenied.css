@@ -1,0 +1,8 @@
+.permissionDenied{
+	font-weight: bold;
+	color: #E83827;
+	line-height: 20px;
+}
+.permissionDenied .h1{
+	font-size: 9pt;
+}

@@ -1,0 +1,47 @@
+{{ do(ctrl.addResByPath()) }}
+{{ do(res.append(('css/common','css'))) }}
+{{ do( res.append(('js/jquery','js')) )}}
+{{ do( res.append(('css/jdmd_widget','css')) )}}
+{{ do( res.append(('js/drapeje','js')) )}}
+<div class="layout_head_line">
+	<span class="left_buttons">
+		<a href='{{ROOT}}/'>首页</a>
+		<a href='{{ROOT}}/discuss/List'>讨论区</a>
+		<a href='{{ROOT}}/manual'>drape介绍</a>
+	</span>
+	<span class="right_buttons">
+		{% if uid > 0 %}
+			<a href="{{ROOT}}/user/UserCenter">个人中心</a>
+			<a href="{{ROOT}}/userinfo/MainPage/id/{{userinfo['uid']}}">{{userinfo['nickname']}}</a>
+			<a href="{{ROOT}}/user/Logout">注销</a>
+		{% else %}
+			<a href='{{ROOT}}/user/Register'>注册</a>
+			<a href='{{ROOT}}/user/Login'>登录</a>
+		{% endif %}
+	</span>
+</div>
+<div class="body_block">
+	<div class="frontpage">
+		<div class="frontpage_body frontpage_block frontpage_content_block">
+			{{body}}
+		</div>
+		<div class="frontpage_bottom frontpage_block frontpage_content_block">
+			<div>drape是一个Python的web后台框架，目前仍在开发中，而且bug很多。</div>
+			<div>testdrape网站就是为了测试drape框架各方面的功能。</div>
+			<div>
+				testdrape源代码：
+				<a href="https://github.com/lexdene/testdrape" target="_blank">https://github.com/lexdene/testdrape</a>
+			</div>
+			<div>
+				drape源代码：
+				<a href="https://github.com/lexdene/drape" target="_blank">https://github.com/lexdene/drape</a>
+			</div>
+			<hr />
+			<div>大连理工大学电子信息与电气工程学部CPF科技协会JDMD工作室。</div>
+			<div>本网站使用drape，jinja2，mako，MySQLdb，Markdown，gemoji构建。</div>
+			<div>美工由<b>李小胖</b>和<b>oahcil</b>提供。</div>
+			<hr />
+			<div>sae开发者认证求推荐：<a href="http://sae.sina.com.cn/?m=home&a=devlevel&level=normal_level&voteme=fhfijj">http://sae.sina.com.cn/?m=home&a=devlevel&level=normal_level&voteme=fhfijj</a></div>
+		</div>
+	</div>
+</div>

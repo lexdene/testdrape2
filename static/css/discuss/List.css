@@ -1,0 +1,50 @@
+.discuss_list .list_container .author,
+.discuss_list .list_container .pnum,
+.discuss_list .list_container .title,
+.discuss_list .list_container .ctime,
+.discuss_list .list_container .reply_count,
+.discuss_list .list_container .last_reply{
+	display: inline-block;
+	width: 150px;
+}
+.discuss_list .list_container .author{
+	white-space: nowrap;
+}
+.discuss_list .list_container .pnum{
+	display: none;
+}
+.discuss_list .list_container .title{
+	width: 200px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.discuss_list .list_container .reply_count{
+	width: 50px;
+}
+.discuss_list .list_container .last_reply{
+	width: 250px;
+}
+.discuss_list .button_links{
+	padding-top: 30px;
+}
+
+.discuss_posttopic .form_block .h{
+	font-size: 16px;
+	color: blue;
+	vertical-align: top;
+	display: inline-block;
+	width: 40px;
+}
+.discuss_posttopic .form_block .input_pnum{
+	display: none;
+}
+.discuss_posttopic .form_block .input_title input,
+.discuss_posttopic .form_block .input_content textarea{
+	width: 250px;
+	padding: 0;
+	border: solid 1px grey;
+}
+.discuss_posttopic .form_block .input_content textarea{
+	height: 300px;
+}

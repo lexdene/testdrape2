@@ -1,0 +1,66 @@
+.jdmd_input{
+}
+.jdmd_button{
+}
+.jdmd_widget_validate_error .content{
+	display: inline-block;
+	color: red;
+}
+.jdmd_widget_validate_error .icon{
+	width: 0;
+	height: 0;
+	border-top: 5px solid transparent;
+	border-left: 10px solid GoldenRod ;
+	border-bottom: 5px solid transparent;
+	display:inline-block ;
+}
+
+/* tabs */
+.jdmd_tabs{
+	border-radius: 4px;
+	padding: .2em;
+	zoom: 1;
+}
+.jdmd_tabs .tab_nav{
+	margin: 0;
+	padding: .2em .8em 0;
+	border-bottom: 1px solid #AAA;
+	color: #222;
+	font-weight: bold;
+	zoom: 1;
+	position: relative;
+}
+.jdmd_tabs .tab_nav .nav_btn_wrap{
+	margin: 1px .2em 0 0;
+	border: 1px solid lightGrey;
+	background: #005EAC;
+	font-weight: normal;
+	color: #E3EEF8;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	padding: .5em 1em;
+	line-height: 1.3;
+	display: inline-block;
+	position: relative;
+}
+.jdmd_tabs .tab_nav .nav_btn_focus{
+}
+.jdmd_tabs .tab_nav .nav_btn_active{
+	border: 1px solid #AAA;
+	background: #F2F5F7;
+	font-weight: normal;
+	color: #212121;
+	bottom: -1px;
+}
+.jdmd_tabs .tab_nav .nav_btn_wrap{
+	border-bottom: 0;
+}
+.jdmd_tabs .tab_nav .nav_btn_wrap a{
+	color: inherit;
+	text-decoration: none;
+}
+.jdmd_tabs .tab_page{
+	padding: 1em 1.4em;
+	background: #F2F5F7;
+	border-radius: 4px;
+}

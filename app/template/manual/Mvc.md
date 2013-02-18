@@ -1,0 +1,1 @@
+drape支持MVC。

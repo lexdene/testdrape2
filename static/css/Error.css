@@ -1,0 +1,8 @@
+.error{
+	font-weight: bold;
+	color: #E83827;
+	line-height: 20px;
+}
+.error .h1{
+	font-size: 9pt;
+}

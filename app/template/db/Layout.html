@@ -1,0 +1,16 @@
+{{ do( ctrl.addResByPath('css') )}}
+
+<div class="manual_layout">
+	<div class="common_layout_column left_column">
+		<ul>
+			<li><a href="{{ROOT}}/db/CreateTables">创建数据表</a></li>
+			<li><a href="{{ROOT}}/db/DropTables">删除数据表</a></li>
+		</ul>
+	</div>
+	<div class="common_layout_column right_column">
+		<div class="right_body">
+			{{body}}
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
