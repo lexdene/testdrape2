@@ -5,15 +5,23 @@
     <link rel="icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
     <link rel="shortcut icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
     <title>{{title}}</title>
-    {% for reses in reslist -%}
-      {%- for res in reses -%}
-        {%- if res[1] == 'js' %}
-          <script language="javascript" src="{{ROOT}}/static/{{res[0] }}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
-        {%- else %}
-          <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/{{res[0]}}.css?{{'.'.join(version.split('.')[0:3])}}" />
+    {%- for reses in reslist -%}
+      {%- for res in reses %}
+        {% if res[1] == 'js' -%}
+          {%- if 'http' == res[0][0:4] -%}
+            <script language="javascript" src="{{res[0]}}.js"></script>
+          {%- else -%}
+            <script language="javascript" src="{{ROOT}}/static/{{res[0]}}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
+          {%- endif -%}
+        {%- else -%}
+          {%- if 'http' == res[0][0:4] -%}
+            <link rel="stylesheet" type="text/css" href="{{res[0]}}.css" />
+          {%- else -%}
+            <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/{{res[0]}}.css?{{'.'.join(version.split('.')[0:3])}}" />
+          {%- endif -%}
         {%- endif -%}
-      {%- endfor -%}
-    {%- endfor %}
+      {%- endfor %}
+    {% endfor %}
 <script type="text/javascript">
 var WEB_ROOT = "{{ROOT}}";
 var my_userid= {{my_userid}};
