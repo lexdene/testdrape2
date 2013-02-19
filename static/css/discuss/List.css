@@ -1,5 +1,4 @@
 .discuss_list .list_container .author,
-.discuss_list .list_container .pnum,
 .discuss_list .list_container .title,
 .discuss_list .list_container .ctime,
 .discuss_list .list_container .reply_count,
@@ -9,9 +8,6 @@
 }
 .discuss_list .list_container .author{
 	white-space: nowrap;
-}
-.discuss_list .list_container .pnum{
-	display: none;
 }
 .discuss_list .list_container .title{
 	width: 200px;
@@ -35,9 +31,6 @@
 	vertical-align: top;
 	display: inline-block;
 	width: 40px;
-}
-.discuss_posttopic .form_block .input_pnum{
-	display: none;
 }
 .discuss_posttopic .form_block .input_title input,
 .discuss_posttopic .form_block .input_content textarea{

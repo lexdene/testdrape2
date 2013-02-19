@@ -60,7 +60,7 @@ class Layout(drape.NestingController):
 		
 		if uid > 0:
 			aUserinfoModel = drape.LinkedModel('userinfo')
-			userinfo = aUserinfoModel.where(dict(uid=uid)).find()
+			userinfo = aUserinfoModel.where(dict(id=uid)).find()
 			self.setVariable('userinfo',userinfo)
 
 class NotLogin(DefaultFrame):

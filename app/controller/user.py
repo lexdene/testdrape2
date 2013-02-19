@@ -91,7 +91,7 @@ class ajaxLogin(drape.controller.jsonController):
 			self.setVariable('result','success')
 			
 			aSession = self.session()
-			aSession.set('uid',res['uid'])
+			aSession.set('uid',res['id'])
 
 class Register(frame.DefaultFrame):
 	def process(self):

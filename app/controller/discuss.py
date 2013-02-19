@@ -17,10 +17,6 @@ class List(frame.DefaultFrame):
 		self.setTitle(u'讨论区')
 		
 		aParams = self.params()
-		pnum = drape.util.toInt(aParams.get('pnum',-1))
-		where = dict()
-		if pnum > 0:
-			where['pn.pnum'] = pnum
 		
 		aTopicModel = drape.LinkedModel('discuss_topic')
 		
@@ -32,25 +28,19 @@ class List(frame.DefaultFrame):
 		
 		aTopicList = aTopicModel \
 			.alias('dt') \
-			.join('problem_num','pn','dt.pid = pn.pid') \
-			.join('userinfo','topic_ui','dt.uid = topic_ui.uid') \
-			.join('discuss_reply','last_dr','last_dr.tid = dt.id AND last_dr.id = dt.last_rid') \
-			.join('userinfo','last_dr_ui','last_dr.uid = last_dr_ui.uid') \
+			.join('userinfo','topic_ui','dt.uid = topic_ui.id') \
+			.join('discuss_topic_cache','tc','tc.id = dt.id') \
+			.join('discuss_reply','last_reply','last_reply.id = tc.last_reply_id') \
+			.join('userinfo','last_reply_ui','last_reply.uid = last_reply_ui.id') \
 			.join('discuss_reply','count_dr','count_dr.tid = dt.id') \
-			.where(where) \
+			.field('COUNT(count_dr.id) as reply_count') \
 			.group('dt.id') \
-			.field('COUNT(count_dr.id)') \
-			.reflectField(['dt','pn','topic_ui','last_dr','last_dr_ui']) \
-			.order('CASE WHEN last_dr.id is NULL THEN dt.ctime ELSE last_dr.ctime END DESC') \
+			.reflectField(True) \
 			.limit(**aPager.limit()) \
 			.select()
 		
-		for aTopic in aTopicList:
-			aTopic['ctime_str'] = drape.util.timeStamp2Short(aTopic['ctime'])
-			aTopic['last_dr.ctime_str'] = drape.util.timeStamp2Short(aTopic['last_dr.ctime'])
-		
-		self.setVariable('pnum',pnum)
 		self.setVariable('iter',aTopicList)
+		self.setVariable('timestr',drape.util.timeStamp2Short)
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -68,13 +58,6 @@ class ajaxPostTopic(drape.controller.jsonController):
 		aParams = self.params()
 		# validates
 		validates = [
-			dict(
-				key = 'pnum',
-				name = '题号',
-				validates = [
-					('int',),
-				]
-			) ,
 			dict(
 				key = 'title',
 				name = '标题',
@@ -98,28 +81,33 @@ class ajaxPostTopic(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		pnum = drape.util.toInt(aParams.get('pnum',-1))
-		if pnum > 0 :
-			aPnumModel = drape.LinkedModel('problem_num')
-			problem = aPnumModel.where(dict(pnum=pnum)).find()
-			
-			if problem is None:
-				self.setVariable('result','failed')
-				self.setVariable('msg',u'pnum错误:没有此题')
-				return
-			else:
-				pid = problem['pid']
-		else:
-			pid = -1
+		# now
+		now = int(time.time())
 		
+		# insert topic
 		aDiscussModel = drape.LinkedModel('discuss_topic')
-		aDiscussModel.insert(dict(
-			pid = pid,
+		topicid = aDiscussModel.insert(dict(
 			uid = uid,
-			ctime = int( time.time() ),
-			last_rid = -1,
+			ctime = now,
 			title = aParams.get('title',''),
+		))
+		
+		# insert reply
+		aReplyModel = drape.LinkedModel('discuss_reply')
+		replyid = aReplyModel.insert(dict(
+			tid = topicid,
+			uid = uid,
+			reply_to_id = -1,
+			ctime = now,
 			text = aParams.get('text','')
+		))
+		
+		# topic cache
+		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
+		aTopicCacheModel.insert(dict(
+			id = topicid,
+			first_reply_id = replyid,
+			last_reply_id = -1
 		))
 		
 		self.setVariable('result','success')
@@ -146,8 +134,7 @@ class Topic(frame.DefaultFrame):
 		aDiscussModel = drape.LinkedModel('discuss_topic')
 		aTopicInfo = aDiscussModel \
 			.alias('dt') \
-			.join('userinfo','ui','dt.uid = ui.uid') \
-			.join('problem_num','pn','dt.pid = pn.pid') \
+			.join('userinfo','ui','dt.uid = ui.id') \
 			.where({'dt.id':tid}) \
 			.find()
 		
@@ -157,19 +144,16 @@ class Topic(frame.DefaultFrame):
 		
 		self.setVariable('topicInfo',aTopicInfo)
 		
-		import cgi
-		self.setTitle( cgi.escape(aTopicInfo['title']) )
-		
 		aReplyModel = drape.LinkedModel('discuss_reply')
 		aReplyIter = aReplyModel \
 			.alias('dr') \
-			.join('userinfo','ui','dr.uid = ui.uid') \
+			.join('userinfo','ui','dr.uid = ui.id') \
 			.join('discuss_reply','rtr','dr.reply_to_id = rtr.id') \
-			.join('userinfo','rtrui','rtr.uid = rtrui.uid') \
+			.join('userinfo','rtrui','rtr.uid = rtrui.id') \
 			.where({'dr.tid':tid}) \
 			.select()
 		for c,reply in enumerate(aReplyIter):
-			reply['floor'] = c+2
+			reply['floor'] = c+1
 		
 		self.setVariable('aReplyIter',aReplyIter)
 		
@@ -231,11 +215,11 @@ class ajaxPostReply(drape.controller.jsonController):
 			text = aParams.get('text',-1),
 		))
 		
-		aTopicModel = drape.LinkedModel('discuss_topic')
-		aTopicModel.where(dict(
+		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
+		aTopicCacheModel.where(dict(
 			id=tid
 		)).update(dict(
-			last_rid = reply_id
+			last_reply_id = reply_id
 		))
 		
 		self.setVariable('result','success')

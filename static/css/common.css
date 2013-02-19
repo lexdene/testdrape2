@@ -91,3 +91,8 @@ pre{
 .common_pager .buttons a{
 	color: #08c;
 }
+.common_category_title{
+	font-size: 22px;
+	font-weight: bold;
+	line-height: 32px;
+}

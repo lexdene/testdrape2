@@ -8,28 +8,6 @@
 		<span class="topic_title">{{topicInfo['title']|e}}</span>
 	</div>
 	<div class="building">
-		<div class="floor">
-			<div class="common_layout_column floor_left_column">
-				<div class="user_panel">
-					<div class="avatar_block">
-						<img class="avatar" src="{{topicInfo['ui.avatar'] if topicInfo['ui.avatar'] else ROOT+'/static/image/meteor.jpg'}}" alt="avatar" />
-					</div>
-					<div class="nickname">
-						<a href="{{ROOT}}/user/MainPage/id/{{topicInfo['ui.uid']}}">
-							{{topicInfo['ui.nickname']|e}}
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="common_layout_column floor_right_column">
-				<div class="floor_text">{{ transText(topicInfo['text']) }}</div>
-				<div class="floor_right_bottom">
-					<div class="floor_count">1楼</div>
-					<div class="floor_time">{{ timestr(topicInfo['ctime']) }}</div>
-				</div>
-			</div>
-			<div class="clear"></div>
-		</div>
 		{% for reply in aReplyIter %}
 			<div class="floor" floor_num="{{ reply['floor'] }}" floor_id="{{reply['id']}}">
 				<div class="common_layout_column floor_left_column">

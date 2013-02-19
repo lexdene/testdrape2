@@ -29,7 +29,22 @@
 				计划以后把新鲜事神马的放在这里。
 			</div>
 			<div class="tab_page" tab_page="userinfo">
-				现在也没有什么资料可以显示。
+				<div>
+					<span class="common_hint">昵称</span>
+					<span class="common_content">{{userinfo['nickname']}}</span>
+				</div>
+				<div>
+					<span class="common_hint">个人介绍</span>
+					<span class="common_content"><pre>{{userinfo['intro']}}</pre></span>
+				</div>
+				<div>
+					<span class="common_hint">注册时间</span>
+					<span class="common_content">{{timestr(userinfo['ctime'])}}</span>
+				</div>
+				<div>
+					<span class="common_hint">积分</span>
+					<span class="common_content">{{userinfo['score']}}</span>
+				</div>
 			</div>
 			<div class="tab_page" tab_page="blog">
 				您就假装这里有日志。

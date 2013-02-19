@@ -219,6 +219,7 @@
 			jobj.find('.tab_nav').find('a').click(function(){
 				var page = jq(this).attr('tab_page');
 				changePage( page );
+				location.hash = '#!'+page;
 				return false;
 			});
 			function changePage(pagename){
@@ -231,6 +232,12 @@
 				changePage( jobj.find('.tab_page').first().attr('tab_page') );
 			}
 			showFirstPage();
+			if( location.hash ){
+				if( 0 == location.hash.indexOf('#!') ){
+					var pagename = location.hash.substr(2);
+					changePage(pagename);
+				}
+			}
 		}
 	});
 })(jQuery);
