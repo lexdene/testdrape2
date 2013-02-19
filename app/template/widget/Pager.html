@@ -20,11 +20,16 @@
 		{% if page_end < page_count -1 %}
 			<span>...</span>
 		{% endif %}
+		{% if page_count > 1 %}
+			{% if current_page < page_count -1 %}
+				<a href='?page={{page_count-1}}'>{{page_count}}</a>
+			{% else %}
+				<span>{{page_count}}</span>
+			{% endif %}
+		{% endif %}
 		{% if current_page < page_count -1 %}
-			<a href='?page={{page_count-1}}'>{{page_count}}</a>
 			<a href='?page={{current_page+1}}'>下一页</a>
 		{% else %}
-			<span>{{page_count}}</span>
 			<span>下一页</span>
 		{% endif %}
 	</div>
