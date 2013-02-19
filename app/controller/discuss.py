@@ -34,6 +34,7 @@ class List(frame.DefaultFrame):
 			.join('userinfo','last_reply_ui','last_reply.uid = last_reply_ui.id') \
 			.join('discuss_reply','count_dr','count_dr.tid = dt.id') \
 			.field('COUNT(count_dr.id) as reply_count') \
+			.order('CASE WHEN last_reply.id is NULL THEN dt.ctime ELSE last_reply.ctime END DESC') \
 			.group('dt.id') \
 			.reflectField(True) \
 			.limit(**aPager.limit()) \
