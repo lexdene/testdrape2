@@ -13,7 +13,7 @@
 				<div class="common_layout_column floor_left_column">
 					<div class="user_panel">
 						<div class="avatar_block">
-							<img class="avatar" src="{{reply['ui.avatar'] if reply['ui.avatar'] else ROOT+'/static/image/meteor.jpg'}}" alt="avatar" />
+							<img class="avatar" src="{{ avatar( reply['ui.avatar'] ) }}" alt="avatar" />
 						</div>
 						<div class="nickname">
 							<a href="{{ROOT}}/userinfo/MainPage/id/{{reply['ui.id']}}">

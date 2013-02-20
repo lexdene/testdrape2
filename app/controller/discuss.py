@@ -2,7 +2,7 @@
 
 import time,os,re
 
-import frame,widget
+import frame,widget,userinfo
 import drape
 import markdown
 
@@ -160,6 +160,7 @@ class Topic(frame.DefaultFrame):
 		
 		self.setVariable('transText',transText)
 		self.setVariable('timestr',drape.util.timeStamp2Str)
+		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))

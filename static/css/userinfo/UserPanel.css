@@ -1,0 +1,29 @@
+.userpanel{
+	width: 365px;
+	height: 150px;
+	border: solid 6px #808080;
+	background-color: #F2F5F7;
+}
+.userpanel .userinfo_userpanelpage{
+	height: 128px;
+	border: solid 1px #253729;
+	padding: 10px;
+}
+.userpanel .userinfo_userpanelpage .left_column{
+	width: 110px;
+}
+.userpanel .userinfo_userpanelpage .right_column{
+	width: 220px;
+	padding-left: 10px;
+}
+.userpanel .userinfo_userpanelpage .intro .common_content{
+	width: 136px;
+	max-height: 70px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.userpanel .userinfo_userpanelpage .button_block{
+	padding-top: 10px;
+	font-size: 13px;
+}

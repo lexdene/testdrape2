@@ -196,8 +196,17 @@
 			function contructor(obj,options){
 				this._obj = obj;
 				this._options = options;
-				this.show = function(){
-					this._obj.centerInWindow();
+				this.show = function(options){
+					if( undefined == options ){
+						this._obj.centerInWindow();
+					}else if( 'object' == typeof options['position'] ){
+						this._obj.css({
+							position:'absolute',
+							top:options['position'].top,
+							left:options['position'].left,
+						});
+					}
+					this._obj.show();
 				}
 				this.close = function(){
 					this._obj.hide();

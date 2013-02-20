@@ -1,4 +1,5 @@
 {{ do( ctrl.addResByPath() )}}
+{{ do( ctrl.addResByPath(path='/userinfo/UserPanel') ) }}
 
 <div class="discuss_list">
 	<div class="list_container">
@@ -13,7 +14,7 @@
 			{% for i in iter %}
 				<div class="item">
 					<span class="author">
-						<a href="{{ROOT}}/userinfo/MainPage/id/{{i['topic_ui.id']}}">
+						<a class="username_btn" href="#" userid="{{i['topic_ui.id']}}" onclick="return false">
 							{{i['topic_ui.nickname']}}
 						</a>
 					</span>
@@ -30,7 +31,7 @@
 						{% if i['last_reply.id'] %}
 							<span class="time">{{ timestr( i['last_reply.ctime'] ) }}</span>
 							<span class="user">
-								<a href="{{ROOT}}/userinfo/MainPage/id/{{i['last_reply_ui.id']}}">
+								<a class="username_btn" href="#" userid="{{i['last_reply_ui.id']}}" onclick="return false">
 									{{i['last_reply_ui.nickname']}}
 								</a>
 							</span>
