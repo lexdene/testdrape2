@@ -2,9 +2,7 @@
 
 import drape
 
-import StringIO
-
-import random
+import StringIO,random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 def create_validate_code(
@@ -15,7 +13,6 @@ def create_validate_code(
 		bg_color=(255, 255, 255),
 		fg_color=(0, 0, 255),
 		font_size=18,
-		font_type="static/font/DejaVuSansMono.ttf",
 		length=4,
 		draw_lines=True,
 		n_line=(1, 2),
@@ -39,7 +36,9 @@ def create_validate_code(
 	@return: [0]: PIL Image实例
 	@return: [1]: 验证码图片中的字符串
 	'''
-
+	
+	font_type = drape.config.config['system']['font_path']
+	
 	width, height = size # 宽， 高
 	img = Image.new(mode, size, bg_color) # 创建图形
 	draw = ImageDraw.Draw(img) # 创建画笔

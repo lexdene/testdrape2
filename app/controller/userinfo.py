@@ -5,7 +5,7 @@ import drape
 
 def avatarFunc(root):
 	def avatar(a):
-		return a if a else root+'/static/image/meteor.jpg'
+		return a if a else root+'/static/image/avatar.jpg'
 	return avatar
 
 class MainPage(frame.DefaultFrame):

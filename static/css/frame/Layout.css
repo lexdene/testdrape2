@@ -3,16 +3,18 @@ body{
 	margin: 0;
 }
 .layout_head_line{
-	background: url(../../image/meteor.jpg);
-	padding: 5px 15px;
+	height: 22px;
+	background: url(../../image/topbg.gif);
+	padding: 0 15px;
+	line-height: 22px;
 }
 .layout_head_line a{
 	color: #CCDE22;
 	text-decoration: none;
-	padding: 5px;
+	padding: 0 5px;
 }
 .layout_head_line a:hover{
-	background-color:MediumVioletRed ;
+	background-color: #005eac ;
 }
 .layout_head_line .right_buttons{
 	float: right;

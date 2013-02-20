@@ -7,5 +7,8 @@ config = {
 	),
 	'sae_storage' : dict(
 		domain_name = 'storage'
+	),
+	'system':dict(
+		font_path = '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf',
 	)
 }
