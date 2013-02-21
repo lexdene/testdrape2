@@ -62,6 +62,9 @@ class Layout(drape.NestingController):
 			aUserinfoModel = drape.LinkedModel('userinfo')
 			userinfo = aUserinfoModel.where(dict(id=uid)).find()
 			self.setVariable('userinfo',userinfo)
+		
+		self.setVariable('testdrape_version',app.version)
+		self.setVariable('drape_version',drape.version)
 
 class NotLogin(DefaultFrame):
 	def process(self):
