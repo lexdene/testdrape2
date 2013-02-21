@@ -4,12 +4,15 @@
 {{ do( res.append(('css/jdmd_widget','css')) )}}
 {{ do( res.append(('js/drapeje','js')) )}}
 <div class="layout_head_line">
-	<span class="left_buttons">
+	<div class="left_buttons">
+		<img class="website_icon" src="{{ROOT}}/static/image/breaking.ico" alter="testdrape" />
+	</div>
+	<div class="left_buttons">
 		<a href='{{ROOT}}/'>首页</a>
 		<a href='{{ROOT}}/discuss/List'>讨论区</a>
 		<a href='{{ROOT}}/manual'>drape介绍</a>
-	</span>
-	<span class="right_buttons">
+	</div>
+	<div class="right_buttons">
 		{% if uid > 0 %}
 			<a href="{{ROOT}}/user/UserCenter">个人中心</a>
 			<a href="{{ROOT}}/userinfo/MainPage/id/{{userinfo['id']}}">{{userinfo['nickname']}}</a>
@@ -18,7 +21,7 @@
 			<a href='{{ROOT}}/user/Register'>注册</a>
 			<a href='{{ROOT}}/user/Login'>登录</a>
 		{% endif %}
-	</span>
+	</div>
 </div>
 <div class="body_block">
 	<div class="frontpage">

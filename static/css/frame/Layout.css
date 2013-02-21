@@ -16,6 +16,12 @@ body{
 .layout_head_line a:hover{
 	background-color: #005eac ;
 }
+.layout_head_line .website_icon{
+	height: 22px;
+}
+.layout_head_line .left_buttons{
+	float: left;
+}
 .layout_head_line .right_buttons{
 	float: right;
 }
