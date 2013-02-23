@@ -78,11 +78,3 @@ class NotLogin(DefaultFrame):
 class Error(DefaultFrame):
 	def process(self):
 		self.setVariable('error',self.ctrlParams()[0])
-
-class Markdown(drape.NestingController):
-	def render(self):
-		import os,markdown,StringIO
-		filepath = 'app/template'+self.templatePath()+'.md'
-		s = StringIO.StringIO()
-		markdown.markdownFromFile(filepath,s)
-		return s.getvalue()

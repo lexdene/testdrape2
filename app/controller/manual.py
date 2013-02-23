@@ -2,10 +2,11 @@
 
 import frame
 
-class ManualFrame(frame.Markdown):
+class ManualFrame(frame.FrameBase):
 	def __init__(self,path):
 		super(ManualFrame,self).__init__(path)
 		self.setParent('/manual/Layout')
+		self.setRenderFunc('app.lib.render.markdown')
 		
 	def setSubTitle(self,title):
 		g = self.globalVars()
