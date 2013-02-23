@@ -61,7 +61,7 @@ class List(frame.DefaultFrame):
 class ajaxPostTopic(drape.controller.jsonController):
 	def process(self):
 		aSession = self.session()
-		uid = aSession.get('uid',-1)
+		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
 			self.setVariable('result','failed')
 			self.setVariable('msg','请先登录')
@@ -180,7 +180,7 @@ class Topic(frame.DefaultFrame):
 class ajaxPostReply(drape.controller.jsonController):
 	def process(self):
 		aSession = self.session()
-		uid = aSession.get('uid',-1)
+		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
 			self.setVariable('result','failed')
 			self.setVariable('msg','请先登录')
@@ -225,7 +225,7 @@ class ajaxPostReply(drape.controller.jsonController):
 			uid = uid,
 			reply_to_id = aParams.get('reply_to_id',-1),
 			ctime = int( time.time() ),
-			text = aParams.get('text',-1),
+			text = aParams.get('text',''),
 		))
 		
 		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
@@ -237,3 +237,50 @@ class ajaxPostReply(drape.controller.jsonController):
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'回复成功')
+
+class ajaxEditReply(drape.controller.jsonController):
+	def process(self):
+		aSession = self.session()
+		uid = drape.util.toInt(aSession.get('uid',-1))
+		if uid < 0:
+			self.setVariable('result','failed')
+			self.setVariable('msg','请先登录')
+			return
+		
+		aParams = self.params()
+		# validates
+		validates = [
+			dict(
+				key = 'reply_id',
+				name = 'reply id',
+				validates = [
+					('int',),
+				]
+			) ,
+			dict(
+				key = 'text',
+				name = '内容',
+				validates = [
+					('notempty',),
+					('len',4,500)
+				]
+			) ,
+		]
+		res = drape.validate.validate_params(aParams,validates)
+		if False == res['result']:
+			self.setVariable('result','failed')
+			self.setVariable('msg',res['msg'])
+			return
+		
+		reply_id = drape.util.toInt(aParams.get('reply_id'),-1)
+		aReplyModel = drape.LinkedModel('discuss_reply')
+		replyinfo = aReplyModel.where(dict(id=reply_id)).find()
+		if replyinfo is None or uid != replyinfo['uid']:
+			self.setVariable('result','failed')
+			self.setVariable('msg','您无权修改此回复')
+			return
+		
+		aReplyModel.where(dict(id=reply_id)).update(dict(text=aParams.get('text','')))
+		
+		self.setVariable('result','success')
+		self.setVariable('msg',u'修改成功')

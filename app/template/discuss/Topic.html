@@ -38,10 +38,29 @@
 						</div>
 					{% endif %}
 					<div class="floor_text">{{ transText(reply['text']) }}</div>
+					<div class="floor_edit" style="display:none">
+						{% if reply['ui.id'] == uid %}
+							<form class="edit_form"
+								action='{{ROOT}}/discuss/ajaxEditReply'
+								method='post'
+								onsubmit="return false;">
+								<input type='hidden' name='reply_id' value='{{reply['id']}}' />
+								<div>
+									<textarea name="text" placeholder="请输入回复内容..."></textarea>
+								</div>
+								<input type='submit' value='提交修改' />
+							</form>
+						{% endif %}
+					</div>
 					<div class="floor_right_bottom">
 						<div class="floor_count">{{ reply['floor'] }}楼</div>
 						<div class="floor_time">{{ timestr(reply['ctime']) }}</div>
-						<a href='#' onclick="return false" class="reply_button">回复</a>
+						<div class="floor_button">
+							<a href='#' onclick="return false" class="reply_button">回复</a>
+							{% if reply['ui.id'] == uid %}
+								<a href='#' onclick="return false" class="edit_button">编辑</a>
+							{% endif %}
+						</div>
 					</div>
 				</div>
 				<div class="clear"></div>

@@ -38,9 +38,19 @@
 	word-break: break-all;
 	font-size: 20px;
 	margin-bottom: 30px;
+	width: 550px;
 }
 .discuss_topic .floor_text img{
 	max-width: 450px;
+}
+.discuss_topic .floor_edit{
+	padding: 10px;
+	margin-bottom: 30px;
+	width: 550px;
+}
+.discuss_topic .floor_edit textarea{
+	width: 100%;
+	height: 200px;
 }
 .discuss_topic .reply_block{
 	padding: 10px 0;
@@ -57,7 +67,7 @@
 }
 .discuss_topic .building .floor .floor_right_column{
 	position: relative;
-	width: 600px;
+	width: 700px;
 	min-height: 130px;
 	padding: 10px;
 }

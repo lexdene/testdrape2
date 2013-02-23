@@ -50,5 +50,37 @@
 			var reply_to_id = jq(this).closest('.reply_to_reply').attr('reply_to_id');
 			jq('.floor[floor_id='+reply_to_id+']').jump();
 		});
+		jq('.edit_button').click(function(){
+			jq(this).closest('.floor').find('.floor_edit').toggle(500);
+		});
+		jq('.edit_form').submit(function(){
+			jq(this).ajaxSubmit({
+				'success':function(){
+					alert('修改成功');
+					location.reload();
+				},
+				'failed':function(msg){
+					alert('修改失败:'+msg);
+				},
+				'validate':{
+					'form_area':[
+						{
+							'key' : 'text',
+							'name' : '回复',
+							'validates' : [
+								['notempty'],
+								['len',4,5000]
+							]
+						},
+					]
+					,
+					'callback':function(result,msg){
+						if( ! result ){
+							alert(msg);
+						}
+					}
+				}
+			});
+		});
 	});
 })(jQuery);
