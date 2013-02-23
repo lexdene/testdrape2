@@ -2,7 +2,7 @@
 
 import time
 
-import frame
+import frame,userinfo
 import drape
 
 import validatecode
@@ -241,9 +241,10 @@ class EditUserInfo(UserCenterFrame):
 			self.notLogin()
 		
 		aUserinfoModel = drape.LinkedModel('userinfo')
-		aUserinfo = aUserinfoModel.where(dict(uid=uid)).find()
+		aUserinfo = aUserinfoModel.where(dict(id=uid)).find()
 		
 		self.setVariable('userinfo',aUserinfo)
+		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
 
 class ajaxEditUserInfo(drape.controller.jsonController):
 	def process(self):
@@ -257,11 +258,8 @@ class ajaxEditUserInfo(drape.controller.jsonController):
 		aParams = self.params()
 		aUserinfoModel = drape.LinkedModel('userinfo')
 		aUserinfoModel \
-			.where(dict(uid=uid)) \
-			.update(dict(
-				nickname = aParams.get('nickname',''),
-				avatar = aParams.get('avatar','')
-			))
+			.where(dict(id=uid)) \
+			.update(aParams)
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')
