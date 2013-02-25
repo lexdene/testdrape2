@@ -10,6 +10,7 @@
 	<div class="building">
 		{% for reply in aReplyIter %}
 			<div class="floor" floor_num="{{ reply['floor'] }}" floor_id="{{reply['id']}}">
+				<a name="reply{{reply['id']}}"></a>
 				<div class="common_layout_column floor_left_column">
 					<div class="user_panel">
 						<div class="avatar_block">

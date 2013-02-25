@@ -250,13 +250,17 @@ class ajaxPostReply(drape.controller.jsonController):
 		# topic info
 		topicInfo = aTopicModel.where(dict(id=tid)).find()
 		
+		# reply info
+		replyToReplyInfo = aReplyModel.where(dict(id=reply_to_id)).find()
+		
 		# reply topic notice
 		# except to myself
-		if uid != topicInfo['uid']:
+		if uid != topicInfo['uid'] \
+			and (not replyToReplyInfo or replyToReplyInfo['uid'] != topicInfo['uid']):
 			noticeId = aNoticeModel.insert(dict(
 				from_uid = uid,
 				to_uid = topicInfo['uid'],
-				item_id = tid,
+				item_id = reply_id,
 				type = 'reply_topic',
 				ctime = now,
 				isRead = False,
@@ -265,18 +269,18 @@ class ajaxPostReply(drape.controller.jsonController):
 			aNoticeCacheModel.insert(dict(
 				id = noticeId,
 				data = json.dumps(dict(
+					topic_id = topicInfo['id'],
 					topic_title = topicInfo['title'],
 				))
 			))
 		
 		# reply to reply notice
 		# except to myself
-		replyToReplyInfo = aReplyModel.where(dict(id=reply_to_id)).find()
 		if replyToReplyInfo and uid != replyToReplyInfo['uid']:
 			noticeId = aNoticeModel.insert(dict(
 				from_uid = uid,
 				to_uid = replyToReplyInfo['uid'],
-				item_id = reply_to_id,
+				item_id = reply_id,
 				type = 'reply_to_reply',
 				ctime = now,
 				isRead = False,
@@ -285,6 +289,7 @@ class ajaxPostReply(drape.controller.jsonController):
 			aNoticeCacheModel.insert(dict(
 				id = noticeId,
 				data = json.dumps(dict(
+					topic_id = topicInfo['id'],
 					topic_title = topicInfo['title'],
 				))
 			))
