@@ -47,7 +47,24 @@ tables = {
 	`ctime` int NOT NULL COMMENT '创建时间',
 	`text` TEXT NOT NULL COMMENT '正文',
 	PRIMARY KEY (`id`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8'''
+)ENGINE=MyISAM DEFAULT CHARSET=utf8''',
+'notice' :
+'''CREATE TABLE IF NOT EXISTS `%snotice`(
+	`id` int NOT NULL AUTO_INCREMENT,
+	`from_uid` int NOT NULL,
+	`to_uid` int NOT NULL,
+	`item_id` int NOT NULL,
+	`type` varchar(20) NOT NULL,
+	`ctime` int NOT NULL,
+	`isRead` tinyint(1) NOT NULL,
+	PRIMARY KEY (`id`)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8''',
+'notice_cache' :
+'''CREATE TABLE IF NOT EXISTS `%snotice_cache`(
+	`id` int NOT NULL AUTO_INCREMENT,
+	`data` TEXT NOT NULL,
+	PRIMARY KEY (`id`)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8''',
 }
 
 class DbFrame(frame.DefaultFrame):

@@ -64,6 +64,13 @@ class Layout(drape.NestingController):
 			aUserinfoModel = drape.LinkedModel('userinfo')
 			userinfo = aUserinfoModel.where(dict(id=uid)).find()
 			self.setVariable('userinfo',userinfo)
+			
+			aNoticeModel = drape.LinkedModel('notice')
+			noticeCount = aNoticeModel.where(dict(
+				to_uid = uid,
+				isRead = 0,
+			)).count()
+			self.setVariable('notice_count',noticeCount)
 		
 		self.setVariable('testdrape_version',app.version)
 		self.setVariable('drape_version',drape.version)

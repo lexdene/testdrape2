@@ -25,6 +25,9 @@ body{
 .layout_head_line .right_buttons{
 	float: right;
 }
+.layout_head_line .notice_btn .count{
+	color: red;
+}
 .body_block{
 	width: 1000px;
 	margin: auto;

@@ -16,6 +16,12 @@
 		{% if uid > 0 %}
 			<a href="{{ROOT}}/user/UserCenter">个人中心</a>
 			<a href="{{ROOT}}/userinfo/MainPage/id/{{userinfo['id']}}">{{userinfo['nickname']}}</a>
+			<a href='#' onclick="return false" class="notice_btn">
+				通知
+				{% if notice_count > 0 %}
+					(<span class="count">{{notice_count}}</span>)
+				{% endif %}
+			</a>
 			<a href="{{ROOT}}/user/Logout">注销</a>
 		{% else %}
 			<a href='{{ROOT}}/user/Register'>注册</a>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import time,os,re
+import time,os,re,json
 
 import frame,widget,userinfo,app.lib.emoji
 import drape
@@ -219,15 +219,20 @@ class ajaxPostReply(drape.controller.jsonController):
 			return
 		
 		tid = drape.util.toInt( aParams.get('tid',-1) )
+		reply_to_id = drape.util.toInt( aParams.get('reply_to_id',-1) )
+		now = int( time.time() )
+		
+		# reply table
 		aReplyModel = drape.LinkedModel('discuss_reply')
 		reply_id = aReplyModel.insert(dict(
 			tid = tid,
 			uid = uid,
-			reply_to_id = aParams.get('reply_to_id',-1),
-			ctime = int( time.time() ),
+			reply_to_id = reply_to_id,
+			ctime = now,
 			text = aParams.get('text',''),
 		))
 		
+		# topic cache table
 		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
 		aTopicCacheModel.where(dict(
 			id=tid
@@ -235,6 +240,56 @@ class ajaxPostReply(drape.controller.jsonController):
 			last_reply_id = reply_id
 		))
 		
+		# notice
+		
+		# models
+		aTopicModel = drape.LinkedModel('discuss_topic')
+		aNoticeModel = drape.LinkedModel('notice')
+		aNoticeCacheModel = drape.LinkedModel('notice_cache')
+		
+		# topic info
+		topicInfo = aTopicModel.where(dict(id=tid)).find()
+		
+		# reply topic notice
+		# except to myself
+		if uid != topicInfo['uid']:
+			noticeId = aNoticeModel.insert(dict(
+				from_uid = uid,
+				to_uid = topicInfo['uid'],
+				item_id = tid,
+				type = 'reply_topic',
+				ctime = now,
+				isRead = False,
+			))
+			
+			aNoticeCacheModel.insert(dict(
+				id = noticeId,
+				data = json.dumps(dict(
+					topic_title = topicInfo['title'],
+				))
+			))
+		
+		# reply to reply notice
+		# except to myself
+		replyToReplyInfo = aReplyModel.where(dict(id=reply_to_id)).find()
+		if replyToReplyInfo and uid != replyToReplyInfo['uid']:
+			noticeId = aNoticeModel.insert(dict(
+				from_uid = uid,
+				to_uid = replyToReplyInfo['uid'],
+				item_id = reply_to_id,
+				type = 'reply_to_reply',
+				ctime = now,
+				isRead = False,
+			))
+			
+			aNoticeCacheModel.insert(dict(
+				id = noticeId,
+				data = json.dumps(dict(
+					topic_title = topicInfo['title'],
+				))
+			))
+		
+		# success
 		self.setVariable('result','success')
 		self.setVariable('msg',u'回复成功')
 
