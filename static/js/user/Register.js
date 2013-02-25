@@ -3,7 +3,7 @@
 		jq('.common_valcode_img').refresh();
 	}
 	jq(function(){
-		jq('.valcode_btn').click(refresh_valcode_img);
+		jq('.common_valcode_btn').click(refresh_valcode_img);
 		jq('#register_form').submit(function(){
 			var form = jq(this);
 			form.ajaxSubmit({
