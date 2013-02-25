@@ -82,3 +82,8 @@ body{
 .clear{
 	clear:both;
 }
+.notice_dialog {
+	width: 200px;
+	border: solid 2px #808080;
+	background-color: #F2F5F7;
+}
