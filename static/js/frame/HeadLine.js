@@ -20,8 +20,8 @@
 			var pos = btn.position();
 			pos.left -= 100;
 			pos.top += 20;
+			pos.position = 'fixed';
 			d.dialog().show( {'position':pos } );
-			d.css('position','fixed');
 			
 			// at least 0.3 second
 			// loading的画面至少要显示0.3秒

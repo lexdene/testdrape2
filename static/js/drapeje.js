@@ -200,11 +200,10 @@
 					if( undefined == options ){
 						this._obj.centerInWindow();
 					}else if( 'object' == typeof options['position'] ){
-						this._obj.css({
-							position:'absolute',
-							top:options['position'].top,
-							left:options['position'].left,
-						});
+						if( undefined == options['position'].position ){
+							options['position'].position = 'absolute';
+						}
+						this._obj.css(options['position']);
 					}
 					this._obj.show();
 				}
