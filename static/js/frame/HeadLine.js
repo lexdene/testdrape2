@@ -21,7 +21,8 @@
 			pos.left -= 100;
 			pos.top += 20;
 			pos.position = 'fixed';
-			d.dialog().show( {'position':pos } );
+			d.css( pos );
+			d.show();
 			
 			// at least 0.3 second
 			// loading的画面至少要显示0.3秒

@@ -1,4 +1,5 @@
 (function(jq){
+	jQuery = undefined;
 	jq(function(){
 		var d;
 		jq('.username_btn').click(function(){
@@ -8,11 +9,11 @@
 			// create
 			if( undefined == d ){
 				d = jq('<div class="userpanel"></div>');
-				jQuery('body').append(d);
+				jq('body').append(d);
 				
 				// close
 				d.mouseleave(function(){
-					jQuery(this).hide();
+					jq(this).hide();
 				});
 			}
 			
@@ -21,7 +22,9 @@
 			// position
 			var pos = btn.position();
 			pos.left += 20;
-			d.dialog().show( {'position':pos } );
+			pos.position = 'absolute';
+			d.css(pos);
+			d.show();
 			
 			// at least 0.3 second
 			// loading的画面至少要显示0.3秒

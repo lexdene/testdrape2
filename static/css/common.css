@@ -45,7 +45,6 @@ input:not([type]),input[type="password"], input[type="text"],textarea{
 	display: inline-block;
 	vertical-align: middle;
 	padding: 2px 0;
-	width: 220px;
 }
 .common_valcode_img{
 	width: 76px;

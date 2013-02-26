@@ -19,14 +19,15 @@
 		jq('.avatar_preview').find('.avatar').load(function(){
 			showError('');
 		});
-		var dialog = jq('#dialog').dialog();
+		var d = jq('#dialog');
 		jq('#upload_avatar_btn').click(function(){
-			jq('#dialog').find('iframe').attr('src','../common/UploadImage?accept=image/gif,image/jpeg,image/png');
-			dialog.show();
+			d.find('iframe').attr('src','../common/UploadImage?accept=image/gif,image/jpeg,image/png');
+			d.centerInWindow();
+			d.show();
 		});
-		jq('#dialog').find('.close_button').click(function(){
-			jq('#dialog').find('iframe').attr('src','');
-			dialog.close();
+		d.find('.close_button').click(function(){
+			d.find('iframe').attr('src','');
+			d.hide();
 		});
 		form.submit(function(){
 			form.ajaxSubmit({

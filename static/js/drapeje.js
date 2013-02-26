@@ -192,27 +192,6 @@
 				}).show();
 			});
 		}
-		,dialog: function(options) {
-			function contructor(obj,options){
-				this._obj = obj;
-				this._options = options;
-				this.show = function(options){
-					if( undefined == options ){
-						this._obj.centerInWindow();
-					}else if( 'object' == typeof options['position'] ){
-						if( undefined == options['position'].position ){
-							options['position'].position = 'absolute';
-						}
-						this._obj.css(options['position']);
-					}
-					this._obj.show();
-				}
-				this.close = function(){
-					this._obj.hide();
-				}
-			}
-			return new contructor(this,options);
-		}
 		,jump: function(elapse){
 			if( typeof elapse == 'undefined' ){
 				elapse = 300;
