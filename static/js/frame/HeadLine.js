@@ -37,6 +37,24 @@
 					d.find('.close_btn').click(function(){
 						d.hide();
 					});
+					
+					// set is read
+					d.find('.notice_item').click(function(){
+						var notice_item = jq(this);
+						var noticeid = notice_item.attr('noticeid');
+						jq.post(
+							WEB_ROOT+'/notice/setIsRead',
+							{noticeid:noticeid},
+							function(data){
+								if( 'success' == data.result ){
+									notice_item.remove();
+									var count = btn.find('.count').html();
+									btn.find('.count').html(count-1);
+								}
+							},
+							'json'
+						)
+					});
 				}
 			}
 			jq.post(
