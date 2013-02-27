@@ -1,0 +1,26 @@
+.mail_receivebox .isread,
+.mail_receivebox .fromuser,
+.mail_receivebox .title,
+.mail_receivebox .time{
+	display: inline-block;
+}
+.mail_receivebox .isread{
+	width: 30px;
+}
+.mail_receivebox .fromuser{
+	width: 80px;
+}
+.mail_receivebox .title{
+	width: 160px;
+}
+.mail_receivebox .time{
+	width: 200px;
+}
+.mail_receivebox{
+	width: 500px;
+}
+.mail_receivebox .mail_item .body{
+	border: 1px solid #CCC;
+	padding: 6px 10px;
+	border-radius: 3px;
+}

@@ -1,5 +1,5 @@
 (function(jq){
-	jQuery = undefined;
+	var jQuery = undefined;
 	jq(function(){
 		var d;
 		jq('.username_btn').click(function(){

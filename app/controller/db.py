@@ -65,6 +65,17 @@ tables = {
 	`data` TEXT NOT NULL,
 	PRIMARY KEY (`id`)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8''',
+'mail' :
+'''CREATE TABLE IF NOT EXISTS `%smail`(
+	`id` int NOT NULL AUTO_INCREMENT,
+	`from_uid` int NOT NULL,
+	`to_uid` int NOT NULL,
+	`title` varchar(100) NOT NULL,
+	`text` TEXT NOT NULL,
+	`ctime` int NOT NULL,
+	`isRead` tinyint(1) NOT NULL,
+	PRIMARY KEY (`id`)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8''',
 }
 
 class DbFrame(frame.DefaultFrame):

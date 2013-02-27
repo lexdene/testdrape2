@@ -1,4 +1,5 @@
 (function(jq){
+	var jQuery = undefined;
 	jq(function(){
 		var d;
 		jq('.layout_head_line .notice_btn').click(function(){

@@ -71,6 +71,13 @@ class Layout(drape.NestingController):
 				isRead = 0,
 			)).count()
 			self.setVariable('notice_count',noticeCount)
+			
+			aMailModel = drape.LinkedModel('mail')
+			mailCount = aMailModel.where(dict(
+				to_uid = uid,
+				isRead = 0
+			)).count()
+			self.setVariable('mail_count',mailCount)
 		
 		self.setVariable('testdrape_version',app.version)
 		self.setVariable('drape_version',drape.version)

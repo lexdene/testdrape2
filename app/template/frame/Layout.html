@@ -23,6 +23,12 @@
 					(<span class="count">{{notice_count}}</span>)
 				{% endif %}
 			</a>
+			<a href='{{ROOT}}/mail/ReceiveBox' class="mail_btn">
+				私信
+				{% if mail_count > 0 %}
+					(<span class="count">{{mail_count}}</span>)
+				{% endif %}
+			</a>
 			<a href="{{ROOT}}/user/Logout">注销</a>
 		{% else %}
 			<a href='{{ROOT}}/user/Register'>注册</a>

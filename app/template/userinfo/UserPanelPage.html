@@ -4,7 +4,7 @@
 			<img class="common_avatar" src="{{avatar(userinfo['avatar'])}}" alt="avatar" />
 		</div>
 		<div class="button_block">
-			<a href='#' onclick="return false">发送私信</a>
+			<a href='{{ROOT}}/mail/Write/to_uid/{{userinfo['id']}}'>发送私信</a>
 			<a href='{{ROOT}}/userinfo/MainPage/id/{{userinfo['id']}}'>个人主页</a>
 		</div>
 	</div>

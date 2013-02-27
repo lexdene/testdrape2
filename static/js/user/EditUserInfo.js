@@ -10,7 +10,6 @@
 	jq(function(){
 		var form = jq('#edituserinfo_form');
 		form.find('input[name=avatar]').keyup(function(){
-			console.log(jq(this).val());
 			jq('.avatar_preview').find('.avatar').attr('src',jq(this).val());
 		});
 		jq('.avatar_preview').find('.avatar').error(function(){
