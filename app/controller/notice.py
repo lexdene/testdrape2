@@ -13,7 +13,7 @@ class Panel(drape.ViewController):
 		noticeList = aNoticeModel \
 			.join('userinfo','fromuser','fromuser.id = notice.from_uid') \
 			.join('notice_cache','cache','cache.id = notice.id') \
-			.where(dict(to_uid=uid,isRead=0)).select()
+			.where(to_uid=uid,isRead=0).select()
 		
 		for notice in noticeList:
 			notice['cache.data'] = json.loads(notice['cache.data'])
@@ -30,7 +30,7 @@ class setIsRead(drape.jsonController):
 		self.setVariable('noticeid',noticeid)
 		
 		aNoticeModel = drape.LinkedModel('notice')
-		noticeInfo = aNoticeModel.where(dict(id=noticeid)).find()
+		noticeInfo = aNoticeModel.where(id=noticeid).find()
 		self.setVariable('noticeInfo',noticeInfo)
 		if noticeInfo is None:
 			self.setVariable('result','failed')
@@ -42,6 +42,6 @@ class setIsRead(drape.jsonController):
 			self.setVariable('msg','notice is not for you')
 			return
 		
-		aNoticeModel.where(dict(id=noticeid)).update(dict(isRead=1))
+		aNoticeModel.where(id=noticeid).update(isRead=1)
 		
 		self.setVariable('result','success')

@@ -17,7 +17,7 @@ class MainPage(frame.DefaultFrame):
 			return
 		
 		aUserinfoModel = drape.LinkedModel('userinfo')
-		userinfo = aUserinfoModel.where(dict(id=uid)).find()
+		userinfo = aUserinfoModel.where(id=uid).find()
 		if userinfo is None:
 			self.Error(u'无此用户')
 			return
@@ -37,7 +37,7 @@ class UserPanelPage(frame.FrameBase):
 			return
 		
 		aUserinfoModel = drape.LinkedModel('userinfo')
-		userinfo = aUserinfoModel.where(dict(id=uid)).find()
+		userinfo = aUserinfoModel.where(id=uid).find()
 		if userinfo is None:
 			self.Error(u'无此用户')
 			return

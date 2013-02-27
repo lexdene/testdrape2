@@ -73,11 +73,7 @@ class ajaxLogin(drape.controller.jsonController):
 			return
 		
 		aLoginModel = drape.LinkedModel('logininfo')
-		res = aLoginModel \
-			.where(dict(
-				loginname=aParams['loginname']
-			)) \
-			.find()
+		res = aLoginModel.where(loginname=aParams['loginname']).find()
 		
 		if res is None:
 			self.setVariable('result','failed')
@@ -173,27 +169,27 @@ class ajaxRegister(drape.controller.jsonController):
 			return
 		
 		aLogininfoModel = drape.model.LinkedModel('logininfo')
-		res = aLogininfoModel.where(dict(loginname=aParams.get('loginname'))).select()
+		res = aLogininfoModel.where(loginname=aParams.get('loginname')).select()
 		if len(res) > 0:
 			self.setVariable('result','failed')
 			self.setVariable('msg','存在登录名相同的用户，无法注册')
 			return
 		
-		id = aLogininfoModel.insert(dict(
+		id = aLogininfoModel.insert(
 			loginname = aParams.get('loginname'),
 			password = drape.util.md5sum(aParams.get('password'))
-		))
+		)
 		self.setVariable('id',id)
 		
 		aUserinfoModel = drape.model.LinkedModel('userinfo')
-		aUserinfoModel.insert(dict(
+		aUserinfoModel.insert(
 			id = id,
 			nickname = aParams.get('nickname'),
 			email = aParams.get('email'),
 			intro = aParams.get('intro'),
 			ctime = time.time(),
 			score = 0,
-		))
+		)
 		
 		self.setVariable('result','success')
 
@@ -241,7 +237,7 @@ class EditUserInfo(UserCenterFrame):
 			self.notLogin()
 		
 		aUserinfoModel = drape.LinkedModel('userinfo')
-		aUserinfo = aUserinfoModel.where(dict(id=uid)).find()
+		aUserinfo = aUserinfoModel.where(id=uid).find()
 		
 		self.setVariable('userinfo',aUserinfo)
 		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
@@ -257,9 +253,7 @@ class ajaxEditUserInfo(drape.controller.jsonController):
 		
 		aParams = self.params()
 		aUserinfoModel = drape.LinkedModel('userinfo')
-		aUserinfoModel \
-			.where(dict(id=uid)) \
-			.update(aParams)
+		aUserinfoModel.where(id=uid).update(**aParams)
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')
@@ -285,7 +279,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 		
 		aParams = self.params()
 		aLogininfoModel = drape.LinkedModel('logininfo')
-		logininfo = aLogininfoModel.where(dict(uid=uid)).find()
+		logininfo = aLogininfoModel.where(uid=uid).find()
 		
 		# oldpassword
 		oldpassword = aParams.get('oldpassword','')
@@ -306,9 +300,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		aLogininfoModel.where(dict(uid=uid)).update(dict(
-			password = drape.util.md5sum(newpassword)
-		))
+		aLogininfoModel.where(uid=uid).update(password = drape.util.md5sum(newpassword))
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')

@@ -17,7 +17,7 @@ class Write(frame.DefaultFrame):
 		to_uid = drape.util.toInt(aParams.get('to_uid',-1))
 		
 		aUserinfoModel = drape.LinkedModel('userinfo')
-		to_userinfo = aUserinfoModel.where(dict(id=to_uid)).find()
+		to_userinfo = aUserinfoModel.where(id=to_uid).find()
 		if to_userinfo is None:
 			self.Error('用户不存在')
 		
@@ -71,7 +71,7 @@ class ajaxWrite(drape.jsonController):
 		data['from_uid'] = uid
 		data['ctime'] = int(time.time())
 		data['isRead'] = 0
-		aMailModel.insert(data)
+		aMailModel.insert(**data)
 		
 		self.setVariable('result','success')
 
@@ -100,7 +100,7 @@ class ReceiveBox(MailBox):
 		aMailModel = drape.LinkedModel('mail')
 		maillist = aMailModel \
 			.join('userinfo','fromuser','fromuser.id=mail.from_uid') \
-			.where(dict(to_uid = uid)).select()
+			.where(to_uid = uid).select()
 		
 		self.setVariable('maillist',maillist)
 		self.setVariable('transText',app.lib.text.transText)

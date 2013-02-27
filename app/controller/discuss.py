@@ -81,29 +81,29 @@ class ajaxPostTopic(drape.controller.jsonController):
 		
 		# insert topic
 		aDiscussModel = drape.LinkedModel('discuss_topic')
-		topicid = aDiscussModel.insert(dict(
+		topicid = aDiscussModel.insert(
 			uid = uid,
 			ctime = now,
 			title = aParams.get('title',''),
-		))
+		)
 		
 		# insert reply
 		aReplyModel = drape.LinkedModel('discuss_reply')
-		replyid = aReplyModel.insert(dict(
+		replyid = aReplyModel.insert(
 			tid = topicid,
 			uid = uid,
 			reply_to_id = -1,
 			ctime = now,
 			text = aParams.get('text','')
-		))
+		)
 		
 		# topic cache
 		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
-		aTopicCacheModel.insert(dict(
+		aTopicCacheModel.insert(
 			id = topicid,
 			first_reply_id = replyid,
 			last_reply_id = -1
-		))
+		)
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'发表成功')
@@ -199,21 +199,17 @@ class ajaxPostReply(drape.controller.jsonController):
 		
 		# reply table
 		aReplyModel = drape.LinkedModel('discuss_reply')
-		reply_id = aReplyModel.insert(dict(
+		reply_id = aReplyModel.insert(
 			tid = tid,
 			uid = uid,
 			reply_to_id = reply_to_id,
 			ctime = now,
 			text = aParams.get('text',''),
-		))
+		)
 		
 		# topic cache table
 		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
-		aTopicCacheModel.where(dict(
-			id=tid
-		)).update(dict(
-			last_reply_id = reply_id
-		))
+		aTopicCacheModel.where(id=tid).update(last_reply_id = reply_id)
 		
 		# notice
 		
@@ -223,51 +219,51 @@ class ajaxPostReply(drape.controller.jsonController):
 		aNoticeCacheModel = drape.LinkedModel('notice_cache')
 		
 		# topic info
-		topicInfo = aTopicModel.where(dict(id=tid)).find()
+		topicInfo = aTopicModel.where(id=tid).find()
 		
 		# reply info
-		replyToReplyInfo = aReplyModel.where(dict(id=reply_to_id)).find()
+		replyToReplyInfo = aReplyModel.where(id=reply_to_id).find()
 		
 		# reply topic notice
 		# except to myself
 		if uid != topicInfo['uid'] \
 			and (not replyToReplyInfo or replyToReplyInfo['uid'] != topicInfo['uid']):
-			noticeId = aNoticeModel.insert(dict(
+			noticeId = aNoticeModel.insert(
 				from_uid = uid,
 				to_uid = topicInfo['uid'],
 				item_id = reply_id,
 				type = 'reply_topic',
 				ctime = now,
 				isRead = False,
-			))
+			)
 			
-			aNoticeCacheModel.insert(dict(
+			aNoticeCacheModel.insert(
 				id = noticeId,
 				data = json.dumps(dict(
 					topic_id = topicInfo['id'],
 					topic_title = topicInfo['title'],
 				))
-			))
+			)
 		
 		# reply to reply notice
 		# except to myself
 		if replyToReplyInfo and uid != replyToReplyInfo['uid']:
-			noticeId = aNoticeModel.insert(dict(
+			noticeId = aNoticeModel.insert(
 				from_uid = uid,
 				to_uid = replyToReplyInfo['uid'],
 				item_id = reply_id,
 				type = 'reply_to_reply',
 				ctime = now,
 				isRead = False,
-			))
+			)
 			
-			aNoticeCacheModel.insert(dict(
+			aNoticeCacheModel.insert(
 				id = noticeId,
 				data = json.dumps(dict(
 					topic_id = topicInfo['id'],
 					topic_title = topicInfo['title'],
 				))
-			))
+			)
 		
 		# success
 		self.setVariable('result','success')
@@ -309,13 +305,13 @@ class ajaxEditReply(drape.controller.jsonController):
 		
 		reply_id = drape.util.toInt(aParams.get('reply_id'),-1)
 		aReplyModel = drape.LinkedModel('discuss_reply')
-		replyinfo = aReplyModel.where(dict(id=reply_id)).find()
+		replyinfo = aReplyModel.where(id=reply_id).find()
 		if replyinfo is None or uid != replyinfo['uid']:
 			self.setVariable('result','failed')
 			self.setVariable('msg','您无权修改此回复')
 			return
 		
-		aReplyModel.where(dict(id=reply_id)).update(dict(text=aParams.get('text','')))
+		aReplyModel.where(id=reply_id).update(text=aParams.get('text',''))
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')

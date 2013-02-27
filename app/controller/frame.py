@@ -62,21 +62,21 @@ class Layout(drape.NestingController):
 		
 		if uid > 0:
 			aUserinfoModel = drape.LinkedModel('userinfo')
-			userinfo = aUserinfoModel.where(dict(id=uid)).find()
+			userinfo = aUserinfoModel.where(id=uid).find()
 			self.setVariable('userinfo',userinfo)
 			
 			aNoticeModel = drape.LinkedModel('notice')
-			noticeCount = aNoticeModel.where(dict(
+			noticeCount = aNoticeModel.where(
 				to_uid = uid,
 				isRead = 0,
-			)).count()
+			).count()
 			self.setVariable('notice_count',noticeCount)
 			
 			aMailModel = drape.LinkedModel('mail')
-			mailCount = aMailModel.where(dict(
+			mailCount = aMailModel.where(
 				to_uid = uid,
 				isRead = 0
-			)).count()
+			).count()
 			self.setVariable('mail_count',mailCount)
 		
 		self.setVariable('testdrape_version',app.version)
