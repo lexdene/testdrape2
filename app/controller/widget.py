@@ -1,7 +1,7 @@
 import drape
 import math
 
-class Pager(drape.NestingController):
+class Pager(drape.controller.Controller):
 	def __init__(self,total_count,current_page,item_per_page=10,page_width=5):
 		super(Pager,self).__init__('/widget/Pager')
 		self.__total_count = total_count

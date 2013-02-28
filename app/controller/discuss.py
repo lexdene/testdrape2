@@ -7,12 +7,11 @@ import drape
 
 class List(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'讨论区')
 		
 		aParams = self.params()
 		
-		aTopicModel = drape.LinkedModel('discuss_topic')
+		aTopicModel = drape.model.LinkedModel('discuss_topic')
 		
 		# pager
 		page = drape.util.toInt(aParams.get('page',0))
@@ -80,7 +79,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 		now = int(time.time())
 		
 		# insert topic
-		aDiscussModel = drape.LinkedModel('discuss_topic')
+		aDiscussModel = drape.model.LinkedModel('discuss_topic')
 		topicid = aDiscussModel.insert(
 			uid = uid,
 			ctime = now,
@@ -88,7 +87,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 		)
 		
 		# insert reply
-		aReplyModel = drape.LinkedModel('discuss_reply')
+		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		replyid = aReplyModel.insert(
 			tid = topicid,
 			uid = uid,
@@ -98,7 +97,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 		)
 		
 		# topic cache
-		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
+		aTopicCacheModel = drape.model.LinkedModel('discuss_topic_cache')
 		aTopicCacheModel.insert(
 			id = topicid,
 			first_reply_id = replyid,
@@ -110,15 +109,13 @@ class ajaxPostTopic(drape.controller.jsonController):
 
 class Topic(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
-		
 		aParams = self.params()
 		tid = drape.util.toInt(aParams.get('id',-1))
 		if tid < 0:
 			self.Error(u'参数无效:缺少id参数或id参数不是整数')
 			return
 		
-		aDiscussModel = drape.LinkedModel('discuss_topic')
+		aDiscussModel = drape.model.LinkedModel('discuss_topic')
 		aTopicInfo = aDiscussModel \
 			.alias('dt') \
 			.join('userinfo','ui','dt.uid = ui.id') \
@@ -131,7 +128,7 @@ class Topic(frame.DefaultFrame):
 		
 		self.setVariable('topicInfo',aTopicInfo)
 		
-		aReplyModel = drape.LinkedModel('discuss_reply')
+		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		aReplyIter = aReplyModel \
 			.alias('dr') \
 			.join('userinfo','ui','dr.uid = ui.id') \
@@ -198,7 +195,7 @@ class ajaxPostReply(drape.controller.jsonController):
 		now = int( time.time() )
 		
 		# reply table
-		aReplyModel = drape.LinkedModel('discuss_reply')
+		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		reply_id = aReplyModel.insert(
 			tid = tid,
 			uid = uid,
@@ -208,15 +205,15 @@ class ajaxPostReply(drape.controller.jsonController):
 		)
 		
 		# topic cache table
-		aTopicCacheModel = drape.LinkedModel('discuss_topic_cache')
+		aTopicCacheModel = drape.model.LinkedModel('discuss_topic_cache')
 		aTopicCacheModel.where(id=tid).update(last_reply_id = reply_id)
 		
 		# notice
 		
 		# models
-		aTopicModel = drape.LinkedModel('discuss_topic')
-		aNoticeModel = drape.LinkedModel('notice')
-		aNoticeCacheModel = drape.LinkedModel('notice_cache')
+		aTopicModel = drape.model.LinkedModel('discuss_topic')
+		aNoticeModel = drape.model.LinkedModel('notice')
+		aNoticeCacheModel = drape.model.LinkedModel('notice_cache')
 		
 		# topic info
 		topicInfo = aTopicModel.where(id=tid).find()
@@ -304,7 +301,7 @@ class ajaxEditReply(drape.controller.jsonController):
 			return
 		
 		reply_id = drape.util.toInt(aParams.get('reply_id'),-1)
-		aReplyModel = drape.LinkedModel('discuss_reply')
+		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		replyinfo = aReplyModel.where(id=reply_id).find()
 		if replyinfo is None or uid != replyinfo['uid']:
 			self.setVariable('result','failed')

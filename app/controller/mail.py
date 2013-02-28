@@ -6,7 +6,6 @@ import frame,app.lib.text
 
 class Write(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle('发送私信')
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -16,14 +15,14 @@ class Write(frame.DefaultFrame):
 		aParams = self.params()
 		to_uid = drape.util.toInt(aParams.get('to_uid',-1))
 		
-		aUserinfoModel = drape.LinkedModel('userinfo')
+		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		to_userinfo = aUserinfoModel.where(id=to_uid).find()
 		if to_userinfo is None:
 			self.Error('用户不存在')
 		
 		self.setVariable('to_userinfo',to_userinfo)
 
-class ajaxWrite(drape.jsonController):
+class ajaxWrite(drape.controller.jsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -66,7 +65,7 @@ class ajaxWrite(drape.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		aMailModel = drape.LinkedModel('mail')
+		aMailModel = drape.model.LinkedModel('mail')
 		data = dict(aParams)
 		data['from_uid'] = uid
 		data['ctime'] = int(time.time())
@@ -82,14 +81,11 @@ class MailBox(frame.FrameBase):
 
 class MailBoxLayout(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
-		
 		g = self.globalVars()
 		self.setVariable('title',g.get('title'))
 
 class ReceiveBox(MailBox):
 	def process(self):
-		self.initRes()
 		self.setTitle('收件箱')
 		
 		aSession = self.session()
@@ -97,7 +93,7 @@ class ReceiveBox(MailBox):
 		if uid < 0:
 			self.notLogin()
 		
-		aMailModel = drape.LinkedModel('mail')
+		aMailModel = drape.model.LinkedModel('mail')
 		maillist = aMailModel \
 			.join('userinfo','fromuser','fromuser.id=mail.from_uid') \
 			.where(to_uid = uid).select()

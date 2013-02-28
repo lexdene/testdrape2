@@ -14,8 +14,6 @@ class ManualFrame(frame.FrameBase):
 
 class Layout(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
-		
 		g = self.globalVars()
 		self.setVariable('subtitle',g.get('subtitle'))
 		self.setTitle('%s - drape开发手册'%g.get('subtitle'))

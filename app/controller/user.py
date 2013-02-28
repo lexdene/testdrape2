@@ -28,7 +28,6 @@ common_validates = dict(
 
 class Login(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'登录')
 		
 		aParams = self.params()
@@ -72,7 +71,7 @@ class ajaxLogin(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		aLoginModel = drape.LinkedModel('logininfo')
+		aLoginModel = drape.model.LinkedModel('logininfo')
 		res = aLoginModel.where(loginname=aParams['loginname']).find()
 		
 		if res is None:
@@ -91,7 +90,6 @@ class ajaxLogin(drape.controller.jsonController):
 
 class Register(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'注册')
 		
 		aParams = self.params()
@@ -195,7 +193,6 @@ class ajaxRegister(drape.controller.jsonController):
 
 class Logout(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'退出登录')
 		
 		aSession = self.session()
@@ -205,7 +202,6 @@ class Logout(frame.DefaultFrame):
 		redirect = aParams.get('redirect','/')
 		self.setVariable('redirect',redirect)
 
-
 class UserCenterFrame(frame.FrameBase):
 	def __init__(self,path):
 		super(UserCenterFrame,self).__init__(path)
@@ -213,12 +209,10 @@ class UserCenterFrame(frame.FrameBase):
 
 class UserCenterLayout(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setVariable('title',self.title())
 
 class UserCenter(UserCenterFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'个人中心')
 		
 		aSession = self.session()
@@ -228,7 +222,6 @@ class UserCenter(UserCenterFrame):
 
 class EditUserInfo(UserCenterFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'修改个人资料')
 		
 		aSession = self.session()
@@ -236,7 +229,7 @@ class EditUserInfo(UserCenterFrame):
 		if uid < 0:
 			self.notLogin()
 		
-		aUserinfoModel = drape.LinkedModel('userinfo')
+		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		aUserinfo = aUserinfoModel.where(id=uid).find()
 		
 		self.setVariable('userinfo',aUserinfo)
@@ -252,7 +245,7 @@ class ajaxEditUserInfo(drape.controller.jsonController):
 			return
 		
 		aParams = self.params()
-		aUserinfoModel = drape.LinkedModel('userinfo')
+		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		aUserinfoModel.where(id=uid).update(**aParams)
 		
 		self.setVariable('result','success')
@@ -260,7 +253,6 @@ class ajaxEditUserInfo(drape.controller.jsonController):
 
 class ChangePassword(UserCenterFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle(u'修改密码')
 		
 		aSession = self.session()
@@ -278,7 +270,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 			return
 		
 		aParams = self.params()
-		aLogininfoModel = drape.LinkedModel('logininfo')
+		aLogininfoModel = drape.model.LinkedModel('logininfo')
 		logininfo = aLogininfoModel.where(uid=uid).find()
 		
 		# oldpassword

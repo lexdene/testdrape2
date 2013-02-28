@@ -5,5 +5,5 @@ sys.path.append(app_root)
 
 import drape
 
-application = drape.WsgiApplication()
+application = drape.application.WsgiApplication()
 application.start()

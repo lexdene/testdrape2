@@ -4,12 +4,14 @@ import json
 
 import drape
 
-class Panel(drape.ViewController):
+import frame
+
+class Panel(frame.FrameBase):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		
-		aNoticeModel = drape.LinkedModel('notice')
+		aNoticeModel = drape.model.LinkedModel('notice')
 		noticeList = aNoticeModel \
 			.join('userinfo','fromuser','fromuser.id = notice.from_uid') \
 			.join('notice_cache','cache','cache.id = notice.id') \
@@ -20,7 +22,7 @@ class Panel(drape.ViewController):
 		
 		self.setVariable('noticeList',noticeList)
 
-class setIsRead(drape.jsonController):
+class setIsRead(drape.controller.jsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -29,7 +31,7 @@ class setIsRead(drape.jsonController):
 		noticeid = drape.util.toInt(aParams.get('noticeid',-1))
 		self.setVariable('noticeid',noticeid)
 		
-		aNoticeModel = drape.LinkedModel('notice')
+		aNoticeModel = drape.model.LinkedModel('notice')
 		noticeInfo = aNoticeModel.where(id=noticeid).find()
 		self.setVariable('noticeInfo',noticeInfo)
 		if noticeInfo is None:

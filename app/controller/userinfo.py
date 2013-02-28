@@ -16,13 +16,12 @@ class MainPage(frame.DefaultFrame):
 			self.Error(u'参数无效:id格式非法')
 			return
 		
-		aUserinfoModel = drape.LinkedModel('userinfo')
+		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		userinfo = aUserinfoModel.where(id=uid).find()
 		if userinfo is None:
 			self.Error(u'无此用户')
 			return
 		
-		self.initRes()
 		self.setTitle(userinfo['nickname'])
 		self.setVariable('userinfo',userinfo)
 		self.setVariable('timestr',drape.util.timeStamp2Str)
@@ -36,7 +35,7 @@ class UserPanelPage(frame.FrameBase):
 			self.Error(u'参数无效:id格式非法')
 			return
 		
-		aUserinfoModel = drape.LinkedModel('userinfo')
+		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		userinfo = aUserinfoModel.where(id=uid).find()
 		if userinfo is None:
 			self.Error(u'无此用户')

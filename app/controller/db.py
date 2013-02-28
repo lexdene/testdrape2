@@ -85,7 +85,6 @@ class DbFrame(frame.DefaultFrame):
 
 class Layout(frame.DefaultFrame):
 	def process(self):
-		self.initRes()
 		self.setTitle('数据库')
 
 class CreateTables(DbFrame):

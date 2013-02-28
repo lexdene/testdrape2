@@ -6,16 +6,12 @@ import frame
 
 class UploadImage(frame.EmptyFrame):
 	def process(self):
-		self.initRes()
-		
 		aParams = self.params()
 		accept = aParams.get('accept','')
 		self.setVariable('accept',accept)
 
 class UploadImageResult(frame.EmptyFrame):
 	def process(self):
-		self.initRes()
-		
 		aParams = self.params()
 		accept = aParams.get('accept','')
 		self.setVariable('accept',accept)
