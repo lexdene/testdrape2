@@ -1,14 +1,7 @@
-import bisect
 import emoji_list
 
-def bin_search(a, x):
-    i = bisect.bisect_left(a, x)
-    if i != len(a) and a[i] == x:
-        return True
-    return False
-
 def isEmoji(name):
-	return bin_search(emoji_list.namelist,name)
+	return (name in emoji_list.nameset)
 
 if '__main__' == __name__:
 	print isEmoji(u'100')

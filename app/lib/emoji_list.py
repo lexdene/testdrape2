@@ -1,4 +1,4 @@
-namelist = [
+nameset = set([
 "+1",
 "-1",
 "100",
@@ -869,4 +869,4 @@ namelist = [
 "zap",
 "zero",
 "zzz",
-]
+])
