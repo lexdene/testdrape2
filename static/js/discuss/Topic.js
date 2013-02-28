@@ -51,7 +51,7 @@
 			jq('.floor[floor_id='+reply_to_id+']').jump();
 		});
 		jq('.edit_button').click(function(){
-			jq(this).closest('.floor').find('.floor_edit').toggle(500);
+			jq(this).closest('.floor').find('.floor_edit').toggle('slow');
 		});
 		jq('.edit_form').submit(function(){
 			jq(this).ajaxSubmit({
