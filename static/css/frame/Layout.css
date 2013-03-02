@@ -39,6 +39,20 @@ body{
 .layout_head_line .mail_btn .count{
 	color: red;
 }
+.layout_head_line .fuckie{
+	background-color: rgba(0, 0, 0, 0.901961);
+	filter: alpha(opacity=90); BACKGROUND-COLOR: rgb(0,0,0); WIDTH: 100%;
+	width: 100%;
+	padding-top: 100px;
+}
+.layout_head_line .fuckie .fuckie_index{
+	background-color: rgb(255, 255, 255);
+	width: 450px;
+	margin: auto;
+}
+.layout_head_line .fuckie a{
+	color: blue;
+}
 .body_block{
 	width: 1000px;
 	margin: 25px auto 0;

@@ -2,6 +2,6 @@
 
 import frame
 
-class Index(frame.DefaultFrame):
+class Index(frame.FrameBase):
 	def process(self):
 		self.setTitle(u'首页')
