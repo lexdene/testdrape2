@@ -61,7 +61,7 @@ class HtmlBody(FrameBase):
 		self.setVariable('reslist',reslist)
 		
 		# title
-		sitename = u'JDMD Online Judge'
+		sitename = u'testdrape'
 		subtitle = u'无标题'
 		if 'title' in g:
 			subtitle = g['title']

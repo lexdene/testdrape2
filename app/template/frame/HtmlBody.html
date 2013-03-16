@@ -1,9 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ROOT}}/static/image/breaking.ico" mce_href="/static/image/breaking.ico" type="image/x-icon" />
+    
+    <meta name="keywords" content="testdrape,drape,python,web,后台，框架" />
+    <meta name="description" content="testdrape,drape,drape是一个Python的web后台框架" />
+    
     <title>{{title}}</title>
     {% for reses in reslist -%}
       {%- for res in reses -%}
@@ -33,9 +37,9 @@ var joj = {
       {%- for res in reses -%}
         {%- if res[1] == 'js' -%}
           {%- if 'http' == res[0][0:4] -%}
-            <script language="javascript" src="{{res[0]}}.js"></script>
+            <script language="javascript" type="text/javascript" src="{{res[0]}}.js"></script>
           {%- else -%}
-            <script language="javascript" src="{{ROOT}}/static/{{res[0]}}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
+            <script language="javascript" type="text/javascript" src="{{ROOT}}/static/{{res[0]}}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
