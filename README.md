@@ -1,1 +1,1 @@
-a git mirror of http://2.testdrape.sinaapp.com/
+upgrade for http://testdrape.sinaapp.com/
