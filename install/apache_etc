@@ -1,0 +1,2 @@
+WSGIScriptAlias /python/testdrape2/ /home/elephant/workspace/webpage/python/testdrape2/wsgi-index.py/
+Alias /python/testdrape2/static/ /home/elephant/workspace/webpage/python/testdrape2/static/
