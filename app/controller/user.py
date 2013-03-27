@@ -26,6 +26,13 @@ common_validates = dict(
 	) ,
 )
 
+def encrypt_password(original):
+	s = '%s|%s'%(
+		'original',
+		drape.util.md5sum('drape')
+	)
+	return drape.util.md5sum(s)
+
 class Login(frame.DefaultFrame):
 	def process(self):
 		self.setTitle(u'登录')
@@ -78,7 +85,7 @@ class ajaxLogin(drape.controller.jsonController):
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'登录名不存在')
 			return
-		elif res['password'] != drape.util.md5sum(aParams['password']):
+		elif res['password'] != encrypt_password(aParams['password']):
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'密码错误')
 			return
@@ -175,7 +182,7 @@ class ajaxRegister(drape.controller.jsonController):
 		
 		id = aLogininfoModel.insert(
 			loginname = aParams.get('loginname'),
-			password = drape.util.md5sum(aParams.get('password'))
+			password = encrypt_password(aParams.get('password'))
 		)
 		self.setVariable('id',id)
 		
@@ -277,7 +284,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 		oldpassword = aParams.get('oldpassword','')
 		newpassword = aParams.get('password','')
 		renewpassword = aParams.get('repassword','')
-		if drape.util.md5sum(oldpassword) != logininfo['password']:
+		if encrypt_password(oldpassword) != logininfo['password']:
 			self.setVariable('result','failed')
 			self.setVariable('msg','原密码不正确')
 			return
@@ -292,7 +299,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		aLogininfoModel.where(uid=uid).update(password = drape.util.md5sum(newpassword))
+		aLogininfoModel.where(uid=uid).update(password = encrypt_password(newpassword))
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')
