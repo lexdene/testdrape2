@@ -1,9 +1,9 @@
-{{ do( res.append(('http://code.jquery.com/jquery-1.9.1.min','js')) )}}
-{{ do( ctrl.addResByPath() ) }}
-{{ do( res.append(('js/frame/HeadLine','js')) )}}
-{{ do( res.append(('css/common','css')) ) }}
-{{ do( res.append(('css/jdmd_widget','css')) )}}
-{{ do( res.append(('js/drapeje','js')) )}}
+{% do  res.append(('http://code.jquery.com/jquery-1.9.1.min','js'))  %}
+{% do  ctrl.addResByPath()  %}
+{% do  res.append(('js/frame/HeadLine','js'))  %}
+{% do  res.append(('css/common','css'))  %}
+{% do  res.append(('css/jdmd_widget','css'))  %}
+{% do  res.append(('js/drapeje','js'))  %}
 <div class="layout_head_line">
 	<div class="left_buttons">
 		<img class="website_icon" src="{{ROOT}}/static/image/breaking.ico" alter="testdrape" />
