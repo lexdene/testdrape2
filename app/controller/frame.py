@@ -103,9 +103,6 @@ class Layout(FrameBase):
 				isRead = 0
 			).count()
 			self.setVariable('mail_count',mailCount)
-		
-		self.setVariable('testdrape_version',app.version)
-		self.setVariable('drape_version',drape.version)
 
 class NotLogin(DefaultFrame):
 	def process(self):
