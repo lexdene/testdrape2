@@ -119,7 +119,7 @@ class ajaxRegister(drape.controller.jsonController):
 		validates = [
 			dict(
 				key = 'loginname',
-				name = '登录名',
+				name = u'登录名',
 				validates = [
 					('notempty',),
 					('len',4,20)
@@ -127,7 +127,7 @@ class ajaxRegister(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'password',
-				name = '密码',
+				name = u'密码',
 				validates = [
 					('notempty',),
 					('len',4,20)
@@ -135,7 +135,7 @@ class ajaxRegister(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'repassword',
-				name = '重复密码',
+				name = u'重复密码',
 				validates = [
 					('notempty',),
 					('equal','password','密码')
@@ -143,7 +143,7 @@ class ajaxRegister(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'nickname',
-				name = '昵称',
+				name = u'昵称',
 				validates = [
 					('notempty',),
 					('len',4,20)
@@ -151,7 +151,7 @@ class ajaxRegister(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'email',
-				name = '电子邮箱',
+				name = u'电子邮箱',
 				validates = [
 					('notempty',),
 					('email',)
@@ -159,7 +159,7 @@ class ajaxRegister(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'intro',
-				name = '个人介绍',
+				name = u'个人介绍',
 				validates = [
 					('notempty',),
 					('len',4,1000)

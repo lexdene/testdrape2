@@ -43,13 +43,13 @@ class FrameBase(drape.controller.Controller):
 			res.append(('js%s'%path,'js'))
 
 class DefaultFrame(FrameBase):
-	def __init__(self,path):
-		super(DefaultFrame,self).__init__(path)
+	def __init__(self,runbox):
+		super(DefaultFrame,self).__init__(runbox)
 		self.setParent('/frame/Layout')
 
 class EmptyFrame(FrameBase):
-	def __init__(self,path):
-		super(EmptyFrame,self).__init__(path)
+	def __init__(self,runbox):
+		super(EmptyFrame,self).__init__(runbox)
 		self.setParent('/frame/HtmlBody')
 
 class HtmlBody(FrameBase):
@@ -76,8 +76,8 @@ class HtmlBody(FrameBase):
 		self.setVariable('my_userid',-1)
 
 class Layout(FrameBase):
-	def __init__(self,path):
-		super(Layout,self).__init__(path)
+	def __init__(self,runbox):
+		super(Layout,self).__init__(runbox)
 		self.setParent('/frame/HtmlBody')
 		
 	def process(self):

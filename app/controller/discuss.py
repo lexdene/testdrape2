@@ -2,7 +2,7 @@
 
 import time,os,re,json
 
-import frame,widget,userinfo,app.lib.text
+import frame,userinfo,app.lib.text
 import drape
 
 class List(frame.DefaultFrame):
@@ -16,7 +16,7 @@ class List(frame.DefaultFrame):
 		# pager
 		page = drape.util.toInt(aParams.get('page',0))
 		count = aTopicModel.count()
-		aPager = widget.Pager(total_count=count,current_page=page)
+		aPager = self.runbox().controller('/widget/Pager',total_count=count,current_page=page)
 		self.setVariable('page',aPager.run())
 		
 		aTopicList = aTopicModel \
