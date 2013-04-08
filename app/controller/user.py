@@ -278,7 +278,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 		
 		aParams = self.params()
 		aLogininfoModel = drape.model.LinkedModel('logininfo')
-		logininfo = aLogininfoModel.where(uid=uid).find()
+		logininfo = aLogininfoModel.where(id=uid).find()
 		
 		# oldpassword
 		oldpassword = aParams.get('oldpassword','')
@@ -299,7 +299,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		aLogininfoModel.where(uid=uid).update(password = encrypt_password(newpassword))
+		aLogininfoModel.where(id=uid).update(password = encrypt_password(newpassword))
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')
