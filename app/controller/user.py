@@ -28,8 +28,8 @@ common_validates = dict(
 
 def encrypt_password(original):
 	s = '%s|%s'%(
-		'original',
-		drape.util.md5sum('drape')
+		original,
+		drape.config.config['system']['salt']
 	)
 	return drape.util.md5sum(s)
 
