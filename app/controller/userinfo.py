@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import frame
 import drape
+
+import frame
+import app.lib.text
 
 def avatarFunc(root):
 	def avatar(a):
@@ -24,7 +26,7 @@ class MainPage(frame.DefaultFrame):
 		
 		self.setTitle(userinfo['nickname'])
 		self.setVariable('userinfo',userinfo)
-		self.setVariable('timestr',drape.util.timeStamp2Str)
+		self.setVariable('timestr',app.lib.text.timeStamp2Str)
 		self.setVariable('avatar',avatarFunc(self.request().rootPath()) )
 
 class UserPanelPage(frame.FrameBase):
@@ -43,4 +45,4 @@ class UserPanelPage(frame.FrameBase):
 		
 		self.setVariable('userinfo',userinfo)
 		self.setVariable('avatar',avatarFunc(self.request().rootPath()) )
-		self.setVariable('timestr',drape.util.timeStamp2Str)
+		self.setVariable('timestr',app.lib.text.timeStamp2Str)

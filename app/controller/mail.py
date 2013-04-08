@@ -100,4 +100,4 @@ class ReceiveBox(MailBox):
 		
 		self.setVariable('maillist',maillist)
 		self.setVariable('transText',app.lib.text.transText)
-		self.setVariable('timestr',drape.util.timeStamp2Str)
+		self.setVariable('timestr',app.lib.text.timeStamp2Str)

@@ -34,7 +34,7 @@ class List(frame.DefaultFrame):
 			.select()
 		
 		self.setVariable('iter',aTopicList)
-		self.setVariable('timestr',drape.util.timeStamp2Short)
+		self.setVariable('timestr',app.lib.text.timeStamp2Short)
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -142,7 +142,7 @@ class Topic(frame.DefaultFrame):
 		self.setVariable('aReplyIter',aReplyIter)
 		
 		self.setVariable('transText',app.lib.text.transText)
-		self.setVariable('timestr',drape.util.timeStamp2Str)
+		self.setVariable('timestr',app.lib.text.timeStamp2Str)
 		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
 		
 		aSession = self.session()
