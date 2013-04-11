@@ -26,12 +26,18 @@ common_validates = dict(
 	) ,
 )
 
-def encrypt_password(original):
-	s = '%s|%s'%(
-		original,
-		drape.config.config['system']['salt']
-	)
-	return drape.util.md5sum(s)
+def hash_password(salt,password):
+	return drape.util.md5sum('%s|%s'%(password,salt))
+
+def password_for_db(input):
+	salt = drape.util.random_str(8)
+	hashed = hash_password(salt,input)
+	return '%s#%s'%(salt,hashed)
+
+def validate_password(input,db):
+	salt, hashed = db.split('#')
+	input_hashed = hash_password(salt,input)
+	return input_hashed == hashed
 
 class Login(frame.DefaultFrame):
 	def process(self):
@@ -85,7 +91,7 @@ class ajaxLogin(drape.controller.jsonController):
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'登录名不存在')
 			return
-		elif res['password'] != encrypt_password(aParams['password']):
+		elif validate_password(input=aParams['password'],db=res['password']):
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'密码错误')
 			return
@@ -182,7 +188,7 @@ class ajaxRegister(drape.controller.jsonController):
 		
 		id = aLogininfoModel.insert(
 			loginname = aParams.get('loginname'),
-			password = encrypt_password(aParams.get('password'))
+			password = password_for_db(aParams.get('password'))
 		)
 		self.setVariable('id',id)
 		
@@ -284,7 +290,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 		oldpassword = aParams.get('oldpassword','')
 		newpassword = aParams.get('password','')
 		renewpassword = aParams.get('repassword','')
-		if encrypt_password(oldpassword) != logininfo['password']:
+		if validate_password(input=oldpassword,db=logininfo['password']):
 			self.setVariable('result','failed')
 			self.setVariable('msg','原密码不正确')
 			return
@@ -299,7 +305,7 @@ class ajaxChangePassword(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
-		aLogininfoModel.where(id=uid).update(password = encrypt_password(newpassword))
+		aLogininfoModel.where(id=uid).update(password = password_for_db(newpassword))
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')
