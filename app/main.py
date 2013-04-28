@@ -24,10 +24,10 @@ def after_request_run(application,request):
         request.urlPath(),
         request.REMOTE_ADDR,
         request.HTTP_REFERER,
-        #request.userAgent()
     ))
-			
+
 def run_begin(runbox):
+    debug.debug('  ====  RUN BEGIN ====  ')
     runbox.variables()['run_begin_time'] = time.time()
 
 def run_end(runbox):

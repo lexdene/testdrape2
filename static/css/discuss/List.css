@@ -32,8 +32,7 @@
 	display: inline-block;
 	width: 40px;
 }
-.discuss_posttopic .form_block .input_title input,
-.discuss_posttopic .form_block .input_content textarea{
+.discuss_posttopic .form_block .c .jdmd_input{
 	width: 250px;
 	padding: 0;
 	border: solid 1px grey;

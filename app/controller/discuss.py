@@ -2,8 +2,10 @@
 
 import time,os,re,json
 
-import frame,userinfo,app.lib.text
 import drape
+
+import frame,userinfo,app.lib.text
+from app.lib.tags import Tags
 
 class List(frame.DefaultFrame):
 	def process(self):
@@ -75,6 +77,20 @@ class ajaxPostTopic(drape.controller.jsonController):
 			self.setVariable('msg',res['msg'])
 			return
 		
+		# tags
+		tags = Tags()
+		tags.setTagString( aParams.get('tags','') )
+
+		# validate tags
+		res = tags.validate()
+		if False == res['result']:
+			self.setVariable('result', 'failed')
+			self.setVariable('msg', res['msg'])
+			return
+
+		# get tag id list
+		idList = tags.idListInDb()
+
 		# now
 		now = int(time.time())
 		
