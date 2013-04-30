@@ -202,13 +202,10 @@
 			}
 		}
 		,tabs: function(options){
+			onhashchange = function(event){
+				changePageByHash();
+			}
 			var jobj = this;
-			jobj.find('.tab_nav').find('a').click(function(){
-				var page = jq(this).attr('tab_page');
-				changePage( page );
-				location.hash = '#!'+page;
-				return false;
-			});
 			function changePage(pagename){
 				jobj.find('.tab_page').hide();
 				jobj.find('.tab_page[tab_page='+pagename+']').show();
@@ -218,13 +215,15 @@
 			function showFirstPage(){
 				changePage( jobj.find('.tab_page').first().attr('tab_page') );
 			}
-			showFirstPage();
-			if( location.hash ){
-				if( 0 == location.hash.indexOf('#!') ){
-					var pagename = location.hash.substr(2);
-					changePage(pagename);
+			function changePageByHash(){
+				var tab_page = location.hash.substr(2);
+				if( '' == tab_page ){
+					showFirstPage();
+				}else{
+					changePage(tab_page);
 				}
 			}
+			changePageByHash();
 		}
 	});
 })(jQuery);

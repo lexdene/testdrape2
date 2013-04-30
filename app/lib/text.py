@@ -6,6 +6,8 @@ import time
 
 import drape
 
+import app.lib.emoji
+
 def emoji(text,imgbasepath):
 	reg = re.compile(':([_a-zA-Z0-9]+):')
 	def filter_emoji(matchObj):
