@@ -4,12 +4,18 @@
 	<div class="top_button_block">
 		<a href="{{ROOT}}/discuss/List">返回讨论区列表</a>
 	</div>
-	<div class="topic_headblock">
+	<div class="topic_headblock common_horizontal_block">
 		<span class="topic_title">{{topicInfo['title']|e}}</span>
+	</div>
+	<div class="topic_tag_list common_horizontal_block">
+		标签：
+		{% for tag in aTagIter %}
+			<span class="common_tag_item">{{ tag['content'] | e }}</span>
+		{% endfor %}
 	</div>
 	<div class="building">
 		{% for reply in aReplyIter %}
-			<div class="floor" floor_num="{{ reply['floor'] }}" floor_id="{{reply['id']}}">
+			<div class="floor common_horizontal_block" floor_num="{{ reply['floor'] }}" floor_id="{{reply['id']}}">
 				<a name="reply{{reply['id']}}"></a>
 				<div class="common_layout_column floor_left_column">
 					<div class="user_panel">

@@ -89,7 +89,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 			return
 
 		# get tag id list
-		idList = tags.idListInDb()
+		tagIdList = tags.idListInDb()
 
 		# now
 		now = int(time.time())
@@ -119,7 +119,14 @@ class ajaxPostTopic(drape.controller.jsonController):
 			first_reply_id = replyid,
 			last_reply_id = -1
 		)
-		
+
+		# topic tag bridge
+		aBridgeModel = drape.model.LinkedModel('discuss_topic_tag_bridge')
+		aBridgeModel.insert(
+			tag_id = tagIdList,
+			topic_id = [topicid] * len( tagIdList )
+		)
+
 		self.setVariable('result','success')
 		self.setVariable('msg',u'发表成功')
 
@@ -156,6 +163,14 @@ class Topic(frame.DefaultFrame):
 			reply['floor'] = c+1
 		
 		self.setVariable('aReplyIter',aReplyIter)
+		
+		aTagModel = drape.model.LinkedModel('tag')
+		aTagIter = aTagModel \
+			.join('discuss_topic_tag_bridge','ttb','ttb.tag_id = tag.id') \
+			.where({'ttb.topic_id':tid}) \
+			.select()
+		
+		self.setVariable('aTagIter',aTagIter)
 		
 		self.setVariable('transText',app.lib.text.transText)
 		self.setVariable('timestr',app.lib.text.timeStamp2Str)

@@ -1,8 +1,4 @@
-.discuss_topic .topic_headblock{
-	padding: 0 15px;
-	border: solid 1px;
-	border-radius: 4px;
-}
+.discuss_topic .topic_headblock{}
 .discuss_topic .topic_title{
 	color: black;
 	font-size: 16px;
@@ -11,8 +7,6 @@
 }
 .discuss_topic .building .floor{
 	min-height: 150px;
-	border: solid 1px;
-	border-radius: 4px;
 }
 .discuss_topic .user_panel{
 	margin: 0 10px;

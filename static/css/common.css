@@ -13,6 +13,12 @@ input:not([type]),input[type="password"], input[type="text"],textarea{
 .common_layout_column{
 	float: left;
 }
+.common_horizontal_block{
+	margin: 5px 0;
+	padding: 0 15px;
+	border: solid 1px;
+	border-radius: 4px;
+}
 .common_page_title{
 	font-size: 18px;
 	font-weight: bold;
