@@ -3,4 +3,5 @@ def markdown(templatePath,vardict):
 	filepath = 'app/template'+templatePath+'.md'
 	s = StringIO.StringIO()
 	markdown.markdownFromFile(filepath,s)
-	return s.getvalue()
+	ret = s.getvalue().decode('utf-8')
+	return ret

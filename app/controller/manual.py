@@ -16,11 +16,11 @@ class Layout(frame.DefaultFrame):
 	def process(self):
 		g = self.globalVars()
 		self.setVariable('subtitle',g.get('subtitle'))
-		self.setTitle('%s - drape开发手册'%g.get('subtitle'))
+		self.setTitle(u'%s - drape开发手册'%g.get('subtitle'))
 
 class Index(ManualFrame):
 	def process(self):
-		self.setSubTitle('简介')
+		self.setSubTitle(u'简介')
 
 class Mvc(ManualFrame):
 	def process(self):
