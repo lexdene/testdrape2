@@ -64,3 +64,24 @@
 	background: #F2F5F7;
 	border-radius: 4px;
 }
+
+/* nav */
+.jdmd_nav_left{
+    padding: 20px 20px 0;
+    width: 200px;
+}
+.jdmd_nav_right{
+    padding: 20px 0;
+    width: 700px;
+}
+.jdmd_nav_right_body{
+    border-radius: 4px;
+    border: 2px solid white;
+    padding: 10px;
+}
+.jdmd_nav_right_top{
+    padding-bottom: 20px;
+}
+.jdmd_nav_right_bottom{
+    padding-top: 20px;
+}

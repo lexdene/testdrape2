@@ -1,10 +1,5 @@
-{% do  ctrl.addResByPath('css')  %}
-
 <div class="manual_layout">
-	<div class="common_center_block">
-		<div class="common_page_title">{{subtitle}}</div>
-	</div>
-	<div class="common_layout_column left_column">
+	<div class="common_layout_column jdmd_nav_left">
 		<ul>
 			<li><a href="{{ROOT}}/manual/Index">简介</a></li>
 			<li>
@@ -17,11 +12,16 @@
 			</li>
 		</ul>
 	</div>
-	<div class="common_layout_column right_column">
-		<div class="right_body">
+	<div class="common_layout_column jdmd_nav_right">
+		<div class="jdmd_nav_right_top">
+			<div class="common_center_block">
+				<div class="common_page_title">{{subtitle}}</div>
+			</div>
+		</div>
+		<div class="jdmd_nav_right_body">
 			{{body}}
 		</div>
-		<div class="right_bottom">
+		<div class="jdmd_nav_right_bottom">
 			<p>以上内容由<b>Markdown</b>生成。</p>
 			<p>有任何的疑问、建议、批评，欢迎到<a href="{{ROOT}}/discuss/List">讨论区</a>参与讨论。</p>
 		</div>
