@@ -1,20 +1,16 @@
 (function(j){
-	function refresh_valcode_img(){
-		j('.common_valcode_img').refresh();
-	}
 	j(function(){
-		j('.common_valcode_btn').click(refresh_valcode_img);
-		j('#submit_form').submit(function(){
-			var form = j(this);
+	    var form = j('#submit_form');
+	    form.valcode();
+		form.submit(function(){
 			form.ajaxSubmit({
 				'success':function(){
 					alert('登录成功');
 					window.location = WEB_ROOT + form.attr('redirect');
 				},
 				'failed':function(msg){
-					form.find('input[name=valcode]').val('');
-					refresh_valcode_img();
 					alert('登录失败:'+msg);
+				    form.refresh_valcode();
 				},
 				'validate':{
 					'form_area':[

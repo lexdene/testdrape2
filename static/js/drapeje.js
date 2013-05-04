@@ -148,7 +148,7 @@
 				ajaxSubmit(this,options);
 			});
 		},
-		refresh : function(){
+		img_refresh : function(){
 			return this.each(function(){
 				var src = jq(this).attr('src');
 				var cleansrc = src.split('?')[0];
@@ -156,6 +156,19 @@
 				jq(this).attr('src',newsrc);
 			});
 		},
+	    refresh_valcode : function(){
+		var form = this;
+		form.find('.jf_valcode_input').val('');
+		form.find('.jf_valcode_img').img_refresh();
+		return this;
+	    },
+	    valcode : function(){
+		var form = this;
+		form.find('.jf_valcode_btn').click(function(){
+		    form.refresh_valcode();
+		});
+		return this;
+	    },
 		count_down: function(options) {
 			return this.each(function(){
 				var numObj = jq(this).find('.'+options['num_class']);
