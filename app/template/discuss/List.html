@@ -2,31 +2,25 @@
 {% do  ctrl.addResByPath(path='/userinfo/UserPanel')  %}
 
 <div class="discuss_list">
-	<div class="list_container">
-		<div class="header">
-			<span class="author">作者</span>
-			<span class="title">标题</span>
-			<span class="ctime">发表时间</span>
-			<span class="reply_count">回复</span>
-			<span class="last_reply">最后回复</span>
-		</div>
-		<div class="list">
-			{% for i in iter %}
-				<div class="item">
-					<span class="author">
-						<a class="username_btn" href="#" userid="{{i['topic_ui.id']}}" onclick="return false">
-							{{i['topic_ui.nickname']}}
-						</a>
-					</span>
+	<h1>讨论区</h1>
+	<div class="list">
+		{% for i in iter %}
+			<div class="item">
+				<div class="title_line">
 					<span class="title">
 						<a href="{{ROOT}}/discuss/Topic/id/{{i['id']}}">
 							{{i['title']|e}}
 						</a>
 					</span>
+				</div>
+				<div class="topic_info_line">
+					发表时间：
 					<span class="ctime">
 						{{ timestr( i['ctime'] ) }}
 					</span>
+					楼层数：
 					<span class="reply_count">{{i['reply_count']}}</span>
+					最后回复：
 					<span class="last_reply">
 						{% if i['last_reply.id'] %}
 							<span class="time">{{ timestr( i['last_reply.ctime'] ) }}</span>
@@ -41,40 +35,49 @@
 						{% endif %}
 					</span>
 				</div>
-			{% endfor %}
-			<div class="common_pager_container">{{page}}</div>
-		</div>
+				<div class="user_info_line">
+					作者：
+					<span class="author">
+						<a class="username_btn" href="#" userid="{{i['topic_ui.id']}}" onclick="return false">
+							{{i['topic_ui.nickname']}}
+						</a>
+					</span>
+				</div>
+			</div>
+		{% endfor %}
+		<div class="common_pager_container">{{page}}</div>
 	</div>
 	<div class="button_links">
 		<div class="post_block">
 			{% if uid > 0 %}
 <div class="discuss_posttopic common_center_block">
-	<div class="common_page_title">发表新主题</div>
+	<h1>发表新主题</h1>
 	<div class="form_block">
 		<form id="post_form"
 			action='{{ROOT}}/discuss/ajaxPostTopic'
 			method='post'
-			onsubmit="return false;">
-			<div class="input_title">
-				<span class="h">标题</span>
-				<span class="c"><input name="title" class="jdmd_input" validate="notempty" /></span>
+			onsubmit="return false;"
+			class="jdmd_form">
+			<div class="jf_line">
+				<span class="jf_hint">标题</span>
+				<span><input name="title" class="jf_input" /></span>
 			</div>
-			<div class="input_content">
-				<span class="h">内容</span>
-				<span class="c"><textarea name="text" class="jdmd_input" validate="notempty"></textarea></span>
+			<div class="jf_line">
+				<span class="jf_hint">内容</span>
+				<span><textarea name="text" class="jf_textarea"></textarea></span>
 			</div>
-			<div class="input_tags">
-				<span class="h">标签</span>
-				<span class="c">
+			<div class="jf_line">
+				<span class="jf_hint">标签</span>
+				<span>
 				  <input id="real_tags" type="hidden" name="tags" />
 				  <span class="tag_wrap">
-				    <span class="tag_list"></span>
-				    <input id="tags_input" class="jdmd_inputxx" name="input_tags" placeholder="最多可添加5个标签，以空格分隔" />
+				    <div class="tag_list"></div>
+				    <input id="tags_input" class="jf_input" name="input_tags" placeholder="最多可添加5个标签，以空格分隔" />
 				  </span>
 				</span>
 			</div>
-			<div class="input_submit">
-				<span class="h"></span>
+			<div class="jf_line">
+				<span class="jf_hint"></span>
 				<span class="c"><input type="submit" class="jdmd_validate_submit" /></span>
 			</div>
 		</form>

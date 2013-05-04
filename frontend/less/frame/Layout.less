@@ -1,0 +1,72 @@
+@import "../common";
+
+html{
+	overflow-y: scroll;
+}
+
+body{
+	background: @color-dark;
+	margin: 0;
+}
+
+.layout_head_line{
+	height: 22px;
+	background: url(../../image/topbg.gif);
+	padding: 0 15px;
+	line-height: 22px;
+	
+	z-index: 999;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+
+	a{
+		color: @color-bright;
+		text-decoration: none;
+		padding: 0;
+		padding: 0 5px;
+
+		&:hover{
+			background-color: @color-full-dark;
+		}
+	}
+
+	.website_icon{
+		height: 22px;
+	}
+
+	.left_buttons{
+		float: left;
+	}
+
+	.right_buttons{
+		float: right;
+		margin-right: 30px;
+	}
+}
+
+.body_block{
+	width: 1000px;
+	margin: 25px auto 0;
+}
+
+.frontpage{
+	.rounded-corners;
+	background: @color-mid;
+	padding: 1em;
+}
+
+.frontpage_block{
+	.rounded-corners;
+	.white-border;
+}
+.frontpage_content_block{
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.clearfix:after {
+	clear: both;
+}

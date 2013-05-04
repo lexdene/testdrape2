@@ -1,0 +1,26 @@
+.rounded-corners (@radius: 4px) {
+  border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+}
+
+.top-rounded-corners (@radius: 4px){
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.shadow (@color){
+  -webkit-box-shadow: 0 1px 2px @color;
+  -moz-box-shadow: 0 1px 2px @color;
+  box-shadow: 0 1px 2px @color;
+}
+@color-full-dark: #084c85;
+@color-dark: #C2DDF9;
+@color-mid: #F2F5F7;
+@color-bright: #F8F8F8;
+@color-grey: #AAA;
+@color-white: white;
+
+.white-border (@border-width: 2px){
+  border: @border-width solid white;
+}
