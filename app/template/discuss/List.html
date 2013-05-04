@@ -13,6 +13,11 @@
 						</a>
 					</span>
 				</div>
+				<div class="jf_tag_line">
+					{% for tag in i['tag_list'] %}
+						<span class="jf_tag">{{ tag | e }}</span>
+					{% endfor %}
+				</div>
 				<div class="topic_info_line">
 					发表时间：
 					<span class="ctime">
