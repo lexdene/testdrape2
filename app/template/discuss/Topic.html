@@ -7,10 +7,9 @@
 	<div class="topic_headblock common_horizontal_block">
 		<span class="topic_title">{{topicInfo['title']|e}}</span>
 	</div>
-	<div class="topic_tag_list common_horizontal_block">
-		标签：
+	<div class="jf_tag_line common_horizontal_block">
 		{% for tag in aTagIter %}
-			<span class="common_tag_item">{{ tag['content'] | e }}</span>
+			<span class="jf_tag">{{ tag['content'] | e }}</span>
 		{% endfor %}
 	</div>
 	<div class="building">
@@ -19,8 +18,8 @@
 				<a name="reply{{reply['id']}}"></a>
 				<div class="common_layout_column floor_left_column">
 					<div class="user_panel">
-						<div class="avatar_block">
-							<img class="avatar" src="{{ avatar( reply['ui.avatar'] ) }}" alt="avatar" />
+						<div class="common_avatar_block">
+							<img class="common_avatar" src="{{ avatar( reply['ui.avatar'] ) }}" alt="avatar" />
 						</div>
 						<div class="nickname">
 							<a href="{{ROOT}}/userinfo/MainPage/id/{{reply['ui.id']}}">

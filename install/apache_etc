@@ -1,2 +1,31 @@
-WSGIScriptAlias /python/testdrape2/ /home/elephant/workspace/webpage/python/testdrape2/wsgi-index.py/
-Alias /python/testdrape2/static/ /home/elephant/workspace/webpage/python/testdrape2/static/
+MaxRequestsPerChild 1
+<VirtualHost *:80>
+	ServerAdmin elephant_liu@mail.dlut.edu.cn
+
+	DocumentRoot /home/elephant/workspace/webpage
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /home/elephant/workspace/webpage/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+	
+	WSGIScriptAlias /python/testdrape2/ /home/elephant/workspace/webpage/python/testdrape2/wsgi-index.py/
+	Alias /python/testdrape2/static/css /home/elephant/workspace/webpage/python/testdrape2/data/static/css/
+	Alias /python/testdrape2/static/ /home/elephant/workspace/webpage/python/testdrape2/static/
+	
+	Alias /favicon.ico /home/elephant/workspace/webpage/python/testdrape2/static/image/breaking.ico
+	WSGIScriptReloading On
+	
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel debug
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

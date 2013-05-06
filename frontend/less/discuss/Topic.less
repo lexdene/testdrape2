@@ -1,0 +1,92 @@
+@import "../common";
+
+.discuss_topic{
+	.topic_headblock{
+	}
+
+	.topic_title{
+		color: @color-full-dark;
+		font-size: 16px;
+		font-weight: bold;
+		line-height: 43px;
+	}
+
+	.building{
+		.floor{
+			min-height: 150px;
+
+			.floor_right_column{
+				position: relative;
+				width: 700px;
+				min-height: 130px;
+				padding: 10px;
+			}
+
+			.floor_right_bottom{
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+
+			.reply_to_reply{
+				border: solid 1px;
+				padding: 5px;
+				width: 400px;
+
+				.content{
+					background-color: white;
+					padding: 5px;
+					.rounded-corners;
+				}
+			}
+
+			.user_panel{
+				margin: 0 10px;
+				width: 160px;
+				padding: 10px 0;
+				.nickname{
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	.floor_text{
+		padding: 10px;
+		word-break: break-all;
+		font-size: 20px;
+		margin-bottom: 30px;
+		width: 550px;
+
+		img{
+			max-width: 450px;
+		}
+	}
+
+	.floor_edit{
+		padding: 10px;
+		margin-bottom: 30px;
+		width: 550px;
+
+		textarea{
+			width: 100%;
+			height: 200px;
+		}
+	}
+
+	.reply_block{
+		padding: 10px 0;
+
+		textarea{
+			height: 200px;
+			width: 450px;
+			border: 1px solid;
+			overflow-y: auto;
+			word-wrap: break-word;
+		}
+
+		.reply_to_hint{
+			display: none;
+		}
+	}
+}

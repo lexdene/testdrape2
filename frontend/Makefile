@@ -10,6 +10,7 @@ STYLE_TARGETS = $(TARGET_DIR)/css/frame/Layout.css \
 		$(TARGET_DIR)/css/jdmd_widget.css \
 		$(TARGET_DIR)/css/discuss/List.css \
 		$(TARGET_DIR)/css/userinfo/UserPanel.css \
+		$(TARGET_DIR)/css/discuss/Topic.css \
 
 SCRIPT_TARGETS = 
 
