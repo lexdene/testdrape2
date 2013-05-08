@@ -1,12 +1,12 @@
 {% do  ctrl.addResByPath()  %}
 
-<div class="user_homepage">
+<div class="user_homepage clearfix">
 	<div class="common_layout_column left_column">
 		<div class="nickname">
 			{{ userinfo['nickname'] }}
 		</div>
-		<div class="avatar_block">
-			<img class="avatar" src="{{ avatar(userinfo['avatar']) }}" alt="avatar" />
+		<div class="common_avatar_block">
+			<img class="common_avatar" src="{{ avatar(userinfo['avatar']) }}" alt="avatar" />
 		</div>
 	</div>
 	<div class="common_layout_column right_column">
