@@ -1,5 +1,9 @@
 {% do  ctrl.addResByPath()  %}
+{% do  ctrl.addResByPath(path='/discuss/List',type='css')  %}
 
+<script type="text/javascript">
+var user_id = {{ userinfo['id'] }};
+</script>
 <div class="user_homepage clearfix">
 	<div class="common_layout_column left_column">
 		<div class="nickname">
@@ -19,7 +23,7 @@
 					<a href='#!userinfo' class="nav_btn" tab_page="userinfo">资料</a>
 				</span>
 				<span class="nav_btn_wrap">
-					<a href='#!blog' class="nav_btn" tab_page="blog">日志</a>
+					<a href='#!topic' class="nav_btn" tab_page="topic">主题</a>
 				</span>
 				<span class="nav_btn_wrap">
 					<a href='#!album' class="nav_btn" tab_page="album">相册</a>
@@ -46,8 +50,8 @@
 					<span class="common_content">{{userinfo['score']}}</span>
 				</div>
 			</div>
-			<div class="tab_page" tab_page="blog">
-				您就假装这里有日志。
+			<div class="tab_page" tab_page="topic">
+				您就假装这里有主题。
 			</div>
 			<div class="tab_page" tab_page="album">
 				您就假装这里有相册。

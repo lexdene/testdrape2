@@ -4,90 +4,15 @@
 <div class="discuss_list">
 	<h1>讨论区</h1>
 	<div class="list">
-		{% for i in iter %}
-			<div class="item">
-				<div class="title_line">
-					<span class="title">
-						<a href="{{ROOT}}/discuss/Topic/id/{{i['id']}}">
-							{{i['title']|e}}
-						</a>
-					</span>
-				</div>
-				<div class="jf_tag_line">
-					{% for tag in i['tag_list'] %}
-						<span class="jf_tag">{{ tag | e }}</span>
-					{% endfor %}
-				</div>
-				<div class="topic_info_line">
-					发表时间：
-					<span class="ctime">
-						{{ timestr( i['ctime'] ) }}
-					</span>
-					楼层数：
-					<span class="reply_count">{{i['reply_count']}}</span>
-					最后回复：
-					<span class="last_reply">
-						{% if i['last_reply.id'] %}
-							<span class="time">{{ timestr( i['last_reply.ctime'] ) }}</span>
-							<span class="user">
-								<a class="username_btn" href="#" userid="{{i['last_reply_ui.id']}}" onclick="return false">
-									{{i['last_reply_ui.nickname']}}
-								</a>
-							</span>
-						{% else %}
-							<span class="time">-</span>
-							<span class="user"></span>
-						{% endif %}
-					</span>
-				</div>
-				<div class="user_info_line">
-					作者：
-					<span class="author">
-						<a class="username_btn" href="#" userid="{{i['topic_ui.id']}}" onclick="return false">
-							{{i['topic_ui.nickname']}}
-						</a>
-					</span>
-				</div>
-			</div>
+		{% for topic_item in topic_list %}
+			{% include 'discuss/TopicItemInList.html' %}
 		{% endfor %}
 		<div class="common_pager_container">{{page}}</div>
 	</div>
 	<div class="button_links">
 		<div class="post_block">
 			{% if uid > 0 %}
-<div class="discuss_posttopic common_center_block">
-	<h1>发表新主题</h1>
-	<div class="form_block">
-		<form id="post_form"
-			action='{{ROOT}}/discuss/ajaxPostTopic'
-			method='post'
-			onsubmit="return false;"
-			class="jdmd_form">
-			<div class="jf_line">
-				<span class="jf_hint">标题</span>
-				<span><input name="title" class="jf_input" /></span>
-			</div>
-			<div class="jf_line">
-				<span class="jf_hint">内容</span>
-				<span><textarea name="text" class="jf_textarea"></textarea></span>
-			</div>
-			<div class="jf_line">
-				<span class="jf_hint">标签</span>
-				<span>
-				  <input id="real_tags" type="hidden" name="tags" />
-				  <span class="tag_wrap">
-				    <div class="tag_list"></div>
-				    <input id="tags_input" class="jf_input" name="input_tags" placeholder="最多可添加5个标签，以空格分隔" />
-				  </span>
-				</span>
-			</div>
-			<div class="jf_line">
-				<span class="jf_hint"></span>
-				<span class="c"><input type="submit" class="jdmd_validate_submit" /></span>
-			</div>
-		</form>
-	</div>
-</div>
+				{% include 'discuss/PostTopicForm.html' %}
 			{% else %}
 				<div>未登录用户无法发表主题。</div>
 				<div>请先<a href="{{ROOT}}/user/Login?redirect=/discuss/List">登录</a></div>

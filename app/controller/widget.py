@@ -1,7 +1,11 @@
 import drape
 import math
 
-class Pager(drape.controller.Controller):
+class WidgetBase(drape.controller.Controller):
+	def __str__(self):
+		return self.run()
+
+class Pager(WidgetBase):
 	def __init__(self,runbox,total_count,current_page,item_per_page=10,page_width=5):
 		super(Pager,self).__init__(runbox)
 		self.__total_count = total_count

@@ -1,0 +1,46 @@
+			<div class="item">
+				<div class="title_line">
+					<span class="title">
+						<a href="{{ROOT}}/discuss/Topic/id/{{ topic_item['id']}}">
+							{{topic_item['title']|e}}
+						</a>
+					</span>
+				</div>
+				<div class="jf_tag_line">
+					{% for tag in topic_item['tag_list'] %}
+						<span class="jf_tag">{{ tag | e }}</span>
+					{% endfor %}
+				</div>
+				<div class="topic_info_line">
+					发表时间：
+					<span class="ctime">
+						{{ timestr( topic_item['ctime'] ) }}
+					</span>
+					楼层数：
+					<span class="reply_count">{{ topic_item['reply_count']}}</span>
+					最后回复：
+					<span class="last_reply">
+						{% if topic_item['last_reply.id'] %}
+							<span class="time">{{ timestr( topic_item['last_reply.ctime'] ) }}</span>
+							<span class="user">
+								<a class="username_btn" href="#" userid="{{topic_item['last_reply_ui.id']}}" onclick="return false">
+									{{topic_item['last_reply_ui.nickname']}}
+								</a>
+							</span>
+						{% else %}
+							<span class="time">-</span>
+							<span class="user"></span>
+						{% endif %}
+					</span>
+				</div>
+				{% if False != show_user_info %}
+					<div class="user_info_line">
+						作者：
+						<span class="author">
+							<a class="username_btn" href="#" userid="{{ topic_item['topic_ui.id']}}" onclick="return false">
+								{{ topic_item['topic_ui.nickname']}}
+							</a>
+						</span>
+					</div>
+				{% endif %}
+			</div>

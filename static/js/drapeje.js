@@ -221,9 +221,16 @@
 			var jobj = this;
 			function changePage(pagename){
 				jobj.find('.tab_page').hide();
-				jobj.find('.tab_page[tab_page='+pagename+']').show();
+			    var selected_page = jobj.find('.tab_page[tab_page='+pagename+']');
+				selected_page.show();
 				jobj.find('.tab_nav').find('.nav_btn').closest('.nav_btn_wrap').removeClass('nav_btn_active');
 				jobj.find('.tab_nav').find('.nav_btn[tab_page='+pagename+']').closest('.nav_btn_wrap').addClass('nav_btn_active');
+			    
+			    // trigger on load function
+			    try{
+				options['pages'][pagename].onload.call( selected_page.get(0) )
+			    }catch(e){
+			    }
 			}
 			function showFirstPage(){
 				changePage( jobj.find('.tab_page').first().attr('tab_page') );
@@ -238,5 +245,37 @@
 			}
 			changePageByHash();
 		}
+	    ,delay_load: function(time,url,loading_html,fail_html){
+		var loading_html = loading_html || '<img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...';
+		var fail_html = fail_html || '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
+
+		var load_data = undefined;
+		var isTimerFinished = false;
+		var jthis = this;
+		function load(){
+		    if( load_data && isTimerFinished ){
+			jthis.html(load_data);
+		    }
+		}
+
+		jthis.html( loading_html );
+
+		jq.get(url,{},null,'html')
+		    .success(function(data){
+			load_data = data;
+			load();
+		    })
+		    .error(function(){
+			jthis.html( fail_html );
+		    })
+		var timer = setTimeout(
+		    function(){
+			isTimerFinished = true;
+			load()
+		    },
+		    time
+		);
+		return this;
+	    }
 	});
 })(jQuery);

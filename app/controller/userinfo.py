@@ -4,6 +4,7 @@ import drape
 
 import frame
 import app.lib.text
+from app.model.discuss import TopicModel
 
 def avatarFunc(root):
 	def avatar(a):
@@ -46,3 +47,18 @@ class UserPanelPage(frame.FrameBase):
 		self.setVariable('userinfo',userinfo)
 		self.setVariable('avatar',avatarFunc(self.request().rootPath()) )
 		self.setVariable('timestr',app.lib.text.timeStamp2Str)
+
+class UserTopicList(frame.FrameBase):
+	def process(self):
+		aParams = self.params()
+		uid = drape.util.toInt(aParams.get('uid',-1))
+		if uid < 0:
+			self.Error(u'参数无效:id格式非法')
+			return
+		
+		aTopicModel = TopicModel()
+		arrTopicList = aTopicModel.getTopicList(uid = uid)
+		
+		self.setVariable('topic_list',arrTopicList)
+		self.setVariable('timestr',app.lib.text.timeStamp2Short)
+		self.setVariable('show_user_info', False )

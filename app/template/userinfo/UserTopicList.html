@@ -1,0 +1,11 @@
+<div class="userinfo_usertopiclist">
+	<div class="discuss_list">
+		<div class="list">
+			{% for topic_item in topic_list %}
+				{% include 'discuss/TopicItemInList.html' %}
+			{% else %}
+				该用户未发表过任何主题
+			{% endfor %}
+		</div>
+	</div>
+</div>
