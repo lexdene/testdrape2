@@ -1,5 +1,5 @@
-{% do  ctrl.addResByPath()  %}
-{% do  ctrl.addResByPath(path='/discuss/List',type='css')  %}
+{% do res.addResByPath() %}
+{% do res.add('/discuss/List','css') %}
 
 <script type="text/javascript">
 var user_id = {{ userinfo['id'] }};

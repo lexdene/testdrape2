@@ -9,16 +9,14 @@
     <meta name="description" content="testdrape,drape,drape是一个Python的web后台框架" />
     
     <title>{{title}}</title>
-    {% for reses in reslist -%}
-      {%- for res in reses -%}
-        {%- if res[1] == 'css' -%}
-          {%- if 'http' == res[0][0:4] -%}
-            <link rel="stylesheet" type="text/css" href="{{res[0]}}.css" />
-          {%- else -%}
-            <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/{{res[0]}}.css?{{'.'.join(version.split('.')[0:3])}}" />
-          {%- endif -%}
+    {% for res in reslist -%}
+      {% if res.type == 'css' -%}
+        {%- if 'http' == res.path[0:4] -%}
+          <link rel="stylesheet" type="text/css" href="{{res.path}}.css" />
+        {%- else -%}
+          <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/css{{res.path}}.css?v={{res.version}}" />
         {%- endif -%}
-      {%- endfor -%}
+      {%- endif -%}
     {%- endfor %}
 <script type="text/javascript">
 var WEB_ROOT = "{{ROOT}}";
@@ -33,16 +31,14 @@ var joj = {
   </head>
   <body>
   {{body}}
-    {% for reses in reslist -%}
-      {%- for res in reses -%}
-        {%- if res[1] == 'js' -%}
-          {%- if 'http' == res[0][0:4] -%}
-            <script language="javascript" type="text/javascript" src="{{res[0]}}.js"></script>
-          {%- else -%}
-            <script language="javascript" type="text/javascript" src="{{ROOT}}/static/{{res[0]}}.js?{{'.'.join(version.split('.')[0:3])}}"></script>
-          {%- endif -%}
+    {% for res in reslist -%}
+      {%- if res.type == 'js' -%}
+        {%- if 'http' == res.path[0:4] -%}
+          <script language="javascript" type="text/javascript" src="{{res.path}}.js"></script>
+        {%- else -%}
+          <script language="javascript" type="text/javascript" src="{{ROOT}}/static/js{{res.path}}.js?v={{ res.version }}"></script>
         {%- endif -%}
-      {%- endfor -%}
+      {%- endif -%}
     {%- endfor %}
   </body>
 </html>

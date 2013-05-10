@@ -1,7 +1,43 @@
 # -*- coding: utf-8 -*-
 
 import drape
-import app
+
+class Resource(object):
+	'''
+	管理css / js等资源
+	'''
+	def __init__(self,controller):
+		self.__levels = list()
+		self.__resources = list()
+		self.__controller = controller
+
+	def __iter__(self):
+		for level in reversed(self.__levels):
+			for res in level:
+				yield res
+
+		for res in self.__resources:
+			yield res
+
+	def create_level(self, controller):
+		res = Resource(controller)
+		self.__levels.append(res)
+		return res
+
+	def add(self,path,type='both',version=0):
+		if 'both' == type:
+			self.add(path,'js',version)
+			self.add(path,'css',version)
+		else:
+			self.__resources.append(dict(
+				path = path,
+				type = type,
+				version = version
+			))
+
+	def addResByPath(self,type='both',version=0):
+		path = self.__controller.path()
+		self.add(path,type,version)
 
 class FrameBase(drape.controller.Controller):
 	def notLogin(self):
@@ -13,11 +49,10 @@ class FrameBase(drape.controller.Controller):
 	def postProcess(self):
 		g = self.globalVars()
 		if 'res' not in g:
-			g['res'] = list()
+			g['res'] = Resource(self)
 		
-		myres = list()
-		g['res'].append(myres)
-		self.setVariable('res',myres)
+		res = g['res']
+		self.setVariable('res',res.create_level(self))
 		
 		self.setVariable('ROOT',self.request().rootPath())
 		self.setVariable('ctrl',self)
@@ -29,18 +64,6 @@ class FrameBase(drape.controller.Controller):
 	def title(self):
 		g = self.globalVars()
 		return g['title']
-		
-	def addResByPath(self,type='both',path=None):
-		# path
-		if path is None:
-			path = self.path()
-		
-		res = self.variable('res')
-		
-		if type in ['both','css']:
-			res.append(('css%s'%path,'css'))
-		if type in ['both','js']:
-			res.append(('js%s'%path,'js'))
 
 class DefaultFrame(FrameBase):
 	def __init__(self,runbox):
@@ -57,7 +80,7 @@ class HtmlBody(FrameBase):
 		# res
 		g = self.globalVars()
 		
-		reslist = g['res'][::-1]
+		reslist = g['res']
 		self.setVariable('reslist',reslist)
 		
 		# title
@@ -67,10 +90,6 @@ class HtmlBody(FrameBase):
 			subtitle = g['title']
 		title = '%s - %s'%(subtitle,sitename)
 		self.setVariable('title',title)
-		
-		# version
-		self.setVariable('version',app.version)
-		self.setVariable('drape_version',drape.version)
 		
 		# user id
 		self.setVariable('my_userid',-1)
