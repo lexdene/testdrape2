@@ -5,6 +5,27 @@
 	var jQuery = undefined;
 	function ajaxSubmit(form,options){
 		var form = jq(form);
+	    /**
+	      type : validate / post / network
+	      */
+	    function on_error(type,message){
+		clear_error();
+		show_error(message);
+		if( typeof options.error == 'function' ){
+		    options.error(type,message)
+		}
+	    }
+	    function show_error(message){
+		form.append('<div class="jf_form_error">'+message+'</div>');
+	    }
+	    function clear_error(){
+		form.find('.jf_form_error').remove();
+	    }
+
+	    form.find('input').focus(function(){
+		clear_error();
+	    });
+
 		var senddata = {};
 		var inputlist = form.find('input,textarea');
 		inputlist.each(function(){
@@ -99,14 +120,13 @@
 					}
 				}
 			}
-			if( typeof options.validate.callback == 'function' ){
-				options.validate.callback(rtn.result,rtn.msg);
-			}
+		    on_error('validate',rtn.msg)
 			if( ! rtn.result ){
 				return false;
 			}
 		}
 		inputlist.attr('disabled',true);
+
 		var url = form.attr('action');
 		jq.post(
 			url,
@@ -122,12 +142,10 @@
 				}
 				break;
 			case 'failed':
-				if( typeof options.failed == 'function' ){
-					if( rspdata.msg ){
-						options.failed(rspdata.msg);
-					}else{
-						options.failed('no message');
-					}
+				if( rspdata.msg ){
+				    on_error('post',rspdata.msg);
+				}else{
+				    on_error('post','no message');
 				}
 				break;
 			default:
@@ -136,9 +154,7 @@
 			inputlist.attr('disabled',false);
 		})
 		.error(function(){
-			if( typeof options.failed == 'function' ){
-				options.failed('network error');
-			}
+		    on_error('network','服务器错误，请联系网站管理员');
 			inputlist.attr('disabled',false);
 		})
 	}

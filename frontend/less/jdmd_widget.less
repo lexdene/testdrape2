@@ -74,6 +74,10 @@
 	.jf_line{
 		line-height: 30px;
 
+		&:hover{
+			background-color: @color-dark;
+		}
+
 		.jf_hint{
 			display: inline-block;
 			width: 80px;
@@ -178,4 +182,20 @@
 		max-width: 100px;
 		max-height: 100px;
 	}
+}
+
+/* error */
+.jf_error{
+	color: @color-error;
+}
+
+.jf_form_error{
+	.jf_error;
+
+	border: 2px solid @color-white;
+	font-size: 13px;
+	line-height: 19px;
+	overflow: auto;
+	padding: 6px 10px;
+	.rounded-corners;
 }

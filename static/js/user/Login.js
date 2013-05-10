@@ -9,7 +9,6 @@
 					window.location = WEB_ROOT + form.attr('redirect');
 				},
 				'failed':function(msg){
-					alert('登录失败:'+msg);
 				    form.refresh_valcode();
 				},
 				'validate':{
@@ -39,11 +38,6 @@
 							]
 						},
 					],
-					'callback':function(result,msg){
-						if( ! result ){
-							alert(msg);
-						}
-					}
 				}
 			});
 			return false;
