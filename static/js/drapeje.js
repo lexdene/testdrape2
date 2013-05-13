@@ -42,13 +42,19 @@
 				senddata[name] = value;
 				break;
 			case 'radio':
-			case 'checkbox':
 				if( jq(this).attr('checked') == 'checked'){
 					senddata[name] = value;
 				}else{
 					senddata[name] = '';
 				}
 				break;
+			case 'checkbox':
+			    if( jq(this).prop('checked') ){
+				senddata[name] = 'on';
+			    }else{
+				senddata[name] = 'off';
+			    }
+			    break;
 			}
 		});
 		// validate
@@ -120,8 +126,8 @@
 					}
 				}
 			}
-		    on_error('validate',rtn.msg)
 			if( ! rtn.result ){
+				on_error('validate',rtn.msg)
 				return false;
 			}
 		}

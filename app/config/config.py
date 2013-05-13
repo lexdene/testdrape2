@@ -10,5 +10,8 @@ config = {
 	),
 	'system':dict(
 		font_path = '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf',
-	)
+	),
+        'app': dict(
+        	autologin_daylength = 7,
+        )
 }

@@ -47,6 +47,8 @@ class Login(frame.DefaultFrame):
 		redirect = aParams.get('redirect','/')
 		self.setVariable('redirect',redirect)
 
+		self.setVariable('autologin_daylength',drape.config.config['app']['autologin_daylength'] )
+
 class ajaxLogin(drape.controller.jsonController):
 	def process(self):
 		aParams = self.params()
@@ -100,6 +102,11 @@ class ajaxLogin(drape.controller.jsonController):
 			
 			aSession = self.session()
 			aSession.set('uid',res['id'])
+
+			# 自动登录
+			if 'on' == aParams['autologin']:
+				expired = int( aParams['autologin_daylength'] ) * 24 * 3600
+				aSession.setCookieAttr(expired = expired)
 
 class Register(frame.DefaultFrame):
 	def process(self):

@@ -8,7 +8,7 @@
 					alert('登录成功');
 					window.location = WEB_ROOT + form.attr('redirect');
 				},
-				'failed':function(msg){
+				'error':function(msg){
 				    form.refresh_valcode();
 				},
 				'validate':{
