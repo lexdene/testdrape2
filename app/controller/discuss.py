@@ -45,7 +45,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 		validates = [
 			dict(
 				key = 'title',
-				name = '标题',
+				name = u'标题',
 				validates = [
 					('notempty',),
 					('len',4,50)
@@ -53,7 +53,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'text',
-				name = '内容',
+				name = u'内容',
 				validates = [
 					('notempty',),
 					('len',4,500)
