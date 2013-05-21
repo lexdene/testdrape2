@@ -88,7 +88,7 @@
 					case 'len':
 						if( val.length < validate[1] || val.length > validate[2] ){
 							rtn.result = false;
-							rtn.msg += name+'的长度必须在['+validate[1]+','+validate[2]+']之间;';
+							rtn.msg += name+'的长度必须在['+validate[1]+','+validate[2]+']之间,您输入的长度为'+val.length;
 						}
 						break;
 					case 'equal':
@@ -299,5 +299,23 @@
 		);
 		return this;
 	    }
+	});
+	jq.extend({
+		htmlEscape: function(str) {
+			return String(str)
+				.replace(/&/g, '&amp;')
+				.replace(/"/g, '&quot;')
+				.replace(/'/g, '&#39;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;');
+		}
+		,htmlUnescape: function(value){
+			return String(value)
+				.replace(/&quot;/g, '"')
+				.replace(/&#39;/g, "'")
+				.replace(/&lt;/g, '<')
+				.replace(/&gt;/g, '>')
+				.replace(/&amp;/g, '&');
+		}
 	});
 })(jQuery);

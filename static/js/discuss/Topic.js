@@ -17,7 +17,7 @@
 							'name' : '回复',
 							'validates' : [
 								['notempty'],
-								['len',4,5000]
+								['len',4,25000]
 							]
 						},
 					]
@@ -51,7 +51,17 @@
 			jq('.floor[floor_id='+reply_to_id+']').jump();
 		});
 		jq('.edit_button').click(function(){
-			jq(this).closest('.floor').find('.floor_edit').toggle('slow');
+			var floor = jq(this).closest('.floor').find('.floor_content');
+			var edit = floor.find('.floor_edit');
+			if( 'none' == edit.css('display') ){
+				var text = floor.find(markdown_selector).get(0).innerText;
+				edit.find('textarea').text( jq.htmlUnescape( text ) );
+			}
+			edit.slideToggle('slow');
+		});
+		jq('.floor .floor_edit textarea').keyup(function(event){
+			var escape_text =  jq.htmlEscape( jq(this).val() ) ;
+			jq(this).closest('.floor').find('.floor_content .jf_markdown').html( transText(escape_text) );
 		});
 		jq('.edit_form').submit(function(){
 			jq(this).ajaxSubmit({
@@ -69,7 +79,7 @@
 							'name' : '回复',
 							'validates' : [
 								['notempty'],
-								['len',4,5000]
+								['len',4,25000]
 							]
 						},
 					]
@@ -81,6 +91,38 @@
 					}
 				}
 			});
+		});
+		function transText(text){
+			return markdown( emoji( text ) );
+		}
+		function emoji(text){
+			function isEmoji(word){
+				if( word in emoji_list){
+					return true;
+				}
+				return false;
+			}
+			var basepath = '/static/emoji/';
+			return text.replace(
+				/:([-+_a-zA-Z0-9]+):/g,
+				function(aword,word){
+					if( isEmoji( word ) ){
+						return '<img class="jf_emoji" title="'+word+
+							'" alt="'+word+
+							'" src="'+WEB_ROOT+basepath+word+'.png" align="absmiddle" />';
+					}
+					return aword;
+				}
+			);
+		}
+		function markdown(origin){
+			var converter = new Showdown.converter();
+			return converter.makeHtml(origin);
+		}
+		var markdown_selector = 'script[type="text/markdown"]';
+		jq(markdown_selector).each(function(){
+			var text = this.textContent;
+			jq(this).after('<div class="jf_markdown">'+transText( text )+'</div>');
 		});
 	});
 })(jQuery);

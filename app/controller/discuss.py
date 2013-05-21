@@ -4,7 +4,9 @@ import time,os,re,json
 
 import drape
 
-import frame,userinfo,app.lib.text
+import frame,userinfo
+
+import app.lib.text
 from app.lib.tags import Tags
 from app.model.discuss import TopicModel
 
@@ -159,7 +161,6 @@ class Topic(frame.DefaultFrame):
 		
 		self.setVariable('aTagIter',aTagIter)
 		
-		self.setVariable('transText',app.lib.text.transText)
 		self.setVariable('timestr',app.lib.text.timeStamp2Str)
 		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
 		
@@ -305,10 +306,10 @@ class ajaxEditReply(drape.controller.jsonController):
 			) ,
 			dict(
 				key = 'text',
-				name = '内容',
+				name = u'内容',
 				validates = [
 					('notempty',),
-					('len',4,500)
+					('len',4,25000)
 				]
 			) ,
 		]

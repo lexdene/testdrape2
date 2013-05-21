@@ -1,4 +1,6 @@
 {% do res.addResByPath() %}
+{% do res.add('/emoji/emoji_list','js') %}
+{% do res.add('/showdown/showdown','js') %}
 
 <div class="discuss_topic">
 	<div class="top_button_block">
@@ -37,26 +39,30 @@
 									{{reply['rtrui.nickname']|e}}
 								</a>
 							</span>
-							<div class="content"> {{ transText(reply['rtr.text']) }} </div>
+							<div class="content">
+								<script type="text/markdown">{{ reply['rtr.text']|e}}</script>
+							</div>
 							<div class="buttons">
 								<a href='#' onclick="return false" class="jump_button">jump to</a>
 							</div>
 						</div>
 					{% endif %}
-					<div class="floor_text">{{ transText(reply['text']) }}</div>
-					<div class="floor_edit" style="display:none">
-						{% if reply['ui.id'] == uid %}
-							<form class="edit_form"
-								action='{{ROOT}}/discuss/ajaxEditReply'
-								method='post'
-								onsubmit="return false;">
-								<input type='hidden' name='reply_id' value='{{reply['id']}}' />
-								<div>
+					<div class="floor_content">
+						<div class="floor_text">
+							<script type="text/markdown">{{ reply['text']|e }}</script>
+						</div>
+						<div class="floor_edit">
+							{% if reply['ui.id'] == uid %}
+								<form class="edit_form"
+									action='{{ROOT}}/discuss/ajaxEditReply'
+									method='post'
+									onsubmit="return false;">
+									<input type='hidden' name='reply_id' value='{{reply['id']}}' />
 									<textarea name="text" placeholder="请输入回复内容..."></textarea>
-								</div>
-								<input type='submit' value='提交修改' />
-							</form>
-						{% endif %}
+									<input type='submit' value='提交修改' />
+								</form>
+							{% endif %}
+						</div>
 					</div>
 					<div class="floor_right_bottom">
 						<div class="floor_count">{{ reply['floor'] }}楼</div>
