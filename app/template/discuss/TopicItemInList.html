@@ -12,14 +12,16 @@
 					{% endfor %}
 				</div>
 				<div class="topic_info_line">
-					发表时间：
 					<span class="ctime">
+						发表时间：
 						{{ timestr( topic_item['ctime'] ) }}
 					</span>
-					楼层数：
-					<span class="reply_count">{{ topic_item['reply_count']}}</span>
-					最后回复：
+					<span class="reply_count">
+						楼层数：
+						{{ topic_item['reply_count']}}
+					</span>
 					<span class="last_reply">
+						最后回复：
 						{% if topic_item['last_reply.id'] %}
 							<span class="time">{{ timestr( topic_item['last_reply.ctime'] ) }}</span>
 							<span class="user">
