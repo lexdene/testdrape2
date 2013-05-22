@@ -18,13 +18,15 @@ class List(frame.DefaultFrame):
 		
 		aTopicModel = TopicModel()
 		
+		# tag id
+		tagid = aParams.get('tag',None)
 		# pager
 		page = drape.util.toInt(aParams.get('page',0))
-		count = aTopicModel.count()
+		count = aTopicModel.getTopicCount(tagid=tagid)
 		aPager = self.runbox().controller('/widget/Pager',total_count=count,current_page=page)
 		self.setVariable('page',aPager)
 		
-		self.setVariable('topic_list',aTopicModel.getTopicList(**aPager.limit()) )
+		self.setVariable('topic_list',aTopicModel.getTopicList(tagid=tagid, **aPager.limit()) )
 		self.setVariable('timestr',app.lib.text.timeStamp2Short)
 		
 		aSession = self.session()

@@ -8,7 +8,9 @@
 				</div>
 				<div class="jf_tag_line">
 					{% for tag in topic_item['tag_list'] %}
-						<span class="jf_tag">{{ tag | e }}</span>
+						<span class="jf_tag">
+							<a href="{{ROOT}}/discuss/List/tag/{{tag.id}}">{{ tag.content | e }}</a>
+						</span>
 					{% endfor %}
 				</div>
 				<div class="topic_info_line">
