@@ -93,7 +93,7 @@ class ajaxLogin(drape.controller.jsonController):
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'登录名不存在')
 			return
-		elif validate_password(input=aParams['password'],db=res['password']):
+		elif not validate_password(input=aParams['password'],db=res['password']):
 			self.setVariable('result','failed')
 			self.setVariable('msg',u'密码错误')
 			return
