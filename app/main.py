@@ -18,13 +18,11 @@ def init(a):
     )
 
 def after_request_run(application,request):
-    debug.debug(request.HTTP_USER_AGENT)
-    debug.debug("uri:%s urlpath:%s ip:%s refer:%s"%(
-        request.REQUEST_URI,
-        request.urlPath(),
-        request.REMOTE_ADDR,
-        request.HTTP_REFERER,
-    ))
+    debug.debug("uri: %s"%request.REQUEST_URI)
+    debug.debug("urlpath: %s"%request.urlPath())
+    debug.debug("ip: %s"%request.REMOTE_ADDR)
+    debug.debug("refer: %s"%request.HTTP_REFERER)
+    debug.debug("user agent: %s"%request.HTTP_USER_AGENT)
 
 def run_begin(runbox):
     debug.debug('  ====  RUN BEGIN ====  ')
