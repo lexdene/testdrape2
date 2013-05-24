@@ -24,7 +24,7 @@
 					</span>
 					<span class="last_reply">
 						最后回复：
-						{% if topic_item['last_reply.id'] %}
+						{% if topic_item['tc.first_reply_id'] != topic_item['tc.last_reply_id'] %}
 							<span class="time">{{ timestr( topic_item['last_reply.ctime'] ) }}</span>
 							<span class="user">
 								<a class="username_btn" href="#" userid="{{topic_item['last_reply_ui.id']}}" onclick="return false">

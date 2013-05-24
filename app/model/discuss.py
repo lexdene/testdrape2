@@ -41,7 +41,7 @@ class TopicModel(drape.model.LinkedModel):
             .join('discuss_reply','count_dr','count_dr.tid = dt.id') \
             .join('discuss_topic_tag_bridge','ttb','ttb.topic_id = dt.id') \
             .field('COUNT(DISTINCT count_dr.id) as reply_count') \
-            .order('CASE WHEN last_reply.id is NULL THEN dt.ctime ELSE last_reply.ctime END DESC, id') \
+            .order('last_reply.ctime DESC, id') \
             .group('dt.id') \
             .reflectField(True) \
             .limit(length,offset) \
