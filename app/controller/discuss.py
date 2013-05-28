@@ -10,6 +10,8 @@ import app.lib.text
 from app.lib.tags import Tags
 from app.model.discuss import TopicModel
 
+default_cls = 'List'
+
 class List(frame.DefaultFrame):
 	def process(self):
 		self.setTitle(u'讨论区')
@@ -141,7 +143,8 @@ class Topic(frame.DefaultFrame):
 			return
 		
 		self.setVariable('topicInfo',aTopicInfo)
-		
+		self.setTitle(u'%s - 讨论区'%aTopicInfo['title'])
+
 		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		aReplyIter = aReplyModel \
 			.alias('dr') \

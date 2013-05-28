@@ -1,4 +1,4 @@
-STYLE_COMPILER = lessc
+STYLE_COMPILER = lessc --yui-compress
 SCRIPT_COMPILER = coffee
 
 MKDIR = mkdir -p
@@ -17,7 +17,7 @@ SCRIPT_TARGETS =
 
 first : all
 
-$(TARGET_DIR)/css/%.css : less/%.less
+$(TARGET_DIR)/css/%.css : less/%.less Makefile
 	$(MKDIR) $$(dirname "$@")
 	$(STYLE_COMPILER) "$<" > "$@"
 

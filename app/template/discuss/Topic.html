@@ -12,6 +12,8 @@
 	<div class="jf_tag_line common_horizontal_block">
 		{% for tag in aTagIter %}
 			<span class="jf_tag">{{ tag['content'] | e }}</span>
+		{% else %}
+			<span class="jf_tag">无标签</span>
 		{% endfor %}
 	</div>
 	<div class="building">
