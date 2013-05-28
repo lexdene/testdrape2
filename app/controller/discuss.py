@@ -110,7 +110,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 		aTopicCacheModel.insert(
 			id = topicid,
 			first_reply_id = replyid,
-			last_reply_id = -1
+			last_reply_id = replyid
 		)
 
 		# topic tag bridge

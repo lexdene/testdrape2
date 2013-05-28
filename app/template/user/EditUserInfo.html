@@ -1,4 +1,4 @@
-{% do  ctrl.addResByPath()  %}
+{% do res.addResByPath('js') %}
 
 <div class="user_edituserinfo">
 	<div class="msg_block">
@@ -31,8 +31,8 @@
 			</div>
 			<div class="avatar_preview">
 				<div class="common_hint">头像预览</div>
-				<div class="avatar_block">
-					<img class="avatar" src="{{ avatar( userinfo['avatar'] ) }}" alt="avatar" />
+				<div class="common_avatar_block">
+					<img class="common_avatar" src="{{ avatar( userinfo['avatar'] ) }}" alt="avatar" />
 				</div>
 			</div>
 			<div class="submit">

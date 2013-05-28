@@ -5,7 +5,7 @@
 	function setAvatar(avatar){
 		var form = jq('#edituserinfo_form');
 		form.find('input[name=avatar]').val(avatar);
-		jq('.avatar_preview').find('.avatar').attr('src',avatar);
+		jq('.avatar_preview').find('.common_avatar').attr('src',avatar);
 	}
 	jq(function(){
 		var form = jq('#edituserinfo_form');
