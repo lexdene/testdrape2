@@ -51,11 +51,21 @@
 			jq('.floor[floor_id='+reply_to_id+']').jump();
 		});
 		jq('.edit_button').click(function(){
+			var edit_button = jq(this);
 			var floor = jq(this).closest('.floor').find('.floor_content');
 			var edit = floor.find('.floor_edit');
 			if( 'none' == edit.css('display') ){
-				var text = floor.find(markdown_selector).get(0).innerText;
-				edit.find('textarea').text( jq.htmlUnescape( text ) );
+				var text = floor.find(markdown_selector).text();
+				edit.find('textarea').val( jq.htmlUnescape( text ) );
+				edit_button.text('取消编辑');
+			}else{
+				// 取消编辑
+				edit.find('textarea').val('');
+
+				var text = floor.find(markdown_selector).text();
+				floor.find('.jf_markdown').html( transText(text) );
+
+				edit_button.text('编辑');
 			}
 			edit.slideToggle('slow');
 		});
