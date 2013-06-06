@@ -1,8 +1,13 @@
 import time
 
 import drape.debug as debug
+import drape.config
 
 def init(a):
+    # update app config
+    import app.config.config as appconfig
+    drape.config.include(appconfig)
+
     eventCenter = a.eventCenter()
     eventCenter.registerHandler(
         'after_request_run',
