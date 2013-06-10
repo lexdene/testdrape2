@@ -37,7 +37,7 @@ def create_validate_code(
 	@return: [1]: 验证码图片中的字符串
 	'''
 	
-	font_type = drape.config.config['system']['font_path']
+	font_type = drape.config.get_value('system/font_path')
 	
 	width, height = size # 宽， 高
 	img = Image.new(mode, size, bg_color) # 创建图形

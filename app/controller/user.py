@@ -47,7 +47,10 @@ class Login(frame.DefaultFrame):
 		redirect = aParams.get('redirect','/')
 		self.setVariable('redirect',redirect)
 
-		self.setVariable('autologin_daylength',drape.config.config['app']['autologin_daylength'] )
+		self.setVariable(
+			'autologin_daylength',
+			drape.config.get_value('app/autologin_daylength')
+		)
 
 class ajaxLogin(drape.controller.jsonController):
 	def process(self):
