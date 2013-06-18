@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import time
+
 import drape
 
 import frame
@@ -62,3 +64,51 @@ class UserTopicList(frame.FrameBase):
 		self.setVariable('topic_list',arrTopicList)
 		self.setVariable('timestr',app.lib.text.timeStamp2Short)
 		self.setVariable('show_user_info', False )
+
+
+class ajaxUserActionList(drape.controller.jsonController):
+	'''
+	返回值格式：
+	{
+		'now': # 服务器当前时间
+		'errormsg': # 错误原因,成功时为空
+		'data': [ # 数据
+		]
+	}
+	'''
+	def process(self):
+		# now
+		now = int(time.time())
+		self.setVariable('now', now)
+
+		aParams = self.params()
+		uid = drape.util.toInt(aParams.get('uid', -1))
+		if uid < 0:
+			self.setVariable('errormsg', u'uid参数错误')
+			self.setVariable('data', [])
+		else:
+			self.setVariable('errormsg', '')
+
+			aActionModel = drape.model.LinkedModel('action')
+			aTopicModel = drape.model.LinkedModel('discuss_topic')
+
+			from_id = drape.util.toInt(aParams.get('from_id', 0))
+			if from_id > 0:
+				aActionModel.where({
+					'ac.id': ('<', from_id)
+				})
+
+			actionList = aActionModel.alias('ac').join(
+				'userinfo', 'fui', 'ac.from_object_id = fui.id'
+			).where(
+				from_object_id=uid,
+				from_object_type='user'
+			).limit(10).order('ac.id DESC').select()
+
+			for action in actionList:
+				if action['action_type'] in ('post', 'reply'):
+					action['topic_info'] = aTopicModel.where(
+						id=action['target_object_id']
+					).find()
+
+			self.setVariable('data', actionList)

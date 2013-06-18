@@ -227,6 +227,8 @@
 				}).show();
 			});
 		}
+
+		// 动画，将浏览器滚动至当前元素
 		,jump: function(elapse){
 			if( typeof elapse == 'undefined' ){
 				elapse = 300;
@@ -262,42 +264,54 @@
 				if( '' == tab_page ){
 					showFirstPage();
 				}else{
+					// is start with #!
+					if( location.hash.indexOf('#!') != 0){
+						return;
+					}
+
 					changePage(tab_page);
 				}
 			}
 			changePageByHash();
 		}
-	    ,delay_load: function(time,url,loading_html,fail_html){
-		var loading_html = loading_html || '<img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...';
-		var fail_html = fail_html || '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
+		,delay_load: function(time, url, templator, loading_html, fail_html){
+			var loading_html = loading_html || '<img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...';
+			var fail_html = fail_html || '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
 
-		var load_data = undefined;
-		var isTimerFinished = false;
-		var jthis = this;
-		function load(){
-		    if( load_data && isTimerFinished ){
-			jthis.html(load_data);
-		    }
-		}
+			var load_data = undefined;
+			var isTimerFinished = false;
+			var jthis = this;
+			function load(){
+				if( load_data && isTimerFinished ){
+					if('error' == load_data){
+						jthis.html(fail_html);
+					}else{
+						jthis.html(load_data);
+					}
+				}
+			}
 
-		jthis.html( loading_html );
+			jthis.html( loading_html );
 
-		jq.get(url,{},null,'html')
-		    .success(function(data){
-			load_data = data;
-			load();
-		    })
-		    .error(function(){
-			jthis.html( fail_html );
-		    })
-		var timer = setTimeout(
-		    function(){
-			isTimerFinished = true;
-			load()
-		    },
-		    time
-		);
-		return this;
+			jq.get(url,{},null,'html')
+				.success(function(data){
+					templator = templator || function(s){return s;};
+					load_data = templator(data);
+					load();
+				})
+				.error(function(){
+					load_data = 'error';
+					load();
+				});
+
+			var timer = setTimeout(
+				function(){
+					isTimerFinished = true;
+					load()
+				},
+				time
+			);
+			return this;
 	    }
 	});
 	jq.extend({
@@ -316,6 +330,31 @@
 				.replace(/&lt;/g, '<')
 				.replace(/&gt;/g, '>')
 				.replace(/&amp;/g, '&');
+		}
+		,delay: function(time, action, finish){
+			var result = undefined;
+			var isTimerFinished = false;
+
+			function load(){
+				if(result && isTimerFinished){
+					finish(result);
+				}
+			}
+
+			function setResult(r){
+				result = r;
+				load();
+			}
+
+			action(setResult);
+
+			var timer = setTimeout(
+				function(){
+					isTimerFinished = true;
+					load();
+				},
+				time
+			);
 		}
 	});
 })(jQuery);

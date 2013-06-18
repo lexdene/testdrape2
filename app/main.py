@@ -3,10 +3,19 @@ import time
 import drape.debug as debug
 import drape.config
 
+
 def init(a):
     # update app config
     import app.config.config as appconfig
     drape.config.include(appconfig)
+
+    # dist config
+    # not always exist
+    try:
+        import app.config.distribution as dsc
+        drape.config.include(dsc)
+    except ImportError:
+        pass
 
     eventCenter = a.eventCenter()
     eventCenter.registerHandler(

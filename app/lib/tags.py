@@ -50,28 +50,25 @@ class Tags(object):
         aTagModel = LinkedModel('tag')
 
         exist_tag_list = aTagModel.where(
-            content = ('in',self.tagList())
+            content=('in', self.tagList())
         ).select()
-        
-        all_tag_list = aTagModel.select()
-        
-        not_exist_tag_list = set( self.tagList() )
+
+        not_exist_tag_list = set(self.tagList())
 
         for tag in exist_tag_list:
-            not_exist_tag_list.remove( tag['content'] )
-
+            not_exist_tag_list.remove(tag['content'])
 
         time_now = int(time.time())
         aTagModel.insert(
-            content = list( not_exist_tag_list),
-            ctime = [time_now] * len( not_exist_tag_list )
+            content=list(not_exist_tag_list),
+            ctime=[time_now] * len(not_exist_tag_list)
         )
 
         my_tag_list = aTagModel.where(
-            content = ('in', self.tagList() )
+            content=('in', self.tagList())
         ).select()
 
-        return [ tag['id'] for tag in my_tag_list ]
+        return [tag['id'] for tag in my_tag_list]
 
 if '__main__' == __name__:
     tags = Tags()

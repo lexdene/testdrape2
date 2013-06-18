@@ -120,6 +120,18 @@ class ajaxPostTopic(drape.controller.jsonController):
 			topic_id = [topicid] * len( tagIdList )
 		)
 
+		# action
+		# user post topic
+		aActionModel = drape.model.LinkedModel('action')
+		aActionModel.insert(
+			from_object_id=uid,
+			from_object_type='user',
+			action_type='post',
+			target_object_id=topicid,
+			target_object_type='topic',
+			ctime=now
+		)
+
 		self.setVariable('result','success')
 		self.setVariable('msg',u'发表成功')
 
@@ -286,6 +298,18 @@ class ajaxPostReply(drape.controller.jsonController):
 				))
 			)
 		
+		# action
+		# user reply topic
+		aActionModel = drape.model.LinkedModel('action')
+		aActionModel.insert(
+			from_object_id=uid,
+			from_object_type='user',
+			action_type='reply',
+			target_object_id=topicInfo['id'],
+			target_object_type='topic',
+			ctime=now
+		)
+
 		# success
 		self.setVariable('result','success')
 		self.setVariable('msg',u'回复成功')

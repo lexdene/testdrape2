@@ -1,10 +1,10 @@
 <div class="db_createtables">
-	{% for tableName in result %}
+	{% for i in result %}
 		<div>
-			<h2>{{tableName}}</h2>
-			<pre>{{result[tableName]['sql']}}</pre>
-			<div>{{result[tableName]['ret']}}</div>
-			<div>{{result[tableName]['error']}}</div>
+			<h2>{{ i.tableName }}</h2>
+			<pre>{{ i.sql }}</pre>
+			<div>{{ i.ret }}</div>
+			<div>{{ i.error }}</div>
 		</div>
 	{% endfor %}
 </div>
