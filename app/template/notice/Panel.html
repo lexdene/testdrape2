@@ -7,16 +7,16 @@
 		>{{notice['fromuser.nickname']}}</a>
 		回复了您的主题
 		<a target='_blank' class="fromtopic"
-			href='{{ROOT}}/discuss/Topic/id/{{notice['cache.data']['topic_id']}}#reply{{notice['item_id']}}'
-		>{{notice['cache.data']['topic_title']}}</a>
+			href='{{ROOT}}/discuss/Topic/id/{{notice['reply_info']['dt.id']}}#reply{{notice['item_id']}}'
+		>{{notice['reply_info']['dt.title']}}</a>
 	{% elif 'reply_to_reply' == notice['type'] %}
 		<a target='_blank' class="fromuser"
 			href='{{ROOT}}/userinfo/MainPage/id/{{notice['fromuser.id']}}'
 		>{{notice['fromuser.nickname']}}</a>
 		在主题
 		<a target='_blank' class="fromtopic"
-			href='{{ROOT}}/discuss/Topic/id/{{notice['cache.data']['topic_id']}}#reply{{notice['item_id']}}'
-		>{{notice['cache.data']['topic_title']}}</a>
+			href='{{ROOT}}/discuss/Topic/id/{{notice['reply_info']['dt.id']}}#reply{{notice['item_id']}}'
+		>{{notice['reply_info']['dt.title']}}</a>
 		回复了您
 	{% endif %}
 	</div>

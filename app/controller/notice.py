@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 import drape
 
 import frame
@@ -14,11 +12,18 @@ class Panel(frame.FrameBase):
 		aNoticeModel = drape.model.LinkedModel('notice')
 		noticeList = aNoticeModel \
 			.join('userinfo','fromuser','fromuser.id = notice.from_uid') \
-			.join('notice_cache','cache','cache.id = notice.id') \
-			.where(to_uid=uid,isRead=0).select()
+			.where(to_uid=uid,isRead=0).limit(10).select()
 		
+		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		for notice in noticeList:
-			notice['cache.data'] = json.loads(notice['cache.data'])
+			if notice['type'] in ('reply_topic', 'reply_to_reply'):
+				notice['reply_info'] = aReplyModel.alias('re').join(
+					'discuss_topic',
+					'dt',
+					'dt.id = re.tid'
+				).where({'re.id': notice['item_id']}).find()
+			else:
+				raise ValueError('no such type: %s' % notice['type'])
 		
 		self.setVariable('noticeList',noticeList)
 

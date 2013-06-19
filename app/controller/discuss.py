@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import time,os,re,json
+import time
 
 import drape
 
-import frame,userinfo
-
+import frame
+import userinfo
 import app.lib.text
 from app.lib.tags import Tags
 from app.model.discuss import TopicModel
@@ -269,14 +269,6 @@ class ajaxPostReply(drape.controller.jsonController):
 				ctime = now,
 				isRead = False,
 			)
-			
-			aNoticeCacheModel.insert(
-				id = noticeId,
-				data = json.dumps(dict(
-					topic_id = topicInfo['id'],
-					topic_title = topicInfo['title'],
-				))
-			)
 		
 		# reply to reply notice
 		# except to myself
@@ -288,14 +280,6 @@ class ajaxPostReply(drape.controller.jsonController):
 				type = 'reply_to_reply',
 				ctime = now,
 				isRead = False,
-			)
-			
-			aNoticeCacheModel.insert(
-				id = noticeId,
-				data = json.dumps(dict(
-					topic_id = topicInfo['id'],
-					topic_title = topicInfo['title'],
-				))
 			)
 		
 		# action

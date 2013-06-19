@@ -60,12 +60,6 @@ u'''
 	`isRead` tinyint(1) NOT NULL,
 	PRIMARY KEY (`id`)
 '''),
-('notice_cache',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`data` TEXT NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
 ('mail',
 u'''
 	`id` int NOT NULL AUTO_INCREMENT,
