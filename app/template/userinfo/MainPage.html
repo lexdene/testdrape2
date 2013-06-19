@@ -66,27 +66,27 @@ var user_id = {{ userinfo['id'] }};
 			<%  switch(newsfeed.action_type){
 				case 'post':
 			%>
-				<a class="username_btn" href="#" userid="<%- newsfeed['fui.id'] %>" onclick="return false">
-					<%- newsfeed['fui.nickname'] %>
+				<a class="username_btn" href="#" userid="<%- newsfeed.fui.id %>" onclick="return false">
+					<%- newsfeed.fui.nickname %>
 				</a>
 				发表主题
-				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed['topic_info']['id'] %>">
-					<%- newsfeed['topic_info']['title'] %>
+				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.topic_info.id %>">
+					<%- newsfeed.topic_info.title %>
 				</a>
 			<%  break;
 				case 'reply':
 			%>
-				<a class="username_btn" href="#" userid="<%- newsfeed['fui.id'] %>" onclick="return false">
-					<%- newsfeed['fui.nickname'] %>
+				<a class="username_btn" href="#" userid="<%- newsfeed.fui.id %>" onclick="return false">
+					<%- newsfeed.fui.nickname %>
 				</a>
 				回复主题
-				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed['topic_info']['id'] %>">
-					<%- newsfeed['topic_info']['title'] %>
+				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.topic_info.id %>">
+					<%- newsfeed.topic_info.title %>
 				</a>
 			<%  break;
 			}
 			%>
-			<div class="ctime"><%- format_date(newsfeed['ctime']) %></div>
+			<div class="ctime"><%- format_date(newsfeed.ctime) %></div>
 		</div>
 	<% }) %>
 </script>

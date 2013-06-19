@@ -7,6 +7,31 @@
 	var more_button_html = '<a href="#">更多新鲜事</a>';
 	var newsfeed_template = _.template(jq('#newsfeed_template').html());
 
+	function tile_list_data(source_list_data){
+		var target_list_data = [];
+		_(source_list_data).each(function(value){
+			target_list_data.push(tile_data(value));
+		});
+		return target_list_data;
+	}
+
+	function tile_data(source_data){
+		var target_data = {};
+		_(source_data).each(function(value, key){
+			var key_parted_list = key.split('.');
+			var part_data = target_data;
+			_(_(key_parted_list).initial()).each(function(key_parted){
+				if(typeof part_data[key_parted] == 'undefined'){
+					part_data[key_parted] = {}
+				}
+				part_data = part_data[key_parted];
+			});
+			var key_parted = _(key_parted_list).last();
+			part_data[key_parted] = value;
+		});
+		return target_data;
+	}
+
 	function create_format_date(now){
 		var today = new Date(now * 1000);
 		today.setHours(0);
@@ -16,20 +41,31 @@
 		var today_timestamp = today.getTime() / 1000;
 		var yesterday_timestamp = today_timestamp - 24 * 3600;
 
+		function format_number(n){
+			if( 0 == n ){
+				return '00';
+			}else if(n < 10){
+				return '0' + n;
+			}else{
+				return '' + n;
+			}
+		}
+
 		function format_date(timestamp){
 			var diff = now - timestamp;
+			var f = format_number;
 			if(timestamp < yesterday_timestamp){ // before yesterday
 				var d = new Date(timestamp * 1000);
 				return d.getFullYear() + '-'
-					+ (d.getMonth() + 1) + '-'
-					+ d.getDate() + ' '
-					+ d.getHours() + ':'
-					+ d.getMinutes();
+					+ f((d.getMonth() + 1)) + '-'
+					+ f(d.getDate()) + ' '
+					+ f(d.getHours()) + ':'
+					+ f(d.getMinutes());
 			}else if(timestamp < today_timestamp){ // yesterday
 				var d = new Date(timestamp * 1000);
 				return '昨天'
-					+ d.getHours() + ':'
-					+ d.getMinutes();
+					+ f(d.getHours()) + ':'
+					+ f(d.getMinutes());
 			}else{ // today
 				if(diff < 60){ // less than 1 minute
 					return '刚刚';
@@ -38,8 +74,8 @@
 				}else{ // more than 1 hour
 					var d = new Date(timestamp * 1000);
 					return '今天'
-						+ d.getHours() + ':'
-						+ d.getMinutes();
+						+ f(d.getHours()) + ':'
+						+ f(d.getMinutes());
 				}
 			}
 		}
@@ -110,7 +146,7 @@
 
 									// add html
 									jthis.append(newsfeed_template({
-										'newsfeed_list': data.data,
+										'newsfeed_list': tile_list_data(data.data),
 										'format_date': create_format_date(data.now),
 									}));
 									jthis.append(more_button_obj);
