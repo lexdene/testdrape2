@@ -100,6 +100,10 @@ class Layout(FrameBase):
 		self.setParent('/frame/HtmlBody')
 		
 	def process(self):
+		# lib cdn
+		self.setVariable('LIBCDN', drape.config.get_value('system/libcdn'))
+
+		# uid
 		aSession = self.session()
 		uid = aSession.get('uid',-1)
 		self.setVariable('uid',uid)

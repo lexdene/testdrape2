@@ -12,6 +12,7 @@ CONFIG = {
     ),
     'system': dict(
         font_path='/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf',
+        libcdn='http://libs.baidu.com'
     ),
     'app': dict(
         autologin_daylength=7,
