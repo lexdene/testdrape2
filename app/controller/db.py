@@ -93,6 +93,7 @@ u'''
 	`focus_type` ENUM('user', 'topic', 'tag') NOT NULL,
 	`target_id` int NOT NULL,
 	`ctime` int NOT NULL,
+	`is_del` BOOLEAN NOT NULL,
 	PRIMARY KEY (`id`)
 '''),
 

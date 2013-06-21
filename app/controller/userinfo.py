@@ -7,6 +7,7 @@ import drape
 import frame
 import app.lib.text
 from app.model.discuss import TopicModel
+from focus import isFocused
 
 def avatarFunc(root):
 	def avatar(a):
@@ -28,9 +29,11 @@ class MainPage(frame.DefaultFrame):
 			return
 		
 		self.setTitle(userinfo['nickname'])
-		self.setVariable('userinfo',userinfo)
-		self.setVariable('timestr',app.lib.text.timeStamp2Str)
-		self.setVariable('avatar',avatarFunc(self.request().rootPath()) )
+		self.setVariable('userinfo', userinfo)
+		self.setVariable('timestr', app.lib.text.timeStamp2Str)
+		self.setVariable('avatar', avatarFunc(self.request().rootPath()))
+		self.setVariable('isFocused', isFocused(self, 'user', uid))
+
 
 class UserPanelPage(frame.FrameBase):
 	def process(self):
@@ -90,7 +93,6 @@ class ajaxUserActionList(drape.controller.jsonController):
 			self.setVariable('errormsg', '')
 
 			aActionModel = drape.model.LinkedModel('action')
-			aTopicModel = drape.model.LinkedModel('discuss_topic')
 
 			from_id = drape.util.toInt(aParams.get('from_id', 0))
 			if from_id > 0:
@@ -105,10 +107,18 @@ class ajaxUserActionList(drape.controller.jsonController):
 				from_object_type='user'
 			).limit(10).order('ac.id DESC').select()
 
+			aTopicModel = drape.model.LinkedModel('discuss_topic')
+			aUserinfoModel = drape.model.LinkedModel('userinfo')
 			for action in actionList:
-				if action['action_type'] in ('post', 'reply'):
-					action['topic_info'] = aTopicModel.where(
+				if 'topic' == action['target_object_type']:
+					action['target_topic_info'] = aTopicModel.where(
 						id=action['target_object_id']
 					).find()
+				elif 'user' == action['target_object_type']:
+					action['target_user_info'] = aUserinfoModel.where(
+						id=action['target_object_id']
+					).find()
+				else:
+					raise ValueError('no such target object type: %s' % action['target_object_type'])
 
 			self.setVariable('data', actionList)

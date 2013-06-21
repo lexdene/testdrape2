@@ -4,17 +4,36 @@
 	.left_column{
 		width: 240px;
 		padding: 10px;
+
+		.nickname{
+			text-align: center;
+			padding: 5px 0;
+			font-size: 28px;
+			color: @color-full-dark;
+			font-weight: bold;
+		}
+
+		.button_area{
+			padding-top: 10px;
+
+			div{
+				text-align: center;
+			}
+		}
 	}
 
 	.right_column{
 		width: 660px;
 		padding: 10px;
-	}
 
-	.nickname{
-		padding-left: 20px;
-		font-size: 28px;
-		color: @color-full-dark;
-		font-weight: bold;
+		.newsfeed_item{
+			padding: 5px 10px;
+			border-bottom: 1px solid @color-dark;
+
+			.ctime{
+				font-size: 12px;
+				color: @color-grey;
+			}
+		}
 	}
 }
