@@ -2,8 +2,7 @@
 	var jQuery = undefined;
 	jq(function(){
 		var d;
-		jq('.username_btn').click(function(event){
-			var btn = jq(this);
+		function userpanel(btn, event){
 			var userid = btn.attr('userid');
 			
 			// create
@@ -77,6 +76,13 @@
 				},
 				300
 			);
+		}
+
+		jq.extend({
+			userpanel: userpanel
+		});
+		jq('.username_btn').click(function(event){
+			userpanel(jq(this), event);
 		});
 	});
 })(jQuery);

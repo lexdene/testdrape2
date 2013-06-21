@@ -12,6 +12,7 @@ STYLE_TARGETS = $(TARGET_DIR)/css/frame/Layout.css \
 		$(TARGET_DIR)/css/userinfo/UserPanel.css \
 		$(TARGET_DIR)/css/userinfo/MainPage.css \
 		$(TARGET_DIR)/css/discuss/Topic.css \
+		$(TARGET_DIR)/css/newsfeed/Template.css \
 
 SCRIPT_TARGETS = 
 

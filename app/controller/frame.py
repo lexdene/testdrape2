@@ -92,7 +92,8 @@ class HtmlBody(FrameBase):
 		self.setVariable('title',title)
 		
 		# user id
-		self.setVariable('my_userid',-1)
+		aSession = self.session()
+		self.setVariable('my_userid', drape.util.toInt(aSession.get('uid', -1)))
 
 class Layout(FrameBase):
 	def __init__(self,runbox):

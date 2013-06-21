@@ -8,6 +8,7 @@ import frame
 import app.lib.text
 from app.model.discuss import TopicModel
 from focus import isFocused
+from app.model.action import ActionModel
 
 def avatarFunc(root):
 	def avatar(a):
@@ -92,33 +93,10 @@ class ajaxUserActionList(drape.controller.jsonController):
 		else:
 			self.setVariable('errormsg', '')
 
-			aActionModel = drape.model.LinkedModel('action')
-
 			from_id = drape.util.toInt(aParams.get('from_id', 0))
-			if from_id > 0:
-				aActionModel.where({
-					'ac.id': ('<', from_id)
-				})
-
-			actionList = aActionModel.alias('ac').join(
-				'userinfo', 'fui', 'ac.from_object_id = fui.id'
-			).where(
-				from_object_id=uid,
-				from_object_type='user'
-			).limit(10).order('ac.id DESC').select()
-
-			aTopicModel = drape.model.LinkedModel('discuss_topic')
-			aUserinfoModel = drape.model.LinkedModel('userinfo')
-			for action in actionList:
-				if 'topic' == action['target_object_type']:
-					action['target_topic_info'] = aTopicModel.where(
-						id=action['target_object_id']
-					).find()
-				elif 'user' == action['target_object_type']:
-					action['target_user_info'] = aUserinfoModel.where(
-						id=action['target_object_id']
-					).find()
-				else:
-					raise ValueError('no such target object type: %s' % action['target_object_type'])
-
-			self.setVariable('data', actionList)
+			action_model = ActionModel()
+			action_list = action_model.getList({
+				'from_object_id': uid,
+				'from_object_type': 'user'
+			}, from_id)
+			self.setVariable('data', action_list)

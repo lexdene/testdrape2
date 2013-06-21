@@ -10,7 +10,7 @@ import app.lib.text
 from app.lib.tags import Tags
 from app.model.discuss import TopicModel
 
-default_cls = 'List'
+DEFAULT_CLS = 'List'
 
 class List(frame.DefaultFrame):
 	def process(self):

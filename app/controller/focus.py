@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+'''
+    关注模块
+'''
 
 import time
 
@@ -6,7 +9,11 @@ from drape.controller import jsonController
 from drape.util import toInt
 from drape.model import LinkedModel
 
+
 class ajaxFocus(jsonController):
+    '''
+        focus or unfocus user / topic / tag by ajax
+    '''
     def process(self):
         # current user id
         aSession = self.session()
