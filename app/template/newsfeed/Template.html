@@ -24,9 +24,23 @@
 				case 'focus':
 			%>
 				关注
-				<a class="username_btn" href="#" userid="<%- newsfeed.target_user_info.id %>" onclick="return false">
-					<%- newsfeed.target_user_info.nickname %>
-				</a>
+				<%  switch(newsfeed.target_object_type){
+					case 'user':
+				%>
+					用户
+						<a class="username_btn" href="#" userid="<%- newsfeed.target_user_info.id %>" onclick="return false">
+							<%- newsfeed.target_user_info.nickname %>
+						</a>
+				<%  break;
+					case 'topic':
+				%>
+					主题
+					<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.target_topic_info.id %>">
+						<%- newsfeed.target_topic_info.title %>
+					</a>
+				<%  break;
+					}
+				%>
 			<%  break;
 			}
 			%>

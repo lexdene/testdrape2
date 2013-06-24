@@ -2,12 +2,19 @@
 {% do res.add('/emoji/emoji_list','js') %}
 {% do res.add('/showdown/showdown','js') %}
 
+<script type="text/javascript">
+var topic_id = {{ topicInfo['id'] }};
+</script>
+
 <div class="discuss_topic">
 	<div class="top_button_block">
 		<a href="{{ROOT}}/discuss/List">返回讨论区列表</a>
 	</div>
-	<div class="topic_headblock common_horizontal_block">
+	<div class="topic_headblock common_horizontal_block clearfix">
 		<span class="topic_title">{{topicInfo['title']|e}}</span>
+		<div class="right_buttons">
+			<a id="focus_topic_btn" class="jf_button" href="#">关注此主题</a>
+		</div>
 	</div>
 	<div class="jf_tag_line common_horizontal_block">
 		{% for tag in aTagIter %}

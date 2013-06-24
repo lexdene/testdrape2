@@ -27,7 +27,6 @@
 					dire: getDire(),
 				},
 				function(data){
-					console.log(data);
 					if('success' == data.result){
 						if( 'True' == focus_button.attr('isfocused') ){
 							focus_button.attr('isfocused', 'False');

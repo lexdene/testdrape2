@@ -134,5 +134,28 @@
 			var text = this.textContent;
 			jq(this).after('<div class="jf_markdown">'+transText( text )+'</div>');
 		});
+
+		// focus topic
+		var focus_button = jq('#focus_topic_btn');
+		focus_button.click(function(e){
+			e.preventDefault();
+			jq.post(
+				WEB_ROOT + '/focus/ajaxFocus',
+				{
+					type: 'topic',
+					target: topic_id,
+					dire: 'add'
+				},
+				function(data){
+					if('success' == data.result){
+						alert('关注成功');
+					}else{
+						alert(data.msg);
+					}
+				},
+				'json'
+			);
+		});
+
 	});
 })(jQuery);
