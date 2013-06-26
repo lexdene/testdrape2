@@ -2,7 +2,17 @@
 {% do res.add('/userinfo/UserPanel') %}
 
 <div class="discuss_list">
-	<h1>讨论区</h1>
+	{% if tag_info %}
+		<h1>标签: {{ tag_info.content }}</h1>
+		<div class="tag_info clearfix">
+			<span>此标签下共有主题{{ tag_info.topic_count }}个。</span>
+			<div class="push_right">
+				<a id="focus_tag_btn" tagid="{{ tag_info.id }}" class="jf_button" href="#">关注此标签</a>
+			</div>
+		</div>
+	{% else %}
+		<h1>讨论区</h1>
+	{% endif %}
 	<div class="list">
 		{% for topic_item in topic_list %}
 			{% include 'discuss/TopicItemInList.html' %}

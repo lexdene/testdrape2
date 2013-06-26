@@ -58,11 +58,12 @@ class Tags(object):
         for tag in exist_tag_list:
             not_exist_tag_list.remove(tag['content'])
 
-        time_now = int(time.time())
-        aTagModel.insert(
-            content=list(not_exist_tag_list),
-            ctime=[time_now] * len(not_exist_tag_list)
-        )
+        if len(not_exist_tag_list) > 0:
+            time_now = int(time.time())
+            aTagModel.insert(
+                content=list(not_exist_tag_list),
+                ctime=time_now
+            )
 
         my_tag_list = aTagModel.where(
             content=('in', self.tagList())

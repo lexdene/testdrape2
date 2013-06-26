@@ -17,12 +17,28 @@
 					<%- newsfeed.from_topic_info.title %>
 				</a>
 			<%  break;
+				case 'tag':
+			%>
+				标签
+				<a href="{{ROOT}}/discuss/List/tag/<%- newsfeed.from_tag_info.id %>">
+					<%- newsfeed.from_tag_info.content %>
+				</a>
+			<%  break;
 				}
 			%>
 			<%  switch(newsfeed.action_type){
 				case 'post':
+					switch(newsfeed.from_object_type){
+					case 'user':
 			%>
-				发表主题
+					发表主题
+				<%  break;
+					case 'tag':
+				%>
+					下发表新主题
+				<%  break;
+					}
+				%>
 				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.target_topic_info.id %>">
 					<%- newsfeed.target_topic_info.title %>
 				</a>
@@ -59,6 +75,14 @@
 						<%- newsfeed.target_topic_info.title %>
 					</a>
 				<%  break;
+					case 'tag':
+				%>
+					标签
+					<a href="{{ROOT}}/discuss/List/tag/<%- newsfeed.target_tag_info.id %>">
+						<%- newsfeed.target_tag_info.content %>
+					</a>
+				<%
+					break;
 					}
 				%>
 			<%  break;

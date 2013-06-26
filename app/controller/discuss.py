@@ -14,14 +14,26 @@ DEFAULT_CLS = 'List'
 
 class List(frame.DefaultFrame):
 	def process(self):
-		self.setTitle(u'讨论区')
-		
 		aParams = self.params()
-		
-		aTopicModel = TopicModel()
 		
 		# tag id
 		tagid = aParams.get('tag',None)
+
+		# tag info
+		if tagid > 0:
+			tag_model = drape.model.LinkedModel('tag')
+			tag_info = tag_model.where(id=tagid).find()
+
+			ttb_model = drape.model.LinkedModel('discuss_topic_tag_bridge')
+			tag_info['topic_count'] = ttb_model.where(tag_id=tagid).count()
+			self.setVariable('tag_info', tag_info)
+			self.setTitle(u'标签: %s' % tag_info['content'])
+		else:
+			self.setVariable('tag_info', None)
+			self.setTitle(u'讨论区')
+
+		aTopicModel = TopicModel()
+		
 		# pager
 		page = drape.util.toInt(aParams.get('page',0))
 		count = aTopicModel.getTopicCount(tagid=tagid)
@@ -126,6 +138,16 @@ class ajaxPostTopic(drape.controller.jsonController):
 		aActionModel.insert(
 			from_object_id=uid,
 			from_object_type='user',
+			action_type='post',
+			target_object_id=topicid,
+			target_object_type='topic',
+			ctime=now
+		)
+
+		# tag post topic
+		aActionModel.insert(
+			from_object_id=tagIdList,
+			from_object_type='tag',
 			action_type='post',
 			target_object_id=topicid,
 			target_object_type='topic',

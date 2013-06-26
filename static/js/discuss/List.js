@@ -74,6 +74,29 @@
 		});
 		console.log(val_list);
 		jq('#real_tags').val( val_list.join(' ') );
-	    }
+		}
+
+		// focus tag
+		jq('#focus_tag_btn').click(function(e){
+			e.preventDefault();
+
+			var tagid = jq(this).attr('tagid');
+			jq.post(
+				WEB_ROOT + '/focus/ajaxFocus',
+				{
+					type: 'tag',
+					target: tagid,
+					dire: 'add'
+				},
+				function(data){
+					if('success' == data.result){
+						alert('关注成功');
+					}else{
+						alert(data.msg);
+					}
+				},
+				'json'
+			);
+		});
 	});
 })(jQuery);

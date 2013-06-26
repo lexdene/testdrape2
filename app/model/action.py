@@ -21,6 +21,7 @@ class ActionModel(LinkedModel):
         topic_model = LinkedModel('discuss_topic')
         userinfo_model = LinkedModel('userinfo')
         reply_model = LinkedModel('discuss_reply')
+        tag_model = LinkedModel('tag')
 
         # from/target object
         def get_topic_info(id):
@@ -34,10 +35,14 @@ class ActionModel(LinkedModel):
                 'discuss_topic', 'topic', 'reply.tid=topic.id'
                 ).find()
 
+        def get_tag_info(id):
+            return tag_model.where(id=id).find()
+
         model_map = {
             'topic': get_topic_info,
             'user': get_user_info,
-            'reply': get_reply_info
+            'reply': get_reply_info,
+            'tag': get_tag_info
         }
         for field in ('from', 'target'):
             for action in action_list:

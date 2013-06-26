@@ -21,3 +21,12 @@
 .white-border (@border-width: 2px){
   border: @border-width solid white;
 }
+
+.linear-back (@from-color, @to-color){
+  background-image: -moz-linear-gradient(top, @from-color, @to-color);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@from-color), to(@to-color));
+  background-image: -webkit-linear-gradient(top, @from-color, @to-color);
+  background-image: -o-linear-gradient(top, @from-color, @to-color);
+  background-image: linear-gradient(to bottom, @from-color, @to-color);
+  background-repeat: repeat-x;
+}
