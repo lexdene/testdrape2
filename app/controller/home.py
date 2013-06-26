@@ -40,7 +40,18 @@ class AjaxHomeLine(jsonController):
 
         # get data from db
         action_model = ActionModel()
-        action_list = action_model.getList({'focus.from_uid': uid}, from_id)
+        action_list = action_model.getList(
+            {
+                '$or': (
+                    {'focus.from_uid': uid},
+                    {
+                        'action.from_object_type': 'user',
+                        'action.from_object_id': uid
+                    }
+                )
+            },
+            from_id
+        )
         self.setVariable('data', action_list)
 
         # now
