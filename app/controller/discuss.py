@@ -289,8 +289,18 @@ class ajaxPostReply(drape.controller.jsonController):
 			from_object_id=uid,
 			from_object_type='user',
 			action_type='reply',
-			target_object_id=topicInfo['id'],
-			target_object_type='topic',
+			target_object_id=reply_id,
+			target_object_type='reply',
+			ctime=now
+		)
+
+		# topic has reply
+		aActionModel.insert(
+			from_object_id=tid,
+			from_object_type='topic',
+			action_type='reply',
+			target_object_id=reply_id,
+			target_object_type='reply',
 			ctime=now
 		)
 

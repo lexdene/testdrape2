@@ -3,9 +3,22 @@
 <script type="text/template" id="newsfeed_template">
 	<% _(newsfeed_list).each(function(newsfeed){ %>
 		<div class="newsfeed_item" action_id="<%- newsfeed.id %>">
-			<a class="username_btn" href="#" userid="<%- newsfeed.from_user_info.id %>" onclick="return false">
-				<%- newsfeed.from_user_info.nickname %>
-			</a>
+			<%  switch(newsfeed.from_object_type){
+				case 'user':
+			%>
+				<a class="username_btn" href="#" userid="<%- newsfeed.from_user_info.id %>" onclick="return false">
+					<%- newsfeed.from_user_info.nickname %>
+				</a>
+			<%  break;
+				case 'topic':
+			%>
+				主题
+				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.from_topic_info.id %>">
+					<%- newsfeed.from_topic_info.title %>
+				</a>
+			<%  break;
+				}
+			%>
 			<%  switch(newsfeed.action_type){
 				case 'post':
 			%>
@@ -17,8 +30,15 @@
 				case 'reply':
 			%>
 				回复主题
-				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.target_topic_info.id %>">
-					<%- newsfeed.target_topic_info.title %>
+				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.target_reply_info.topic.id %>">
+					<%- newsfeed.target_reply_info.topic.title %>
+				</a>
+			<%  break;
+				case 'replied':
+			%>
+				有了一条新
+				<a href="{{ROOT}}/discuss/Topic/id/<%- newsfeed.target_reply_info.topic.id %>#reply<%- newsfeed.target_reply_info.id %>">
+					回复
 				</a>
 			<%  break;
 				case 'focus':

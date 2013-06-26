@@ -21,14 +21,19 @@
 		_(source_data).each(function(value, key){
 			var key_parted_list = key.split('.');
 			var part_data = target_data;
-			_(_(key_parted_list).initial()).each(function(key_parted){
+			var initial = _(key_parted_list).initial();
+			_(initial).each(function(key_parted){
 				if(typeof part_data[key_parted] == 'undefined'){
 					part_data[key_parted] = {}
 				}
 				part_data = part_data[key_parted];
 			});
 			var key_parted = _(key_parted_list).last();
-			part_data[key_parted] = value;
+			if('object' == typeof value){
+				part_data[key_parted] = tile_data(value);
+			}else{
+				part_data[key_parted] = value;
+			}
 		});
 		return target_data;
 	}
@@ -82,8 +87,14 @@
 		return format_date;
 	}
 	function template(data){
+		var tdata = tile_list_data(data.data);
+		_(tdata).each(function(value){
+			if('topic' == value.from_object_type && 'reply' == value.action_type){
+				value.action_type = 'replied';
+			}
+		});
 		return newsfeed_template({
-			'newsfeed_list': tile_list_data(data.data),
+			'newsfeed_list': tdata,
 			'format_date': create_format_date(data.now),
 		});
 	}
@@ -130,12 +141,14 @@
 						});
 
 						// add html
-						area.append(newsfeed_template({
-							'newsfeed_list': tile_list_data(data.data),
-							'format_date': create_format_date(data.now),
-						}));
-						area.append(more_button_obj);
-						more_button_obj.click(load_more);
+						try{
+							area.append(template(data));
+							area.append(more_button_obj);
+							more_button_obj.click(load_more);
+						}catch(e){
+							console.log(e);
+							area.append(error_html + ':模板解析出错');
+						}
 					}
 				);
 			}
