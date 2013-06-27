@@ -1,30 +1,31 @@
 /*
  * drape jquery extend
+ * version 1.0
  */
 (function(jq) {
 	var jQuery = undefined;
 	function ajaxSubmit(form,options){
 		var form = jq(form);
-	    /**
-	      type : validate / post / network
-	      */
-	    function on_error(type,message){
-		clear_error();
-		show_error(message);
-		if( typeof options.error == 'function' ){
-		    options.error(type,message)
+		/**
+		   type : validate / post / network
+		*/
+		function on_error(type,message){
+			clear_error();
+			show_error(message);
+			if( typeof options.error == 'function' ){
+				options.error(type,message)
+			}
 		}
-	    }
-	    function show_error(message){
-		form.append('<div class="jf_form_error">'+message+'</div>');
-	    }
-	    function clear_error(){
-		form.find('.jf_form_error').remove();
-	    }
+		function show_error(message){
+			form.append('<div class="jf_form_error">'+message+'</div>');
+		}
+		function clear_error(){
+			form.find('.jf_form_error').remove();
+		}
 
-	    form.find('input').focus(function(){
-		clear_error();
-	    });
+		form.find('input').focus(function(){
+			clear_error();
+		});
 
 		var senddata = {};
 		var inputlist = form.find('input,textarea');
@@ -49,12 +50,12 @@
 				}
 				break;
 			case 'checkbox':
-			    if( jq(this).prop('checked') ){
-				senddata[name] = 'on';
-			    }else{
+				if( jq(this).prop('checked') ){
+					senddata[name] = 'on';
+				}else{
 				senddata[name] = 'off';
-			    }
-			    break;
+				}
+				break;
 			}
 		});
 		// validate
@@ -149,9 +150,9 @@
 				break;
 			case 'failed':
 				if( rspdata.msg ){
-				    on_error('post',rspdata.msg);
+					on_error('post',rspdata.msg);
 				}else{
-				    on_error('post','no message');
+					on_error('post','no message');
 				}
 				break;
 			default:
@@ -160,7 +161,7 @@
 			inputlist.attr('disabled',false);
 		})
 		.error(function(){
-		    on_error('network','服务器错误，请联系网站管理员');
+			on_error('network','服务器错误，请联系网站管理员');
 			inputlist.attr('disabled',false);
 		})
 	}
@@ -178,19 +179,19 @@
 				jq(this).attr('src',newsrc);
 			});
 		},
-	    refresh_valcode : function(){
-		var form = this;
-		form.find('.jf_valcode_input').val('');
-		form.find('.jf_valcode_img').img_refresh();
-		return this;
-	    },
-	    valcode : function(){
-		var form = this;
-		form.find('.jf_valcode_btn').click(function(){
-		    form.refresh_valcode();
-		});
-		return this;
-	    },
+		refresh_valcode : function(){
+			var form = this;
+			form.find('.jf_valcode_input').val('');
+			form.find('.jf_valcode_img').img_refresh();
+			return this;
+		},
+		valcode : function(){
+			var form = this;
+			form.find('.jf_valcode_btn').click(function(){
+				form.refresh_valcode();
+			});
+			return this;
+		},
 		count_down: function(options) {
 			return this.each(function(){
 				var numObj = jq(this).find('.'+options['num_class']);
@@ -245,16 +246,18 @@
 			var jobj = this;
 			function changePage(pagename){
 				jobj.find('.tab_page').hide();
-			    var selected_page = jobj.find('.tab_page[tab_page='+pagename+']');
+				var selected_page = jobj.find('.tab_page[tab_page='+pagename+']');
 				selected_page.show();
 				jobj.find('.tab_nav').find('.nav_btn').closest('.nav_btn_wrap').removeClass('nav_btn_active');
 				jobj.find('.tab_nav').find('.nav_btn[tab_page='+pagename+']').closest('.nav_btn_wrap').addClass('nav_btn_active');
-			    
-			    // trigger on load function
-			    try{
-				options['pages'][pagename].onload.call( selected_page.get(0) )
-			    }catch(e){
-			    }
+
+				// trigger on load function
+				if('object' == typeof options['pages']
+					&& 'object' == typeof options['pages'][pagename]
+					&& 'function' == typeof options['pages'][pagename].onload
+				){
+					options['pages'][pagename].onload.call(selected_page.get(0));
+				}
 			}
 			function showFirstPage(){
 				changePage( jobj.find('.tab_page').first().attr('tab_page') );
@@ -312,7 +315,7 @@
 				time
 			);
 			return this;
-	    }
+		}
 	});
 	jq.extend({
 		htmlEscape: function(str) {
