@@ -9,7 +9,11 @@
 		<img class="website_icon" src="{{ROOT}}/static/image/breaking.ico" alt="testdrape" />
 	</div>
 	<div class="left_buttons">
-		<a href='{{ROOT}}/home'>首页</a>
+		{% if uid > 0 %}
+			<a href="{{ ROOT }}/home">首页</a>
+		{% else %}
+			<a href="{{ ROOT }}/index">首页</a>
+		{% endif %}
 		<a href='{{ROOT}}/discuss'>讨论区</a>
 		<a href='{{ROOT}}/manual'>drape介绍</a>
 	</div>

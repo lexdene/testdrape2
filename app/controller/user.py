@@ -39,18 +39,20 @@ def validate_password(input,db):
 	input_hashed = hash_password(salt,input)
 	return input_hashed == hashed
 
+
 class Login(frame.DefaultFrame):
 	def process(self):
 		self.setTitle(u'登录')
-		
+
 		aParams = self.params()
-		redirect = aParams.get('redirect','/')
-		self.setVariable('redirect',redirect)
+		redirect = aParams.get('redirect', '/home')
+		self.setVariable('redirect', redirect)
 
 		self.setVariable(
 			'autologin_daylength',
 			drape.config.get_value('app/autologin_daylength')
 		)
+
 
 class ajaxLogin(drape.controller.jsonController):
 	def process(self):
