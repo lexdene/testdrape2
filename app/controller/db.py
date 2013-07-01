@@ -109,7 +109,17 @@ u'''
 	`target_object_type` ENUM('user', 'topic', 'tag', 'reply') NOT NULL,
 	`ctime` int NOT NULL,
 	PRIMARY KEY (`id`)
-''')
+'''),
+
+('usermsg',
+u'''
+	`id` int NOT NULL AUTO_INCREMENT,
+	`from_uid` int NOT NULL,
+	`to_uid` int NOT NULL,
+	`text` varchar(200) NOT NULL,
+	`ctime` int NOT NULL,
+	PRIMARY KEY (`id`)
+'''),
 )
 
 
@@ -131,8 +141,7 @@ class CreateTables(DbFrame):
 
 		result = []
 		for tableName, sql in tables:
-			sql = u'CREATE TABLE IF NOT EXISTS `%s%s`(\
-			%s)ENGINE=MyISAM DEFAULT CHARSET=utf8' % (
+			sql = u'CREATE TABLE IF NOT EXISTS `%s%s`(%s)ENGINE=MyISAM DEFAULT CHARSET=utf8' % (
 				tablePrefix, tableName, sql
 			)
 			res = aDb.execute(sql)
