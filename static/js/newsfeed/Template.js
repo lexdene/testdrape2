@@ -37,55 +37,7 @@
 		});
 		return target_data;
 	}
-	function format_number(n){
-		if( 0 == n ){
-			return '00';
-		}else if(n < 10){
-			return '0' + n;
-		}else{
-			return '' + n;
-		}
-	}
-	function create_format_date(now){
-		var today = new Date(now * 1000);
-		today.setHours(0);
-		today.setMinutes(0);
-		today.setSeconds(0);
-		today.setMilliseconds(0);
-		var today_timestamp = today.getTime() / 1000;
-		var yesterday_timestamp = today_timestamp - 24 * 3600;
 
-
-		function format_date(timestamp){
-			var diff = now - timestamp;
-			var f = format_number;
-			if(timestamp < yesterday_timestamp){ // before yesterday
-				var d = new Date(timestamp * 1000);
-				return d.getFullYear() + '-'
-					+ f((d.getMonth() + 1)) + '-'
-					+ f(d.getDate()) + ' '
-					+ f(d.getHours()) + ':'
-					+ f(d.getMinutes());
-			}else if(timestamp < today_timestamp){ // yesterday
-				var d = new Date(timestamp * 1000);
-				return '昨天'
-					+ f(d.getHours()) + ':'
-					+ f(d.getMinutes());
-			}else{ // today
-				if(diff < 60){ // less than 1 minute
-					return '刚刚';
-				}else if(diff < 3600){ // less than 1 hour
-					return Math.floor(diff / 60) + '分钟前';
-				}else{ // more than 1 hour
-					var d = new Date(timestamp * 1000);
-					return '今天'
-						+ f(d.getHours()) + ':'
-						+ f(d.getMinutes());
-				}
-			}
-		}
-		return format_date;
-	}
 	function template(data){
 		var tdata = tile_list_data(data.data);
 		_(tdata).each(function(value){
@@ -95,7 +47,7 @@
 		});
 		return newsfeed_template({
 			'newsfeed_list': tdata,
-			'format_date': create_format_date(data.now),
+			'format_date': jq.create_format_date(data.now),
 		});
 	}
 

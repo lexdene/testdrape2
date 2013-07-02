@@ -14,7 +14,8 @@ var user_id = {{ userinfo['id'] }};
 		</div>
 		<div class="button_area">
 			<div>
-				<a id="focus_button" isfocused="{{ isFocused }}" class="focus_button" href="#">载入中...</a>
+				<a class="jf_button" id="focus_button" isfocused="{{ isFocused }}" href="#">载入中...</a>
+				<a class="jf_button" href="{{ ROOT }}/mail/Write/to_uid/{{ userinfo['id'] }}">发送私信</a>
 			</div>
 		</div>
 	</div>
@@ -33,9 +34,11 @@ var user_id = {{ userinfo['id'] }};
 				<span class="nav_btn_wrap">
 					<a href='#!album' class="nav_btn" tab_page="album">相册</a>
 				</span>
+				<span class="nav_btn_wrap">
+					<a href='#!msg' class="nav_btn" tab_page="msg">留言板</a>
+				</span>
 			</div>
 			<div class="tab_page" tab_page="newsfeed">
-				计划以后把新鲜事神马的放在这里。
 			</div>
 			<div class="tab_page" tab_page="userinfo">
 				<div>
@@ -56,13 +59,51 @@ var user_id = {{ userinfo['id'] }};
 				</div>
 			</div>
 			<div class="tab_page" tab_page="topic">
-				您就假装这里有主题。
 			</div>
-			<div class="tab_page" tab_page="album">
-				您就假装这里有相册。
+			<div class="tab_page" tab_page="album">相册功能仍在开发中...</div>
+			<div class="tab_page" tab_page="msg">
+				<form id="msg_form" action="{{ROOT}}/usermsg/AjaxPostMsg" method="post" onsubmit="return false;" class="jdmd_form">
+					<input type="hidden" name="to_uid" value="{{ userinfo['id'] }}" />
+					<div>给TA留言</div>
+					<div>
+						<textarea name="text" class="jf_textarea"></textarea>
+					</div>
+					<div>
+						<input type="submit" value="留言" />
+					</div>
+				</form>
+				<div class="msg_list" id="msg_list">
+					留言列表
+				</div>
+				<div class="buttons" id="page_buttons">
+					<a class="jf_button" href="#" onclick="return false" action="prev">上一页</a>
+					<span class="page_count" id="page_count"></span>
+					<a class="jf_button" href="#" onclick="return false" action="next">下一页</a>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
 {% include 'newsfeed/Template.html' %}
+
+<script type="text/template" id="msg_template">
+	<% _(msg_list).each(function(msg){ %>
+		<div class="msg_item" msg_id="<%- msg.id %>">
+			<div class="first_line">
+				<a class="username_btn" href="#" userid="<%- msg.from_ui.id %>" onclick="return false">
+					<%- msg.from_ui.nickname %>
+				</a>
+				回复
+				<a class="username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
+					<%- msg.to_ui.nickname %>
+				</a>
+				:
+				<span><%- msg.text %></span>
+			</div>
+			<div class="second_line">
+				<span class="ctime"><%- formate_date(msg.ctime) %></span>
+			</div>
+		</div>
+	<% }) %>
+</script>

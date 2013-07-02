@@ -128,7 +128,7 @@ class AjaxMsgList(jsonController):
             }).limit(
                 per_page,
                 per_page * page
-            ).select(['SQL_CALC_FOUND_ROWS'])
+            ).order('usermsg.ctime DESC').select(['SQL_CALC_FOUND_ROWS'])
             self.setVariable('data', tile_list_data(usermsg_list))
 
             # count

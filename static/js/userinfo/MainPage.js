@@ -2,6 +2,7 @@
 	var jQuery = undefined;
 
 	jq(function(){
+		// focus
 		var focus_button = jq('#focus_button');
 		function loadText(){
 			if( 'True' == focus_button.attr('isfocused') ){
@@ -44,6 +45,8 @@
 			);
 			return false;
 		});
+
+		// tabs
 		jq('#tabs').tabs({
 			'pages': {
 				'topic': {
@@ -78,8 +81,103 @@
 							}
 						);
 					}
+				},
+				'msg': {
+					'onload': function(){
+						refresh_msglist();
+					}
 				}
 			}
 		});
+
+		var current_page = 0;
+		var total_page = 0;
+		var msg_list = jq('#msg_list');
+		var loading_html = '<div class="loading"><img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...</div>';
+		var error_html = '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
+		var template = _.template(jq('#msg_template').html());
+
+		function refresh_msglist(page){
+			if(page == null){
+				page = 0;
+			}
+
+			jq.delay(
+				1000,
+				function(r){
+					msg_list.html(loading_html);
+					jq.get(
+						WEB_ROOT + '/usermsg/AjaxMsgList/to_uid/' + user_id,
+						{'page':page},
+						undefined,
+						'json'
+					).success(function(data){
+						r(data);
+					}).error(function(){
+						r({
+							'errormsg': '系统错误',
+							'data': []
+						});
+					});
+				},
+				function(data){
+					if( '' === data['errormsg'] ){
+						current_page = data.page;
+						total_page = Math.ceil(data.count / data.per_page);
+
+						msg_list.html(template({
+							'msg_list': data.data,
+							'formate_date': jq.create_format_date(data.now)
+						}));
+						var page_str = current_page + 1;
+						jq('#page_count').html('共' + page_str + '/' + total_page + '页');
+					}else{
+						msg_list.html(error_html + data['errormsg']);
+					}
+				}
+			);
+		}
+
+		jq('#page_buttons').find('.jf_button').click(function(){
+			var target_page;
+			if( 'prev' == jq(this).attr('action') ){
+				target_page = current_page - 1;
+			}else{
+				target_page = current_page + 1;
+			}
+			if( target_page < 0 || target_page >= total_page ){
+				return;
+			}
+
+			refresh_msglist(target_page);
+		});
+
+		// msg
+		(function(){
+			var form = jq('#msg_form');
+			form.submit(function(){
+				form.ajaxSubmit({
+					'success': function(){
+						form.find('textarea').val('');
+						alert('留言成功');
+						refresh_msglist();
+					},
+					'error': function(msg){
+						l(msg);
+					},
+					'validate': {
+						'form_area': [
+							{
+								'key': 'text',
+								'name': '留言内容',
+								'validates': [
+									['len', 1, 200]
+								]
+							}
+						]
+					}
+				});
+			});
+		})();
 	});
 })(jQuery);
