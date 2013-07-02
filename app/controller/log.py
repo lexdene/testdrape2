@@ -42,11 +42,12 @@ class Content(frame.DefaultFrame):
             r'\[(?P<time>[-0-9 :,]*)\] \[(?P<type>[A-Z]*)\] (?P<content>.*)'
         )
         with open(file_path, 'r') as f:
-            for line in f:
+            for i, line in enumerate(f):
                 m = r.match(line)
                 datalist.append({
+                    'n': i,
                     'time': m.group('time'),
                     'type': m.group('type'),
                     'content': re.sub(r'\\n(\\n| )*', '\n', m.group('content'))
                 })
-        self.setVariable('datalist', datalist)
+        self.setVariable('datalist', datalist[-100:])
