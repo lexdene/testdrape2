@@ -54,11 +54,22 @@ class AjaxPostMsg(jsonController):
 
         # insert to db
         usermsg_model = LinkedModel('usermsg')
-        usermsg_model.insert(
+        usermsg_id = usermsg_model.insert(
             from_uid=my_uid,
             to_uid=to_uid,
             text=text,
             ctime=now
+        )
+
+        # notice
+        notice_model = LinkedModel('notice')
+        notice_model.insert(
+            from_uid=my_uid,
+            to_uid=to_uid,
+            item_id=usermsg_id,
+            type='usermsg',
+            ctime=now,
+            isRead=False
         )
 
         # result

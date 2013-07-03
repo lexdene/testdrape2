@@ -24,7 +24,7 @@ class Panel(frame.FrameBase):
 					'dt',
 					'dt.id = re.tid'
 				).where({'re.id': notice['item_id']}).find()
-			elif 'focus_user' == notice['type']:
+			elif notice['type'] in ('focus_user', 'usermsg'):
 				pass
 			else:
 				raise ValueError('no such type: %s' % notice['type'])
