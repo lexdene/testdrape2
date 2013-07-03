@@ -18,6 +18,11 @@
 			href='{{ROOT}}/discuss/Topic/id/{{notice['reply_info']['dt.id']}}#reply{{notice['item_id']}}'
 		>{{notice['reply_info']['dt.title']}}</a>
 		回复了您
+	{% elif 'focus_user' == notice['type'] %}
+		<a target='_blank' class="fromuser"
+			href='{{ROOT}}/userinfo/MainPage/id/{{notice['fromuser.id']}}'
+		>{{notice['fromuser.nickname']}}</a>
+		关注了您
 	{% endif %}
 	</div>
 {% else %}

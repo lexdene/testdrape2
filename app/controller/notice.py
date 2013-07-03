@@ -15,6 +15,8 @@ class Panel(frame.FrameBase):
 			.where(to_uid=uid,isRead=0).limit(10).select()
 		
 		aReplyModel = drape.model.LinkedModel('discuss_reply')
+
+		# notice list
 		for notice in noticeList:
 			if notice['type'] in ('reply_topic', 'reply_to_reply'):
 				notice['reply_info'] = aReplyModel.alias('re').join(
@@ -22,6 +24,8 @@ class Panel(frame.FrameBase):
 					'dt',
 					'dt.id = re.tid'
 				).where({'re.id': notice['item_id']}).find()
+			elif 'focus_user' == notice['type']:
+				pass
 			else:
 				raise ValueError('no such type: %s' % notice['type'])
 		

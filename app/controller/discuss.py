@@ -266,8 +266,6 @@ class ajaxPostReply(drape.controller.jsonController):
 		aTopicCacheModel = drape.model.LinkedModel('discuss_topic_cache')
 		aTopicCacheModel.where(id=tid).update(last_reply_id = reply_id)
 		
-		# notice
-		
 		# models
 		aTopicModel = drape.model.LinkedModel('discuss_topic')
 		aNoticeModel = drape.model.LinkedModel('notice')

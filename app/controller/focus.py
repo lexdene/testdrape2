@@ -65,7 +65,7 @@ class ajaxFocus(jsonController):
         # save to db
         now = int(time.time())
         if 'add' == dire:
-            aFocusModel.insert(
+            focus_id = aFocusModel.insert(
                 from_uid=current_uid,
                 focus_type=focus_type,
                 target_id=target_id,
@@ -83,6 +83,19 @@ class ajaxFocus(jsonController):
                 target_object_type=focus_type,
                 ctime=now
             )
+
+            # add notice
+            if 'user' == focus_type:
+                notice_model = LinkedModel('notice')
+                notice_model.insert(
+                    from_uid=current_uid,
+                    to_uid=target_id,
+                    item_id=focus_id,
+                    type='focus_user',
+                    ctime=now,
+                    isRead=False
+                )
+
         elif 'remove' == dire:
             aFocusModel.where(
                 from_uid=current_uid,
