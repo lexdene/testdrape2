@@ -137,5 +137,7 @@ class NotLogin(DefaultFrame):
 		self.setVariable('urlPath',urlPath)
 		self.setVariable('urlquote',drape.util.urlquote(urlPath))
 
-class Error(DefaultFrame):
+
+@DefaultFrame.controller
+def Error(self):
 	pass
