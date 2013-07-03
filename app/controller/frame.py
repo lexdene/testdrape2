@@ -43,11 +43,14 @@ class FrameBase(drape.controller.Controller):
 	def notLogin(self):
 		self.icRedirect('/frame/NotLogin')
 		
-	def Error(self,error):
-		self.icRedirect('/frame/Error',error)
+	def Error(self, error):
+		self.icRedirect(
+			'/frame/Error',
+			{'error': error}
+		)
 		
 	def postProcess(self):
-		g = self.globalVars()
+		g = self.runbox().variables()
 		if 'res' not in g:
 			g['res'] = Resource(self)
 		
@@ -58,7 +61,7 @@ class FrameBase(drape.controller.Controller):
 		self.setVariable('ctrl',self)
 		
 	def setTitle(self,t):
-		g = self.globalVars()
+		g = self.runbox().variables()
 		g['title'] = t
 		
 	def title(self):
@@ -78,7 +81,7 @@ class EmptyFrame(FrameBase):
 class HtmlBody(FrameBase):
 	def process(self):
 		# res
-		g = self.globalVars()
+		g = self.runbox().variables()
 		
 		reslist = g['res']
 		self.setVariable('reslist',reslist)
@@ -135,5 +138,4 @@ class NotLogin(DefaultFrame):
 		self.setVariable('urlquote',drape.util.urlquote(urlPath))
 
 class Error(DefaultFrame):
-	def process(self):
-		self.setVariable('error',self.ctrlParams()[0])
+	pass

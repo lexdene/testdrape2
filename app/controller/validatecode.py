@@ -108,7 +108,8 @@ init_chars = ''.join((_letter_cases, _upper_cases, _numbers))
 
 class genImage(drape.controller.Controller):
 	def process(self):
-		self.addHeader( 'Content-Type','image/png' )
+		response = self.response()
+		response.setContentType('image/png')
 		
 		self.__code = ''.join(random.sample(init_chars, 4 ))
 		
