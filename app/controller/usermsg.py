@@ -8,6 +8,7 @@ from drape.util import toInt, tile_list_data
 from drape.validate import validate_params
 from drape.model import LinkedModel
 
+from frame import DefaultFrame
 
 class AjaxPostMsg(jsonController):
     ''' 发表留言 '''
@@ -144,3 +145,8 @@ class AjaxMsgList(jsonController):
 
             # count
             self.setVariable('count', usermsg_model.found_rows())
+
+
+@DefaultFrame.controller
+def MyMsgList(self):
+    pass
