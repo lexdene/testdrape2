@@ -113,20 +113,20 @@ class AjaxMsgList(jsonController):
 
         # to uid
         to_uid = toInt(params.get('to_uid', -1))
+        where_data = {}
         if to_uid < 0:
-            self.setVariable('errormsg', u'to_uid参数错误')
-            self.setVariable('data', [])
+            where_data = {
+                '$or': (
+                    {
+                        'from_uid': my_uid,
+                    },
+                    {
+                        'to_uid': my_uid,
+                    }
+                )
+            }
         else:
-            self.setVariable('errormsg', '')
-
-            usermsg_model = LinkedModel('usermsg')
-            usermsg_list = usermsg_model.join(
-                'userinfo', 'from_ui',
-                'from_ui.id=usermsg.from_uid'
-            ).join(
-                'userinfo', 'to_ui',
-                'to_ui.id=usermsg.to_uid'
-            ).where({
+            where_data = {
                 '$or': (
                     {
                         'from_uid': my_uid,
@@ -137,16 +137,27 @@ class AjaxMsgList(jsonController):
                         'to_uid': my_uid,
                     }
                 )
-            }).limit(
-                per_page,
-                per_page * page
-            ).order('usermsg.ctime DESC').select(['SQL_CALC_FOUND_ROWS'])
-            self.setVariable('data', tile_list_data(usermsg_list))
+            }
 
-            # count
-            self.setVariable('count', usermsg_model.found_rows())
+        self.setVariable('errormsg', '')
+
+        usermsg_model = LinkedModel('usermsg')
+        usermsg_list = usermsg_model.join(
+            'userinfo', 'from_ui',
+            'from_ui.id=usermsg.from_uid'
+        ).join(
+            'userinfo', 'to_ui',
+            'to_ui.id=usermsg.to_uid'
+        ).where(where_data).limit(
+            per_page,
+            per_page * page
+        ).order('usermsg.ctime DESC').select(['SQL_CALC_FOUND_ROWS'])
+        self.setVariable('data', tile_list_data(usermsg_list))
+
+        # count
+        self.setVariable('count', usermsg_model.found_rows())
 
 
 @DefaultFrame.controller
 def MyMsgList(self):
-    pass
+    self.setTitle(u'我的留言板')

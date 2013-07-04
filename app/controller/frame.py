@@ -98,6 +98,13 @@ class HtmlBody(FrameBase):
 		aSession = self.session()
 		self.setVariable('my_userid', drape.util.toInt(aSession.get('uid', -1)))
 
+		# coffee debug
+		if drape.config.get_value('front/coffee_debug'):
+			coffee_ext = '.js'
+		else:
+			coffee_ext = '.min.js'
+		self.setVariable('coffee_ext', coffee_ext)
+
 class Layout(FrameBase):
 	def __init__(self,runbox):
 		super(Layout,self).__init__(runbox)

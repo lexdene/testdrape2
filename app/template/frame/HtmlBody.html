@@ -38,6 +38,8 @@ var joj = {
         {%- else -%}
           <script language="javascript" type="text/javascript" src="{{ROOT}}/static/js{{res.path}}.js?v={{ res.version }}"></script>
         {%- endif -%}
+      {%- elif 'coffee' == res.type -%}
+        <script language="javascript" type="text/javascript" src="{{ROOT}}/static/coffee{{res.path}}{{ coffee_ext }}?v={{ res.version }}"></script>
       {%- endif -%}
     {%- endfor %}
   </body>

@@ -14,7 +14,7 @@ do (jq=jQuery) ->
         <span><%- msg.text %></span>
       </div>
       <div class="second_line">
-        <span class="ctime"><%- formate_date(msg.ctime) %></span>
+        <span class="ctime"><%- format_date(msg.ctime) %></span>
       </div>
     </div>
   <% }) %>
@@ -65,7 +65,7 @@ do (jq=jQuery) ->
       jq.delay(
         1000,
         (r) =>
-          c.html loading_html
+          @container.html loading_html
 
           jq.get(
             WEB_ROOT + "/usermsg/AjaxMsgList/to_uid/#{@to_uid}",
@@ -100,4 +100,5 @@ do (jq=jQuery) ->
 
         me.refresh target_page
 
+  window.Usermsg = Usermsg
   true

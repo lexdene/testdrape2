@@ -16,5 +16,8 @@ CONFIG = {
     ),
     'app': dict(
         autologin_daylength=7,
+    ),
+    'front': dict(
+        coffee_debug=False
     )
 }
