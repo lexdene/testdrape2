@@ -2,30 +2,34 @@ STYLE_COMPILER = lessc --yui-compress
 SCRIPT_COMPILER = coffee
 
 MKDIR = mkdir -p
-COPY = cp -f
 
 TARGET_DIR = ../data/static
 
-STYLE_TARGETS = $(TARGET_DIR)/css/frame/Layout.css \
-		$(TARGET_DIR)/css/jdmd_widget.css \
-		$(TARGET_DIR)/css/discuss/List.css \
-		$(TARGET_DIR)/css/userinfo/UserPanel.css \
-		$(TARGET_DIR)/css/userinfo/MainPage.css \
-		$(TARGET_DIR)/css/discuss/Topic.css \
-		$(TARGET_DIR)/css/newsfeed/Template.css \
+STYLE_TARGET_DIR = $(TARGET_DIR)/css
+STYLE_TARGETS = $(STYLE_TARGET_DIR)/frame/Layout.css \
+		$(STYLE_TARGET_DIR)/jdmd_widget.css \
+		$(STYLE_TARGET_DIR)/discuss/List.css \
+		$(STYLE_TARGET_DIR)/userinfo/UserPanel.css \
+		$(STYLE_TARGET_DIR)/userinfo/MainPage.css \
+		$(STYLE_TARGET_DIR)/discuss/Topic.css \
+		$(STYLE_TARGET_DIR)/newsfeed/Template.css \
 
-SCRIPT_TARGETS = 
+SCRIPT_TARGET_DIR = $(TARGET_DIR)/js
+SCRIPT_TARGETS = $(SCRIPT_TARGET_DIR)/usermsg/Usermsg.min.js \
 
 first : all
 
-$(TARGET_DIR)/css/%.css : less/%.less Makefile
+$(STYLE_TARGET_DIR)/%.css : less/%.less Makefile
 	$(MKDIR) $$(dirname "$@")
 	$(STYLE_COMPILER) "$<" > "$@"
 
-$(TARGET_DIR)/image/% : ../static/image/%
+$(SCRIPT_TARGET_DIR)/%.js : coffee/%.coffee Makefile
 	$(MKDIR) $$(dirname "$@")
-	$(COPY) "$<" "$@"
+	coffee -c -o $$(dirname "$@") "$<"
 
-all: $(STYLE_TARGETS) $(SCRIPT_TARGETS) $(IMAGE_TARGETS)
+$(SCRIPT_TARGET_DIR)/%.min.js : $(SCRIPT_TARGET_DIR)/%.js
+	uglifyjs -o "$@" "$<"
+
+all: $(STYLE_TARGETS) $(SCRIPT_TARGETS)
 
 $(STYLE_TARGETS) : less/common.less
