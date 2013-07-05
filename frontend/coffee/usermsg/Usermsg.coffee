@@ -6,10 +6,13 @@ do (jq=jQuery) ->
         <a class="from_user username_btn" href="#" userid="<%- msg.from_ui.id %>" onclick="return false">
           <%- msg.from_ui.nickname %>
         </a>
-        回复
-        <a class="to_user username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
-          <%- msg.to_ui.nickname %>
-        </a>
+
+        <% if (msg.to_uid > 0){ %>
+          回复
+          <a class="to_user username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
+            <%- msg.to_ui.nickname %>
+          </a>
+        <% } %>
         :
         <span><%- msg.text %></span>
       </div>
