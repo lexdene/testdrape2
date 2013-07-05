@@ -1,8 +1,19 @@
+{% do res.add('/userinfo/UserPanel') %}
 {% do res.add('/usermsg/Usermsg', 'coffee') %}
 {% do res.addResByPath('coffee') %}
 {% do res.addResByPath('css') %}
 <div class="mymsglist" id="mymsglist">
 	<h1>我的留言板</h1>
+	<form action="{{ROOT}}/usermsg/AjaxPostMsg" method="post" onsubmit="return false;" class="jdmd_form">
+		<input type="hidden" name="to_uid" value="-1" />
+		<div class="reply_to_hint"></div>
+		<div>
+			<textarea name="text" class="jf_textarea"></textarea>
+		</div>
+		<div>
+			<input type="submit" value="留言" />
+		</div>
+	</form>
 	<div class="msg_list">留言列表</div>
 	<div class="buttons">
 		<a class="jf_button" href="#" onclick="return false" action="prev">上一页</a>

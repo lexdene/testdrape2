@@ -3,11 +3,11 @@ do (jq=jQuery) ->
   <% _(msg_list).each(function(msg){ %>
     <div class="msg_item" msg_id="<%- msg.id %>">
       <div class="first_line">
-        <a class="username_btn" href="#" userid="<%- msg.from_ui.id %>" onclick="return false">
+        <a class="from_user username_btn" href="#" userid="<%- msg.from_ui.id %>" onclick="return false">
           <%- msg.from_ui.nickname %>
         </a>
         回复
-        <a class="username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
+        <a class="to_user username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
           <%- msg.to_ui.nickname %>
         </a>
         :
@@ -15,6 +15,9 @@ do (jq=jQuery) ->
       </div>
       <div class="second_line">
         <span class="ctime"><%- format_date(msg.ctime) %></span>
+        <% if(msg.from_ui.id != my_userid){ %>
+          <a class="reply_btn" href="#" onclick="return false">回复</a>
+        <% } %>
       </div>
     </div>
   <% }) %>
@@ -26,6 +29,7 @@ do (jq=jQuery) ->
   class Usermsg
     container: null
     page_hint: null
+    form: null
 
     to_uid: -1
     current_page: 0
@@ -33,13 +37,57 @@ do (jq=jQuery) ->
     template: null
 
     set_container: (c) ->
+      me = @
       @container = c
+      @container.on('click', '.username_btn', (event) ->
+        jq.userpanel jq(this), event
+      )
+      @container.on('click', '.reply_btn', (event) ->
+        msg_item = jq(this).closest('.msg_item')
+        from_user_btn = msg_item.find '.from_user'
+
+        from_userid = from_user_btn.attr 'userid'
+        from_username = from_user_btn.text().trim()
+
+        me.reply_to(from_userid, from_username)
+      )
 
     set_page_hint: (h) ->
       @page_hint = h
 
     set_to_uid: (t) ->
       @to_uid = t
+
+    set_form: (f) ->
+      @from = f
+      @from.submit =>
+        @from.ajaxSubmit(
+          success: =>
+            alert '回复成功'
+            location.reload()
+          error: (msg)=>
+            alert '回复失败：' + msg
+          validate:
+            form_area: [
+              {
+                key: 'text'
+                name: '留言内容'
+                validates: [
+                  ['len', 1, 200]
+                ]
+              }
+            ]
+        )
+      true
+
+    reply_to: (userid, username) ->
+      if @from
+        @from.find('input[name=to_uid]').val userid
+        @from.find('.reply_to_hint').html(
+          "回复#{username}"
+        )
+
+      true
 
     render: (data) ->
       if '' == data['errormsg']
@@ -53,6 +101,7 @@ do (jq=jQuery) ->
         @container.html @template {
           msg_list: data.data
           format_date: jq.create_format_date data.now
+          my_userid: my_userid
         }
 
         page_str = @current_page + 1

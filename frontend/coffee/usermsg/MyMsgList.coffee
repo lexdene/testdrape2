@@ -6,5 +6,6 @@ do (jq=jQuery) ->
   um.set_page_hint f.find('.page_count')
   um.set_to_uid -1
   um.set_page_buttons f.find('.jf_button')
+  um.set_form f.find('form')
 
   um.refresh()
