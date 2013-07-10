@@ -19,5 +19,8 @@ CONFIG = {
     ),
     'front': dict(
         coffee_debug=False
+    ),
+    'tag': dict(
+        random_range_length=20,
     )
 }

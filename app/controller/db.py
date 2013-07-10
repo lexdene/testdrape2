@@ -79,6 +79,13 @@ u'''
 	PRIMARY KEY (`id`),
 	UNIQUE KEY(`content`)
 '''),
+('tag_cache',
+u'''
+	`id` int NOT NULL AUTO_INCREMENT,
+	`topic_count` int NOT NULL,
+	`reply_count` int NOT NULL,
+	PRIMARY KEY(`id`)
+'''),
 ('discuss_topic_tag_bridge',
 u'''
 	`id` int NOT NULL AUTO_INCREMENT,
