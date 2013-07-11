@@ -26,9 +26,6 @@ do (jq=jQuery) ->
   <% }) %>
   '''
 
-  loading_html = "<div class=\"loading\"><img src=\"#{WEB_ROOT}/static/image/loading.gif\" />载入中...</div>"
-  error_html = "<img src=\"#{WEB_ROOT}/static/image/error.png\" />载入失败！"
-
   class Usermsg
     container: null
     page_hint: null

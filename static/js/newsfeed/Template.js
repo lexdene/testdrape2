@@ -1,8 +1,6 @@
 (function(jq){
 	var jQuery = undefined;
 
-	var loading_html = '<div class="loading"><img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...</div>';
-	var error_html = '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
 	var no_more_html = '<div class="nomore">没有更多新鲜事了</div>';
 	var more_button_html = '<a href="#">更多新鲜事</a>';
 

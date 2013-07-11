@@ -4,21 +4,24 @@ MKDIR = mkdir -p
 TARGET_DIR = ../data/static
 
 STYLE_TARGET_DIR = $(TARGET_DIR)/css
-STYLE_TARGETS = $(STYLE_TARGET_DIR)/frame/Layout.css \
-		$(STYLE_TARGET_DIR)/jdmd_widget.css \
-		$(STYLE_TARGET_DIR)/discuss/List.css \
-		$(STYLE_TARGET_DIR)/userinfo/UserPanel.css \
-		$(STYLE_TARGET_DIR)/userinfo/MainPage.css \
-		$(STYLE_TARGET_DIR)/discuss/Topic.css \
-		$(STYLE_TARGET_DIR)/newsfeed/Template.css \
-		$(STYLE_TARGET_DIR)/usermsg/MyMsgList.css \
+STYLE_LIST = frame/Layout \
+		jdmd_widget \
+		discuss/List \
+		userinfo/UserPanel \
+		userinfo/MainPage \
+		discuss/Topic \
+		newsfeed/Template \
+		usermsg/MyMsgList \
 
 SCRIPT_TARGET_DIR = $(TARGET_DIR)/coffee
-SCRIPT_LIST = $(SCRIPT_TARGET_DIR)/usermsg/Usermsg \
-		$(SCRIPT_TARGET_DIR)/usermsg/MyMsgList
+SCRIPT_LIST = usermsg/Usermsg \
+		usermsg/MyMsgList \
+		Common \
+		hot/LoadHot \
 
-SCRIPT_TARGETS = $(foreach n,$(SCRIPT_LIST), $n.js)
-SCRIPT_COMPRESSED_TARGETS = $(foreach n,$(SCRIPT_LIST), $n.min.js)
+STYLE_TARGETS = $(foreach n, $(STYLE_LIST), $(STYLE_TARGET_DIR)/$n.css)
+SCRIPT_TARGETS = $(foreach n, $(SCRIPT_LIST), $(SCRIPT_TARGET_DIR)/$n.js)
+SCRIPT_COMPRESSED_TARGETS = $(foreach n, $(SCRIPT_LIST), $(SCRIPT_TARGET_DIR)/$n.min.js)
 
 first : all
 
@@ -36,6 +39,3 @@ $(SCRIPT_TARGET_DIR)/%.min.js : $(SCRIPT_TARGET_DIR)/%.js
 all: $(STYLE_TARGETS) $(SCRIPT_TARGETS) $(SCRIPT_COMPRESSED_TARGETS)
 
 $(STYLE_TARGETS) : less/common.less
-
-.PRECIOUS: %.js
-.SECONDARY: %.js

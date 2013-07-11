@@ -277,9 +277,9 @@
 			}
 			changePageByHash();
 		}
-		,delay_load: function(time, url, templator, loading_html, fail_html){
-			var loading_html = loading_html || '<img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...';
-			var fail_html = fail_html || '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
+		,delay_load: function(time, url, templator){
+			var loading_html = loading_html;
+			var fail_html = error_html;
 
 			var load_data = undefined;
 			var isTimerFinished = false;

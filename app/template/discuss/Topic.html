@@ -84,7 +84,6 @@ var topic_id = {{ topicInfo['id'] }};
 						</div>
 					</div>
 				</div>
-				<div class="clear"></div>
 			</div>
 		{% endfor %}
 	</div>
@@ -111,7 +110,7 @@ var topic_id = {{ topicInfo['id'] }};
 		</form>
 		{% else %}
 			<div>未登录用户无法评论。</div>
-			<div>请先<a href="{{ROOT}}/user/Login?redirect=/discuss/Topic/id/{{topicInfo['id']}}">登录</a>
+			<div>请先<a href="{{ROOT}}/user/Login?redirect=/discuss/Topic/id/{{topicInfo['id']}}">登录</a></div>
 		{% endif %}
 	</div>
 </div>

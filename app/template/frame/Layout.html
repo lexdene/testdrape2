@@ -4,6 +4,8 @@
 {%- do res.add('/frame/HeadLine','js') %}
 {%- do res.add('/jdmd_widget','css') %}
 {%- do res.add('/drapeje','js') %}
+{%- do res.add('/Common', 'coffee') %}
+{%- do res.add('/hot/LoadHot', 'coffee') %}
 <div class="layout_head_line clearfix">
 	<div class="left_buttons">
 		<img class="website_icon" src="{{ROOT}}/static/image/breaking.ico" alt="testdrape" />
@@ -42,8 +44,9 @@
 </div>
 <div class="body_block">
 	<div class="frontpage">
-		<div class="frontpage_body frontpage_block frontpage_content_block">
-			{{body}}
+		<div class="frontpage_body frontpage_block frontpage_content_block clearfix">
+			<div class="frontpage_body_main common_layout_column">{{body}}</div>
+			<div class="frontpage_body_right common_layout_column" id="body_right">asdfasdf</div>
 		</div>
 		<div class="frontpage_bottom frontpage_block frontpage_content_block">
 			<div>大连理工大学电子信息与电气工程学部CPF科技协会JDMD工作室</div>
