@@ -65,7 +65,7 @@ class FrameBase(drape.controller.Controller):
 		g['title'] = t
 		
 	def title(self):
-		g = self.globalVars()
+		g = self.runbox().variables()
 		return g['title']
 
 class DefaultFrame(FrameBase):

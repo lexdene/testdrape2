@@ -42,6 +42,7 @@ class List(frame.DefaultFrame):
 		
 		self.setVariable('topic_list',aTopicModel.getTopicList(tagid=tagid, **aPager.limit()) )
 		self.setVariable('timestr',app.lib.text.timeStamp2Short)
+		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
