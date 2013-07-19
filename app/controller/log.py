@@ -48,6 +48,6 @@ class Content(frame.DefaultFrame):
                     'n': i,
                     'time': m.group('time'),
                     'type': m.group('type'),
-                    'content': re.sub(r'\\n(\\n| )*', '\n', m.group('content'))
+                    'content': re.sub(r'\\n', '\n', m.group('content'))
                 })
         self.setVariable('datalist', datalist[-100:])

@@ -37,7 +37,7 @@ def updateTagHot(self):
     tag_model = LinkedModel('tag')
     tag_list = tag_model.join(
         'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
-    ).order('tag_cache.reply_count DESC').limit(50).select()
+    ).order('tag_cache.reply_count', 'DESC').limit(50).select()
 
     self.setVariable('tag_list', tag_list)
 
@@ -48,7 +48,7 @@ def randomTagList(self):
     limit = config_value('tag/random_range_length')
     tag_list = tag_model.join(
         'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
-    ).order('tag_cache.reply_count DESC').limit(limit).select()
+    ).order('tag_cache.reply_count', 'DESC').limit(limit).select()
 
     result_list_length = 10
     result_list = list()
