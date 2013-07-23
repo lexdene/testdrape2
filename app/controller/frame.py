@@ -91,8 +91,8 @@ class HtmlBody(FrameBase):
 		subtitle = u'无标题'
 		if 'title' in g:
 			subtitle = g['title']
-		title = '%s - %s'%(subtitle,sitename)
-		self.setVariable('title',title)
+		title = u'%s - %s' % (subtitle, sitename)
+		self.setVariable('title', title)
 		
 		# user id
 		aSession = self.session()

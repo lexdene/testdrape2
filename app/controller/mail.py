@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import time
+
 import drape
-import frame,app.lib.text
+
+import frame
+from app.lib.text import timeStamp2Str
 
 class Write(frame.DefaultFrame):
 	def process(self):
-		self.setTitle('发送私信')
+		self.setTitle(u'发送私信')
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
@@ -18,7 +21,7 @@ class Write(frame.DefaultFrame):
 		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		to_userinfo = aUserinfoModel.where(id=to_uid).find()
 		if to_userinfo is None:
-			self.Error('用户不存在')
+			self.Error(u'用户不存在: %s' % to_uid)
 		
 		self.setVariable('to_userinfo',to_userinfo)
 
@@ -81,12 +84,12 @@ class MailBox(frame.FrameBase):
 
 class MailBoxLayout(frame.DefaultFrame):
 	def process(self):
-		g = self.globalVars()
+		g = self.runbox().variables()
 		self.setVariable('title',g.get('title'))
 
 class ReceiveBox(MailBox):
 	def process(self):
-		self.setTitle('收件箱')
+		self.setTitle(u'收件箱')
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -99,5 +102,4 @@ class ReceiveBox(MailBox):
 			.where(to_uid = uid).select()
 		
 		self.setVariable('maillist',maillist)
-		self.setVariable('transText',app.lib.text.transText)
-		self.setVariable('timestr',app.lib.text.timeStamp2Str)
+		self.setVariable('timestr', timeStamp2Str)

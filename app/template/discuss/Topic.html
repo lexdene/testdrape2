@@ -1,6 +1,7 @@
 {% do res.addResByPath() %}
 {% do res.add('/emoji/emoji_list','js') %}
 {% do res.add('/showdown/showdown','js') %}
+{% do res.add('/TransText','coffee') %}
 
 <script type="text/javascript">
 var topic_id = {{ topicInfo['id'] }};
@@ -50,6 +51,7 @@ var topic_id = {{ topicInfo['id'] }};
 							</span>
 							<div class="content">
 								<script type="text/markdown">{{ reply['rtr.text']|e}}</script>
+								<div class="jf_markdown">{{ reply['rtr.text'] |e}}</div>
 							</div>
 							<div class="buttons">
 								<a href='#' onclick="return false" class="jump_button">jump to</a>
@@ -59,6 +61,7 @@ var topic_id = {{ topicInfo['id'] }};
 					<div class="floor_content">
 						<div class="floor_text">
 							<script type="text/markdown">{{ reply['text']|e }}</script>
+							<div class="jf_markdown">{{ reply['text']|e }}</div>
 						</div>
 						<div class="floor_edit">
 							{% if reply['ui.id'] == uid %}

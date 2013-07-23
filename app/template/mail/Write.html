@@ -1,33 +1,33 @@
-{% do  ctrl.addResByPath()  %}
-{% do  ctrl.addResByPath(path='/userinfo/UserPanel')  %}
-
+{% do res.addResByPath('js') -%}
+{% do res.add(path='/userinfo/UserPanel') -%}
 <div class="mail_write common_center_block">
-	<div class="common_page_title">发送私信</div>
+	<h1 class="common_page_title">发送私信</h1>
 	<div class="form_block">
 		<form id="write_form"
 			action='{{ROOT}}/mail/ajaxWrite'
 			method='post'
+			class="jdmd_form"
 			onsubmit="return false;">
-			<div class="touser">
-				<span class="common_hint">发送给</span>
-				<span class="common_content">
+			<div class="touser jf_line">
+				<span class="jf_hint">发送给</span>
+				<span>
 					<input type='hidden' name="to_uid" value="{{to_userinfo['id']}}" />
 					<a class="username_btn" href="#" userid="{{to_userinfo['id']}}" onclick="return false">
 						{{to_userinfo['nickname']}}
 					</a>
 				</span>
 			</div>
-			<div class="input_title">
-				<span class="common_hint">标题</span>
-				<span class="common_content"><input name="title" class="jdmd_input" validate="notempty" /></span>
+			<div class="input_title jf_line">
+				<span class="jf_hint">标题</span>
+				<span><input name="title" class="jf_input" /></span>
 			</div>
-			<div class="input_content">
-				<span class="common_hint">内容</span>
-				<span class="common_content"><textarea name="text" class="jdmd_input" validate="notempty"></textarea></span>
+			<div class="input_content jf_line">
+				<span class="jf_hint">内容</span>
+				<span><textarea name="text" class="jf_input"></textarea></span>
 			</div>
-			<div class="input_submit">
-				<span class="common_hint"></span>
-				<span class="common_content"><input type="submit" /></span>
+			<div class="input_submit jf_line">
+				<span class="jf_hint"></span>
+				<span><input type="submit" /></span>
 			</div>
 		</form>
 	</div>

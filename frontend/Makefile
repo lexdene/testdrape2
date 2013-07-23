@@ -12,12 +12,15 @@ STYLE_LIST = frame/Layout \
 		discuss/Topic \
 		newsfeed/Template \
 		usermsg/MyMsgList \
+		mail/ReceiveBox \
 
 SCRIPT_TARGET_DIR = $(TARGET_DIR)/coffee
 SCRIPT_LIST = usermsg/Usermsg \
 		usermsg/MyMsgList \
 		Common \
 		hot/LoadHot \
+		TransText \
+		mail/ReceiveBox \
 
 STYLE_TARGETS = $(foreach n, $(STYLE_LIST), $(STYLE_TARGET_DIR)/$n.css)
 SCRIPT_TARGETS = $(foreach n, $(SCRIPT_LIST), $(SCRIPT_TARGET_DIR)/$n.js)

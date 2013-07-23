@@ -102,37 +102,10 @@
 				}
 			});
 		});
-		function transText(text){
-			return markdown( emoji( text ) );
-		}
-		function emoji(text){
-			function isEmoji(word){
-				if( word in emoji_list){
-					return true;
-				}
-				return false;
-			}
-			var basepath = '/static/emoji/';
-			return text.replace(
-				/:([-+_a-zA-Z0-9]+):/g,
-				function(aword,word){
-					if( isEmoji( word ) ){
-						return '<img class="jf_emoji" title="'+word+
-							'" alt="'+word+
-							'" src="'+WEB_ROOT+basepath+word+'.png" align="absmiddle" />';
-					}
-					return aword;
-				}
-			);
-		}
-		function markdown(origin){
-			var converter = new Showdown.converter();
-			return converter.makeHtml(origin);
-		}
 		var markdown_selector = 'script[type="text/markdown"]';
 		jq(markdown_selector).each(function(){
 			var text = this.textContent;
-			jq(this).after('<div class="jf_markdown">'+transText( text )+'</div>');
+			jq(this).parent().find('.jf_markdown').html(transText( text ));
 		});
 
 		// focus topic
