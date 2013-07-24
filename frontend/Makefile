@@ -21,6 +21,7 @@ SCRIPT_LIST = usermsg/Usermsg \
 		hot/LoadHot \
 		TransText \
 		mail/ReceiveBox \
+		dje.pager \
 
 STYLE_TARGETS = $(foreach n, $(STYLE_LIST), $(STYLE_TARGET_DIR)/$n.css)
 SCRIPT_TARGETS = $(foreach n, $(SCRIPT_LIST), $(SCRIPT_TARGET_DIR)/$n.js)
