@@ -9,14 +9,14 @@ class ManualFrame(frame.FrameBase):
 		self.setRenderFunc('app.lib.render.markdown')
 		
 	def setSubTitle(self,title):
-		g = self.globalVars()
+		g = self.runbox().variables()
 		g['subtitle'] = title
 
 class Layout(frame.DefaultFrame):
 	def process(self):
-		g = self.globalVars()
-		self.setVariable('subtitle',g.get('subtitle'))
-		self.setTitle(u'%s - drape开发手册'%g.get('subtitle'))
+		g = self.runbox().variables()
+		self.setVariable('subtitle', g.get('subtitle'))
+		self.setTitle(u'%s - drape开发手册' % g.get('subtitle'))
 
 class Index(ManualFrame):
 	def process(self):
