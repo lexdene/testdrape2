@@ -42,6 +42,12 @@ do(jq=jQuery)->
     _total_page = 100
     _page_width = 5
 
+    _options =
+      on_page_change: (to_page)->
+        to_page
+
+    jq.extend _options, options
+
     this.page = ->
       return _current_page
 
@@ -49,10 +55,10 @@ do(jq=jQuery)->
       return _total_page
 
     this.setData = (page, total_page)->
-      if page
+      if page != undefined
         _current_page = parseInt page
 
-      if total_page
+      if total_page != undefined
         _total_page = parseInt total_page
 
       this.update()
@@ -81,9 +87,12 @@ do(jq=jQuery)->
     me = this
     element.on 'click', 'a[data-page]', (e)->
       e.preventDefault()
-      me.setData jq(this).attr('data-page')
+      to_page = parseInt jq(this).attr 'data-page'
+      _options.on_page_change to_page
+      me.setData to_page
 
     this.update()
+    return this
 
   jq.fn.extend {
     pager: (options)->
@@ -92,5 +101,5 @@ do(jq=jQuery)->
         if not el.data('pager')
           el.data 'pager', new Pager el, options
 
-      return this
+      return this.data('pager')
   }

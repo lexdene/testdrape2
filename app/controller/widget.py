@@ -27,10 +27,8 @@ class Pager(WidgetBase):
 		
 		page_begin = self.__current_page - self.__page_width/2
 		page_end = page_begin + self.__page_width
-		self.setVariable('page_begin_1',page_begin)
-		self.setVariable('page_end_1',page_end)
 		if page_begin < 1 :
-			page_begin = 1;
+			page_begin = 1
 			page_end = min(self.__page_width,page_count-2)+1
 		elif page_end >= page_count:
 			page_end = page_count-1

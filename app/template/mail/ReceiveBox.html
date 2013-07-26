@@ -1,6 +1,5 @@
-{% do res.addResByPath('coffee') -%}
-{% do res.addResByPath('css') -%}
-{% do res.add(path='/userinfo/UserPanel') -%}
+{% do res.addResByPath(('coffee', 'css')) -%}
+{% do res.add('/userinfo/UserPanel') -%}
 {% do res.add('/emoji/emoji_list','js') %}
 {% do res.add('/showdown/showdown','js') %}
 {% do res.add('/TransText','coffee') %}

@@ -253,3 +253,29 @@ pre{
 .push_right{
 	float: right;
 }
+
+.jf_label_list{
+	padding: 0;
+	margin: 0;
+
+	.jf_label{
+		display: inline-block;
+		background: none repeat scroll 0 0 @color-white;
+		border: 1px solid #CCCCCC;
+		cursor: pointer;
+		display: inline-block;
+		line-height: 30px;
+		margin-bottom: 3px;
+		margin-right: 5px;
+		padding: 0 10px 0 10px;
+
+		.rounded-corners;
+
+		&.active{
+			border: 1px solid @color-full-dark;
+			color: @color-full-dark;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+			outline: 0 none;
+		}
+	}
+}

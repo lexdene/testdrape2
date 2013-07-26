@@ -1,0 +1,24 @@
+{% do res.addResByPath(('coffee', 'css')) -%}
+{% do res.add('/dje.pager', 'coffee') -%}
+{% do res.add('/discuss/List', 'css') %}
+<div class="discuss2_filter_topic">
+  <div class="tags">
+    <h3>所有标签</h3>
+    <div class="tag-list" id="all-tag-list">
+    </div>
+    <div class="jr_pager page"></div>
+  </div>
+  <div class="selected-tags">
+    <h3>已选择的标签</h3>
+    <div class="tag-list">
+      <ul class="jf_label_list" id="selected-tag-list">
+      </ul>
+    </div>
+  </div>
+  <div class="discuss_list">
+    <h3>主题列表</h3>
+    <div class="topic-list list" id="topic-list">
+    </div>
+    <div class="jr_pager page"></div>
+  </div>
+</div>

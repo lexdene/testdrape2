@@ -13,6 +13,7 @@ STYLE_LIST = frame/Layout \
 		newsfeed/Template \
 		usermsg/MyMsgList \
 		mail/ReceiveBox \
+		discuss2/filter_topic \
 
 SCRIPT_TARGET_DIR = $(TARGET_DIR)/coffee
 SCRIPT_LIST = usermsg/Usermsg \
@@ -21,6 +22,7 @@ SCRIPT_LIST = usermsg/Usermsg \
 		hot/LoadHot \
 		TransText \
 		mail/ReceiveBox \
+		discuss2/filter_topic \
 		dje.pager \
 
 STYLE_TARGETS = $(foreach n, $(STYLE_LIST), $(STYLE_TARGET_DIR)/$n.css)

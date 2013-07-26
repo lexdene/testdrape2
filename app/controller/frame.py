@@ -24,10 +24,10 @@ class Resource(object):
 		self.__levels.append(res)
 		return res
 
-	def add(self,path,type='both',version=0):
-		if 'both' == type:
-			self.add(path,'js',version)
-			self.add(path,'css',version)
+	def add(self, path, type=('js', 'css'), version=0):
+		if isinstance(type, tuple):
+			for i in type:
+				self.add(path, i, version)
 		else:
 			self.__resources.append(dict(
 				path = path,
@@ -35,9 +35,9 @@ class Resource(object):
 				version = version
 			))
 
-	def addResByPath(self,type='both',version=0):
+	def addResByPath(self, type=('js', 'css'), version=0):
 		path = self.__controller.path()
-		self.add(path,type,version)
+		self.add(path, type, version)
 
 class FrameBase(drape.controller.Controller):
 	def notLogin(self):
