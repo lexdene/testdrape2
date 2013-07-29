@@ -18,6 +18,7 @@ do (jq=jQuery) ->
   '''
   jq ->
     container = jq('#body_right')
+    container.html loading_html
 
     content_name_list = ['hot_tag']
     random_num = Math.floor( Math.random() * content_name_list.length )
