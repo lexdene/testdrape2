@@ -24,6 +24,8 @@ SCRIPT_LIST = usermsg/Usermsg \
 		mail/ReceiveBox \
 		discuss2/filter_topic \
 		dje.pager \
+		frame/Layout \
+		dje2 \
 
 STYLE_TARGETS = $(foreach n, $(STYLE_LIST), $(STYLE_TARGET_DIR)/$n.css)
 SCRIPT_TARGETS = $(foreach n, $(SCRIPT_LIST), $(SCRIPT_TARGET_DIR)/$n.js)
