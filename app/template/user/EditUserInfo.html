@@ -9,35 +9,36 @@
 			method="post"
 			onsubmit="return false;"
 			action="{{ROOT}}/user/ajaxEditUserInfo"
+			class="jdmd_form"
 			>
-			<div class="nickname">
-				<span class="common_hint">昵称</span>
-				<span class="common_content"><input name="nickname" value="{{userinfo['nickname']}}" /></span>
+			<div class="nickname jf_line">
+				<span class="jf_hint">昵称</span>
+				<span><input class="jf_input" name="nickname" value="{{userinfo['nickname']}}" /></span>
 			</div>
-			<div>
-				<span class="common_hint">电子邮箱</span>
-				<span class="common_content"><input name="email" value="{{userinfo['email']}}" /></span>
+			<div class="jf_line">
+				<span class="jf_hint">电子邮箱</span>
+				<span><input class="jf_input" name="email" value="{{userinfo['email']}}" /></span>
 			</div>
-			<div>
-				<span class="common_hint">个人介绍</span>
-				<span class="common_content"><textarea style="height:80px" name="intro">{{userinfo['intro']}}</textarea></span>
+			<div class="jf_line">
+				<span class="jf_hint">个人介绍</span>
+				<span><textarea class="jf_input" name="intro">{{userinfo['intro']}}</textarea></span>
 			</div>
-			<div class="avatar">
-				<span class="common_hint">头像</span>
-				<span class="common_content">
+			<div class="avatar jf_line">
+				<span class="jf_hint">头像</span>
+				<span>
 					<input type='hidden' name="avatar" value="{{userinfo['avatar'] if userinfo['avatar'] else ''}}" />
 					<a id='upload_avatar_btn' href='#' onclick="return false;">上传</a>
 				</span>
 			</div>
-			<div class="avatar_preview">
-				<div class="common_hint">头像预览</div>
+			<div class="avatar_preview jf_line">
+				<div class="jf_hint">头像预览</div>
 				<div class="common_avatar_block">
-					<img class="common_avatar" src="{{ avatar( userinfo['avatar'] ) }}" alt="avatar" />
+					<img class="avatar" src="{{ avatar( userinfo['avatar'] ) }}" alt="avatar" />
 				</div>
 			</div>
-			<div class="submit">
-				<span class="common_hint"></span>
-				<span class="common_content"><input type="submit" name="submit" /></span>
+			<div class="submit jf_line">
+				<span class="jf_hint"></span>
+				<span><input type="submit" name="submit" /></span>
 			</div>
 		</form>
 	</div>
