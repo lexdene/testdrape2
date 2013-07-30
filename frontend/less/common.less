@@ -36,3 +36,17 @@
   background-image: linear-gradient(to bottom, @from-color, @to-color);
   background-repeat: repeat-x;
 }
+.avatar-block(@size){
+  width: @size;
+  height: @size;
+  margin: 0 auto;
+  overflow: hidden;
+  border: solid 1px @color-full-dark;
+  .rounded-corners;
+  text-align: center;
+
+  img.avatar{
+    max-width: @size;
+    max-height: @size;
+  }
+}

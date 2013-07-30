@@ -111,7 +111,10 @@ do(jq=jQuery)->
             <div class="item">
               <div class="title_line clearfix">
                 <div class="common_layout_column">
-                  <img class="avatar" src="<%= avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
+                  <div class="avatar_block">
+                    <img class="avatar" src="<%= avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
+                  </div>
+                  <div class="author_nickname"><%- topic_item["topic_ui.nickname"] %></div>
                 </div>
                 <div class="common_layout_column">
                   <div class="title">
