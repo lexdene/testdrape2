@@ -4,28 +4,33 @@ MKDIR = mkdir -p
 TARGET_DIR = ../data/static
 
 STYLE_TARGET_DIR = $(TARGET_DIR)/css
-STYLE_LIST = frame/Layout \
-		jdmd_widget \
-		discuss/List \
-		userinfo/UserPanel \
-		userinfo/MainPage \
-		discuss/Topic \
-		newsfeed/Template \
-		usermsg/MyMsgList \
-		mail/ReceiveBox \
+STYLE_LIST = \
 		discuss2/filter_topic \
+		discuss2/post_topic \
+		discuss/List \
+		discuss/Topic \
+		frame/Layout \
+		jdmd_widget \
+		mail/ReceiveBox \
+		newsfeed/Template \
+		userinfo/MainPage \
+		userinfo/UserPanel \
+		usermsg/MyMsgList \
 
 SCRIPT_TARGET_DIR = $(TARGET_DIR)/coffee
-SCRIPT_LIST = usermsg/Usermsg \
-		usermsg/MyMsgList \
+SCRIPT_LIST = \
 		Common \
-		hot/LoadHot \
-		TransText \
-		mail/ReceiveBox \
 		discuss2/filter_topic \
-		dje.pager \
+		discuss2/post_topic \
+		dje/dje.ajax_form \
+		dje/dje.pager \
+		dje/dje.util \
 		frame/Layout \
-		dje2 \
+		hot/LoadHot \
+		mail/ReceiveBox \
+		TransText \
+		usermsg/MyMsgList \
+		usermsg/Usermsg \
 
 STYLE_TARGETS = $(foreach n, $(STYLE_LIST), $(STYLE_TARGET_DIR)/$n.css)
 SCRIPT_TARGETS = $(foreach n, $(SCRIPT_LIST), $(SCRIPT_TARGET_DIR)/$n.js)

@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+'''
+    与主题相关的controller
+    版本: 2.0
+'''
 
 import time
 
@@ -14,7 +18,8 @@ DEFAULT_CLS = 'filter_topic'
 
 @DefaultFrame.controller
 def filter_topic(self):
-    pass
+    ''' 筛选主题的页面 '''
+    self.setTitle(u'筛选主题')
 
 
 @jsonController.controller
@@ -84,3 +89,9 @@ def ajax_topic_list(self):
     )
     self.setVariable('topic_list', topic_list)
     self.setVariable('total_count', count)
+
+
+@DefaultFrame.controller
+def post_topic(self):
+    ''' 发表主题的页面 '''
+    self.setTitle(u'发表新主题')
