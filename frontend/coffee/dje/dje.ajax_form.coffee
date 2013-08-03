@@ -30,6 +30,11 @@ do(jq=jQuery)->
       options.validate.failed validate_result.msg
       return
 
+    jq('body').add_mask()
+
+    setTimeout ->
+      jq('body').remove_mask()
+    , 1000
     true
 
   get_form_params = (form)->
@@ -74,7 +79,7 @@ do(jq=jQuery)->
       # 以[]结尾的是一个list
       if '[]' == name.substr -2
         list_name = name.substr 0, name.length-2
-        if list_name not of params
+        if list_name not of params or not _.isArray params[list_name]
           params[list_name] = []
         params[list_name].push area.value
       else

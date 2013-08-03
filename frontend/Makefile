@@ -23,6 +23,7 @@ SCRIPT_LIST = \
 		discuss2/filter_topic \
 		discuss2/post_topic \
 		dje/dje.ajax_form \
+		dje/dje.mask \
 		dje/dje.pager \
 		dje/dje.util \
 		frame/Layout \
@@ -44,7 +45,7 @@ $(STYLE_TARGET_DIR)/%.css : less/%.less Makefile
 
 $(SCRIPT_TARGET_DIR)/%.js : coffee/%.coffee Makefile
 	$(MKDIR) $$(dirname "$@")
-	coffee -c -o $$(dirname "$@") "$<"
+	coffee -b -c -o $$(dirname "$@") "$<"
 
 $(SCRIPT_TARGET_DIR)/%.min.js : $(SCRIPT_TARGET_DIR)/%.js
 	uglifyjs -o "$@" "$<"
