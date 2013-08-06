@@ -30,10 +30,11 @@ do(jq=jQuery)->
       options.validate.failed validate_result.msg
       return
 
-    jq('body').add_mask()
+    form.add_mask()
 
     setTimeout ->
-      jq('body').remove_mask()
+      form.remove_mask()
+      true
     , 1000
     true
 
