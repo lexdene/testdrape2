@@ -3,16 +3,23 @@ do(jq=jQuery)->
     default_option =
       success: ->
         alert '提交成功'
-      failed: (msg)->
-        alert "提交失败: #{msg}"
-      validate:
-        form_area: {}
-        failed: ()->
-          alert "验证失败"
+      failed: (type, msg)->
+        '''
+          type: post/network/validate
+        '''
+        switch type
+          when 'post'
+            alert "提交失败: #{msg}"
+          when 'network'
+            alert "网络错误，请联系网站管理员"
+          when 'validate'
+            true
+        true
+      validate: {}
       before_submit: ->
         true
 
-    jq.extend true, default_option, options
+    jq.extend default_option, options
 
   bind_events = (jobj, options)->
     jobj.submit (e)->
@@ -23,20 +30,26 @@ do(jq=jQuery)->
 
   ajax_submit = (form, options)->
     options.before_submit.call form
-    params = get_form_params(form)
-    validate_result = validate_params params, options.validate.form_area
+    params = get_form_params form
+    validate_result = validate_params params, options.validate
     if not validate_result.result
       show_all_error_hint form, validate_result
-      options.validate.failed validate_result.msg
+      options.failed 'validate', validate_result.msg
       return
 
     form.add_mask()
 
-    setTimeout ->
+    jq.post(
+      form.attr('action'),
+      jq.param(params),
+      null,
+      'json'
+    ).success( ->
+      options.success()
+    ).error( ->
+      options.failed('network')
+    ).complete ->
       form.remove_mask()
-      true
-    , 1000
-    true
 
   get_form_params = (form)->
     return form.serializeArray()
@@ -123,6 +136,7 @@ do(jq=jQuery)->
     jq.each validate_result.illegal_area, (index, area)->
       line = form.find(".jf_input[name=#{area.name}]").closest('.jf_line').get(0)
       if line
+        remove_error_hint.call line
         show_error_hint.call line, area.msg
 
   jq.fn.extend

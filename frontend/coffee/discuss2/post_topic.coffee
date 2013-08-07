@@ -3,24 +3,21 @@ do(jq=jQuery)->
     form = jq '#post_form'
     form.ajax_form
       validate:
-        form_area:
-          title:
-            title: '标题'
-            validates: [
-              ['notempty']
-            ]
-          text:
-            title: '内容'
-            validates: [
-              ['notempty']
-            ]
-          tags:
-            title: '标签'
-            validates: [
-              ['len', 1, 5]
-            ]
-        failed: ->
-          true
+        title:
+          title: '标题'
+          validates: [
+            ['notempty']
+          ]
+        text:
+          title: '内容'
+          validates: [
+            ['notempty']
+          ]
+        tags:
+          title: '标签'
+          validates: [
+            ['len', 1, 5]
+          ]
       before_submit: ->
         submit_tag_input()
 
@@ -36,8 +33,9 @@ do(jq=jQuery)->
       val = jq.trim tags_input.val()
       if val.length > 0
         tags_input.val ''
-        jq('#tag_line').append tag_template
+        jq('#tag_line').append(tag_template
           val: val
+        ).click()
 
     # bind events
     jq('#tag_line').on 'click', '.remove_button', ->
