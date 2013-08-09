@@ -6,6 +6,7 @@ from drape.controller import jsonController
 from drape.db import Db
 from drape.model import LinkedModel
 from drape.config import get_value as config_value
+from drape.util import tile_list_data
 
 
 @jsonController.controller
@@ -70,4 +71,4 @@ def randomTagList(self):
                 tag['enable'] = False
                 break
 
-    self.setVariable('tag_list', result_list)
+    self.setVariable('tag_list', tile_list_data(result_list))

@@ -7,12 +7,12 @@ do (jq=jQuery) ->
         tag_list: data.tag_list
 
   load_hot_tag.template = _.template '''
-    <div class="hot_tag_list">
+    <div class="hot_tag_list jf_tag_line">
       <div class="hint">热门标签</div>
       <% _(tag_list).each(function(tag){ %>
-        <div class="tag_item">
+        <span class="jf_tag" reply_count="<%- tag.tag_cache.reply_count %>">
           <a href="<%- WEB_ROOT %>/discuss/List/tag/<%- tag.id %>"><%- tag.content %></a>
-        </div>
+        </span>
       <% }) %>
     </div>
   '''
