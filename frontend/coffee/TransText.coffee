@@ -1,6 +1,6 @@
 do (jq=jQuery) ->
   emoji_base_path = '/static/emoji/'
-  emoji_regexp = new RegExp('/:([-+_a-zA-Z0-9]+):/','g')
+  emoji_regexp = new RegExp ':([-+_a-zA-Z0-9]+):','g'
   markdown_converter = new Showdown.converter()
 
   transText = (text)->
