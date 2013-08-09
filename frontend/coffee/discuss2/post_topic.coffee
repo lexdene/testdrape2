@@ -21,7 +21,17 @@ do(jq=jQuery)->
       before_submit: ->
         submit_tag_input()
       success: ->
-        window.location = "#{WEB_ROOT}/discuss2/filter_topic"
+        # 在complete中会remove mask
+        # 所以此时要延时到remove mask之后执行
+        setTimeout(
+          ->
+            form.add_mask
+              type: 'success'
+              text: '发表成功'
+            window.location = "#{WEB_ROOT}/discuss2/filter_topic"
+          ,100
+        )
+      loading_text: '发表中...'
 
     tags_input = jq '#tags_input'
 

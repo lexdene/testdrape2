@@ -18,6 +18,7 @@ do(jq=jQuery)->
       validate: {}
       before_submit: ->
         true
+      loading_text: 'loading'
 
     jq.extend default_option, options
 
@@ -37,7 +38,9 @@ do(jq=jQuery)->
       options.failed 'validate', validate_result.msg
       return
 
-    form.add_mask()
+    form.add_mask
+      type: 'loading'
+      text: options.loading_text
 
     jq.post(
       form.attr('action'),

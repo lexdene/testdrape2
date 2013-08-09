@@ -285,9 +285,10 @@ pre{
 	.place_holder{
 		height: 50%;
 	}
-	> div{
-		width: 100px;
+	.content{
+		width: 150px;
 		margin: 0 auto;
+		background-color: @color-white;
 	}
 }
 
@@ -297,7 +298,7 @@ pre{
     -moz-transform: rotate(0deg);
   }
   100% {
-    -moz-transform: rotate(359deg);
+    -moz-transform: rotate(-359deg);
   }
 }
 @-webkit-keyframes spin {
@@ -305,7 +306,7 @@ pre{
     -webkit-transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(359deg);
+    -webkit-transform: rotate(-359deg);
   }
 }
 @-o-keyframes spin {
@@ -313,7 +314,7 @@ pre{
     -o-transform: rotate(0deg);
   }
   100% {
-    -o-transform: rotate(359deg);
+    -o-transform: rotate(-359deg);
   }
 }
 @-ms-keyframes spin {
@@ -321,7 +322,7 @@ pre{
     -ms-transform: rotate(0deg);
   }
   100% {
-    -ms-transform: rotate(359deg);
+    -ms-transform: rotate(-359deg);
   }
 }
 @keyframes spin {
@@ -329,7 +330,7 @@ pre{
     transform: rotate(0deg);
   }
   100% {
-    transform: rotate(359deg);
+    transform: rotate(-359deg);
   }
 }
 .jf_spin {
@@ -338,4 +339,19 @@ pre{
   -o-animation: spin 2s infinite linear;
   -webkit-animation: spin 2s infinite linear;
   animation: spin 2s infinite linear;
+}
+
+.jf_icon{
+  background-image: url("../../static/image/icons.png");
+  display: inline-block;
+  height: 35px;
+  width: 35px;
+
+  &[data-icon=loading]{
+    background-position: -395px -4px;
+  }
+
+  &[data-icon=success]{
+    background-position: -50px -0px;
+  }
 }
