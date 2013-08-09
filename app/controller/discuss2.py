@@ -11,7 +11,7 @@ from drape.model import LinkedModel
 from drape.util import toInt
 from drape.validate import validate_params
 
-from .frame import DefaultFrame
+from .frame import DefaultFrame, check_login
 from app.model.discuss import TopicModel
 from app.lib.tags import Tags
 
@@ -94,6 +94,7 @@ def ajax_topic_list(self):
 
 
 @DefaultFrame.controller
+@check_login
 def post_topic(self):
     ''' 发表主题的页面 '''
     self.setTitle(u'发表新主题')
