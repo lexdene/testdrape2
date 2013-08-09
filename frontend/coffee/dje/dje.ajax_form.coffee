@@ -44,8 +44,11 @@ do(jq=jQuery)->
       jq.param(params),
       null,
       'json'
-    ).success( ->
-      options.success()
+    ).success( (data)->
+      if data.result == 'success'
+        options.success()
+      else
+        options.failed 'post', data.msg
     ).error( ->
       options.failed('network')
     ).complete ->

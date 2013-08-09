@@ -21,6 +21,9 @@ class Tags(object):
         
         self.__tagList = tagList
     
+    def set_tag_list(self, tag_list):
+        self.__tagList = tag_list
+
     def validate(self):
         result = dict(
             result = True,
