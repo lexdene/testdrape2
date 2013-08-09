@@ -11,7 +11,8 @@ from drape.model import LinkedModel
 from drape.util import toInt
 from drape.validate import validate_params
 
-from .frame import DefaultFrame, check_login
+from .frame import DefaultFrame
+from app.lib.login import check_login, ajax_check_login
 from app.model.discuss import TopicModel
 from app.lib.tags import Tags
 
@@ -101,6 +102,7 @@ def post_topic(self):
 
 
 @jsonController.controller
+@ajax_check_login
 def ajax_post_topic(self):
     ''' 发表主题的ajax接口 '''
     params = self.params()
@@ -109,10 +111,6 @@ def ajax_post_topic(self):
 
     session = self.session()
     uid = toInt(session.get('uid', -1))
-    if uid < 0:
-        self.setVariable('result', 'failed')
-        self.setVariable('msg', u'请先登录')
-        return
 
     # validates
     validates = [

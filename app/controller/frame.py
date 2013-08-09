@@ -5,6 +5,9 @@ from functools import wraps
 import drape
 from drape.util import toInt
 
+import app
+
+
 class Resource(object):
 	'''
 	管理css / js等资源
@@ -107,6 +110,10 @@ class HtmlBody(FrameBase):
 		else:
 			coffee_ext = '.min.js'
 		self.setVariable('coffee_ext', coffee_ext)
+
+		# version
+		self.setVariable('version', app.version)
+		self.setVariable('drape_version', drape.version)
 
 class Layout(FrameBase):
 	def __init__(self,runbox):

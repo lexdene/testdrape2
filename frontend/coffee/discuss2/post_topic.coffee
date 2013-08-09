@@ -20,6 +20,8 @@ do(jq=jQuery)->
           ]
       before_submit: ->
         submit_tag_input()
+      success: ->
+        window.location = "#{WEB_ROOT}/discuss2/filter_topic"
 
     tags_input = jq '#tags_input'
 
