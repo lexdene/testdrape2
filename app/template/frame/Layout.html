@@ -24,7 +24,7 @@
 		{% if uid > 0 %}
 			<a href="{{ROOT}}/user/UserCenter">个人中心</a>
 			<a href="{{ROOT}}/userinfo/MainPage/id/{{userinfo['id']}}">{{userinfo['nickname']}}</a>
-			<a href='#' onclick="return false" class="notice_btn">
+			<a href='#' class="notice_btn">
 				通知
 				{% if notice_count > 0 %}
 					(<span class="count">{{notice_count}}</span>)

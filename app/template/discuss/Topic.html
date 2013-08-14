@@ -54,7 +54,7 @@ var topic_id = {{ topicInfo['id'] }};
 								<div class="jf_markdown">{{ reply['rtr.text'] |e}}</div>
 							</div>
 							<div class="buttons">
-								<a href='#' onclick="return false" class="jump_button">jump to</a>
+								<a href='#' class="jump_button">jump to</a>
 							</div>
 						</div>
 					{% endif %}
@@ -80,9 +80,9 @@ var topic_id = {{ topicInfo['id'] }};
 						<div class="floor_count">{{ reply['floor'] }}楼</div>
 						<div class="floor_time">{{ timestr(reply['ctime']) }}</div>
 						<div class="floor_button">
-							<a href='#' onclick="return false" class="reply_button">回复</a>
+							<a href='#' class="reply_button">回复</a>
 							{% if reply['ui.id'] == uid %}
-								<a href='#' onclick="return false" class="edit_button">编辑</a>
+								<a href='#' class="edit_button">编辑</a>
 							{% endif %}
 						</div>
 					</div>
@@ -104,7 +104,7 @@ var topic_id = {{ topicInfo['id'] }};
 			<div class="h">发表回复</div>
 			<div class="reply_to_hint">
 				<span>回复<span class="floor_num">-1</span>楼</span>
-				<a href='#' onclick="return false" class="cancel_reply_button">取消</a>
+				<a href='#' class="cancel_reply_button">取消</a>
 			</div>
 			<div>
 				<textarea name="text" placeholder="请输入回复内容..."></textarea>

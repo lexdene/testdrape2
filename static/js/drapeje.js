@@ -187,7 +187,8 @@
 		},
 		valcode : function(){
 			var form = this;
-			form.find('.jf_valcode_btn').click(function(){
+			form.find('.jf_valcode_btn').click(function(e){
+				e.preventDefault();
 				form.refresh_valcode();
 			});
 			return this;

@@ -2,7 +2,8 @@
 	var jQuery = undefined;
 	jq(function(){
 		var d;
-		jq('.layout_head_line .notice_btn').click(function(){
+		jq('.layout_head_line .notice_btn').click(function(e){
+			e.preventDefault();
 			var btn = jq(this);
 			
 			// create
@@ -32,10 +33,11 @@
 			function showPage(){
 				if( pageData && isTimerFinished ){
 					d.html(pageData);
-					d.append('<div><a href="#" onclick="return false" class="close_btn">关闭</a></div>');
+					d.append('<div><a href="#" class="close_btn">关闭</a></div>');
 					
 					// close
-					d.find('.close_btn').click(function(){
+					d.find('.close_btn').click(function(e){
+						e.preventDefault();
 						d.hide();
 					});
 					

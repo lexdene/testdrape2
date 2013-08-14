@@ -55,10 +55,6 @@
 			var more_button_obj = jq(more_button_html);
 			var from_id = -1;
 
-			area.on('click', '.username_btn', function(event){
-				jq.userpanel(jq(this), event);
-			});
-
 			function load_newsfeed_list(){
 				area.append(loading_obj);
 

@@ -3,13 +3,13 @@ do (jq=jQuery) ->
   <% _(msg_list).each(function(msg){ %>
     <div class="msg_item" msg_id="<%- msg.id %>">
       <div class="first_line">
-        <a class="from_user username_btn" href="#" userid="<%- msg.from_ui.id %>" onclick="return false">
+        <a class="from_user username_btn" href="#" userid="<%- msg.from_ui.id %>">
           <%- msg.from_ui.nickname %>
         </a>
 
         <% if (msg.to_uid > 0){ %>
           回复
-          <a class="to_user username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
+          <a class="to_user username_btn" href="#" userid="<%- msg.to_ui.id %>">
             <%- msg.to_ui.nickname %>
           </a>
         <% } %>
@@ -19,7 +19,7 @@ do (jq=jQuery) ->
       <div class="second_line">
         <span class="ctime"><%- format_date(msg.ctime) %></span>
         <% if(msg.from_ui.id != my_userid){ %>
-          <a class="reply_btn" href="#" onclick="return false">回复</a>
+          <a class="reply_btn" href="#">回复</a>
         <% } %>
       </div>
     </div>
@@ -39,10 +39,8 @@ do (jq=jQuery) ->
     set_container: (c) ->
       me = @
       @container = c
-      @container.on('click', '.username_btn', (event) ->
-        jq.userpanel jq(this), event
-      )
       @container.on('click', '.reply_btn', (event) ->
+        event.preventDefault()
         msg_item = jq(this).closest('.msg_item')
         from_user_btn = msg_item.find '.from_user'
 
@@ -138,7 +136,8 @@ do (jq=jQuery) ->
 
     set_page_buttons: (buttons) ->
       me = @
-      buttons.click ->
+      buttons.click (e)->
+        e.preventDefault()
         switch jq(this).attr 'action'
           when 'prev'
             target_page = me.current_page - 1

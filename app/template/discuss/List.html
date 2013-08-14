@@ -11,7 +11,12 @@
 			</div>
 		</div>
 	{% else %}
-		<h1>讨论区</h1>
+		<div class="clearfix">
+			<h1>讨论区</h1>
+			<div class="push_right">
+				<a href="{{ROOT}}/discuss2" class="jf_button">筛选主题</a>
+			</div>
+		</div>
 	{% endif %}
 	<div class="list">
 		{% for topic_item in topic_list %}

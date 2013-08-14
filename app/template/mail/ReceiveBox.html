@@ -15,11 +15,11 @@
 			<div class="title_line">
 				<span class="isread">*</span>
 				<span class="fromuser">
-					<a class="username_btn" href='#' userid='{{mail['fromuser.id']}}' onclick="return false">
+					<a class="username_btn" href='#' userid='{{mail['fromuser.id']}}'>
 						{{mail['fromuser.nickname']|e}}
 					</a>
 				</span>
-				<a href='#' onclick="return false" class="title">{{mail['title']|e}}</a>
+				<a href='#' class="title">{{mail['title']|e}}</a>
 				<span class="time">{{ timestr( mail['ctime'] ) }}</span>
 			</div>
 			<div class="body" style="display:none">

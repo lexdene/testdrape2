@@ -138,7 +138,8 @@
 			);
 		}
 
-		jq('#page_buttons').find('.jf_button').click(function(){
+		jq('#page_buttons').find('.jf_button').click(function(e){
+			e.preventDefault();
 			var target_page;
 			if( 'prev' == jq(this).attr('action') ){
 				target_page = current_page - 1;

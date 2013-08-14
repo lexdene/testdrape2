@@ -30,7 +30,8 @@
 				}
 			});
 		});
-		jq('.reply_button').click(function(){
+		jq('.reply_button').click(function(e){
+			e.preventDefault();
 			var floorObj = jq(this).closest('.floor');
 			var floor_num = floorObj.attr('floor_num');
 			var floor_id = floorObj.attr('floor_id');
@@ -40,17 +41,20 @@
 			reply_to_hint.show();
 			form.jump();
 		});
-		form.find('.cancel_reply_button').click(function(){
+		form.find('.cancel_reply_button').click(function(e){
+			e.preventDefault();
 			var reply_to_hint = form.find('.reply_to_hint');
 			reply_to_hint.hide();
 			reply_to_hint.find('.floor_num').html(-1);
 			form.find('input[name=reply_to_id]').val(-1);
 		});
-		jq('.reply_to_reply').find('.jump_button').click(function(){
+		jq('.reply_to_reply').find('.jump_button').click(function(e){
+			e.preventDefault();
 			var reply_to_id = jq(this).closest('.reply_to_reply').attr('reply_to_id');
 			jq('.floor[floor_id='+reply_to_id+']').jump();
 		});
-		jq('.edit_button').click(function(){
+		jq('.edit_button').click(function(e){
+			e.preventDefault();
 			var edit_button = jq(this);
 			var floor = jq(this).closest('.floor').find('.floor_content');
 			var edit = floor.find('.floor_edit');
@@ -129,6 +133,5 @@
 				'json'
 			);
 		});
-
 	});
 })(jQuery);

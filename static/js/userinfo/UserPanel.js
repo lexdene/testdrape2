@@ -3,6 +3,7 @@
 	jq(function(){
 		var d;
 		function userpanel(btn, event){
+			event.preventDefault();
 			var userid = btn.attr('userid');
 			
 			// create
@@ -78,10 +79,7 @@
 			);
 		}
 
-		jq.extend({
-			userpanel: userpanel
-		});
-		jq('.username_btn').click(function(event){
+		jq('body').on('click', '.username_btn', function(event){
 			userpanel(jq(this), event);
 		});
 	});

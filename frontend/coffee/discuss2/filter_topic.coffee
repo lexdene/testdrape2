@@ -95,7 +95,6 @@ do(jq=jQuery)->
             tag_list: topic_list_params.tag_list.join ','
           },
         ).success (topic_list_data)->
-          console.log topic_list_data
           # page
           page_widget.setData(
             topic_list_data.page,
@@ -114,7 +113,11 @@ do(jq=jQuery)->
                   <div class="avatar_block">
                     <img class="avatar" src="<%= avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
                   </div>
-                  <div class="author_nickname"><%- topic_item["topic_ui.nickname"] %></div>
+                  <div class="author_nickname">
+                    <a class="username_btn" href="#" userid="<%- topic_item["topic_ui.id"] %>">
+                      <%- topic_item["topic_ui.nickname"] %>
+                    </a>
+                  </div>
                 </div>
                 <div class="common_layout_column">
                   <div class="title">
@@ -161,7 +164,6 @@ do(jq=jQuery)->
         html = template
           topic_list: topic_list
           format_date: jq.create_format_date(now)
-        console.log html
         jtopic_list.html html
 
       # init pager

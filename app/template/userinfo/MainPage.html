@@ -10,7 +10,7 @@ var user_id = {{ userinfo['id'] }};
 			{{ userinfo['nickname'] }}
 		</div>
 		<div class="common_avatar_block">
-			<img class="common_avatar" src="{{ avatar(userinfo['avatar']) }}" alt="avatar" />
+			<img class="avatar" src="{{ avatar(userinfo['avatar']) }}" alt="avatar" />
 		</div>
 		<div class="button_area">
 			<div>
@@ -76,9 +76,9 @@ var user_id = {{ userinfo['id'] }};
 					留言列表
 				</div>
 				<div class="buttons" id="page_buttons">
-					<a class="jf_button" href="#" onclick="return false" action="prev">上一页</a>
+					<a class="jf_button" href="#" action="prev">上一页</a>
 					<span class="page_count" id="page_count"></span>
-					<a class="jf_button" href="#" onclick="return false" action="next">下一页</a>
+					<a class="jf_button" href="#" action="next">下一页</a>
 				</div>
 			</div>
 		</div>
@@ -91,11 +91,11 @@ var user_id = {{ userinfo['id'] }};
 	<% _(msg_list).each(function(msg){ %>
 		<div class="msg_item" msg_id="<%- msg.id %>">
 			<div class="first_line">
-				<a class="username_btn" href="#" userid="<%- msg.from_ui.id %>" onclick="return false">
+				<a class="username_btn" href="#" userid="<%- msg.from_ui.id %>">
 					<%- msg.from_ui.nickname %>
 				</a>
 				回复
-				<a class="username_btn" href="#" userid="<%- msg.to_ui.id %>" onclick="return false">
+				<a class="username_btn" href="#" userid="<%- msg.to_ui.id %>">
 					<%- msg.to_ui.nickname %>
 				</a>
 				:
