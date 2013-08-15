@@ -39,7 +39,7 @@
 				});
 			}
 			
-			d.html('<img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...');
+			d.html(loading_html);
 			
 			// position
 			var pos = btn.position();
@@ -68,7 +68,7 @@
 				showPage();
 			})
 			.error(function(){
-				d.html('载入失败');
+				d.html(error_html);
 			})
 			var timer = setTimeout(
 				function(){

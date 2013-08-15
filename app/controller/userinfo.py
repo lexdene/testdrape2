@@ -66,6 +66,10 @@ class UserTopicList(frame.FrameBase):
 		arrTopicList = aTopicModel.getTopicList(uid = uid)
 		
 		self.setVariable('topic_list',arrTopicList)
+		self.setVariable(
+			'avatar',
+			avatarFunc(self.request().rootPath())
+		)
 		self.setVariable('timestr',app.lib.text.timeStamp2Short)
 		self.setVariable('show_user_info', False )
 

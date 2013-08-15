@@ -1,8 +1,6 @@
 {% do res.addResByPath(('coffee', 'css')) -%}
 {% do res.add('/userinfo/UserPanel') -%}
-{% do res.add('/emoji/emoji_list','js') %}
-{% do res.add('/showdown/showdown','js') %}
-{% do res.add('/TransText','coffee') %}
+{% include 'widget/TransText.html' %}
 <div class="mail_receivebox common_center_block">
 	<div class="head_line">
 		<span class="isread">&nbsp;</span>

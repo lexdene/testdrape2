@@ -1,7 +1,5 @@
 {% do res.addResByPath() %}
-{% do res.add('/emoji/emoji_list','js') %}
-{% do res.add('/showdown/showdown','js') %}
-{% do res.add('/TransText','coffee') %}
+{% include 'widget/TransText.html' %}
 
 <script type="text/javascript">
 var topic_id = {{ topicInfo['id'] }};

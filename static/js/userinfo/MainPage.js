@@ -46,6 +46,11 @@
 			return false;
 		});
 
+		var current_page = 0;
+		var total_page = 0;
+		var template = _.template(jq('#msg_template').html());
+		var msg_list = jq('#msg_list');
+
 		// tabs
 		jq('#tabs').tabs({
 			'pages': {
@@ -89,13 +94,6 @@
 				}
 			}
 		});
-
-		var current_page = 0;
-		var total_page = 0;
-		var msg_list = jq('#msg_list');
-		var loading_html = '<div class="loading"><img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...</div>';
-		var error_html = '<img src="'+WEB_ROOT+'/static/image/error.png" />载入失败！';
-		var template = _.template(jq('#msg_template').html());
 
 		function refresh_msglist(page){
 			if(page == null){
