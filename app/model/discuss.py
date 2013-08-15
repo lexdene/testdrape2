@@ -47,7 +47,6 @@ class TopicModel(drape.model.LinkedModel):
             ).order(
                 'id'
             ).group('dt.id') \
-            .reflectField(True) \
             .limit(length,offset) \
             .where(where_obj) \
             .select()
@@ -81,7 +80,11 @@ class TopicModel(drape.model.LinkedModel):
             'last_reply.ctime',  'DESC'
         ).order(
             'id'
-        ).group('dt.id').reflectField(True).limit(length, offset)
+        ).group(
+            'dt.id'
+        ).limit(
+            length, offset
+        )
 
         if where_obj:
             self.where(where_obj)
