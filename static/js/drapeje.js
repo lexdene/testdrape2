@@ -279,23 +279,20 @@
 			changePageByHash();
 		}
 		,delay_load: function(time, url, templator){
-			var loading_html = loading_html;
-			var fail_html = error_html;
-
 			var load_data = undefined;
 			var isTimerFinished = false;
 			var jthis = this;
 			function load(){
 				if( load_data && isTimerFinished ){
 					if('error' == load_data){
-						jthis.html(fail_html);
+						jthis.html(error_html);
 					}else{
 						jthis.html(load_data);
 					}
 				}
 			}
 
-			jthis.html( loading_html );
+			jthis.html(loading_html);
 
 			jq.get(url,{},null,'html')
 				.success(function(data){

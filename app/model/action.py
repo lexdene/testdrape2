@@ -16,7 +16,13 @@ class ActionModel(LinkedModel):
             'focus.focus_type = action.from_object_type'
             + ' AND focus.target_id = action.from_object_id'
             + ' AND focus.is_del = 0'
-        ).where(where).group('action.id').order('action.id', 'DESC').limit(10).select()
+        ).where(
+            where
+        ).group(
+            'action.id'
+        ).order(
+            'action.id', 'DESC'
+        ).limit(10).select()
 
         topic_model = LinkedModel('discuss_topic')
         userinfo_model = LinkedModel('userinfo')
@@ -31,7 +37,7 @@ class ActionModel(LinkedModel):
             return userinfo_model.where(id=id).find()
 
         def get_reply_info(id):
-            return reply_model.alias('reply').where({'reply.id':id}).join(
+            return reply_model.alias('reply').where({'reply.id': id}).join(
                 'discuss_topic', 'topic', 'reply.tid=topic.id'
                 ).find()
 

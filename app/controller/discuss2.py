@@ -13,7 +13,7 @@ from drape.validate import validate_params
 
 from .frame import DefaultFrame
 from app.lib.login import check_login, ajax_check_login
-from app.model.discuss import TopicModel
+from app.model.discuss import TopicModel, add_new_topic
 from app.lib.tags import Tags
 
 DEFAULT_CLS = 'filter_topic'
@@ -151,59 +151,12 @@ def ajax_post_topic(self):
     # get tag id list
     tag_id_list = tags.idListInDb()
 
-    # now
-    now = int(time.time())
-
-    # insert topic
-    discuss_model = LinkedModel('discuss_topic')
-    topicid = discuss_model.insert(
+    # add topic to db
+    add_new_topic(
         uid=uid,
-        ctime=now,
         title=params.get('title', ''),
-    )
-
-    # insert reply
-    replyid = LinkedModel('discuss_reply').insert(
-        tid=topicid,
-        uid=uid,
-        reply_to_id=-1,
-        ctime=now,
-        text=params.get('text', '')
-    )
-
-    # topic cache
-    LinkedModel('discuss_topic_cache').insert(
-        id=topicid,
-        first_reply_id=replyid,
-        last_reply_id=replyid
-    )
-
-    # topic tag bridge
-    LinkedModel('discuss_topic_tag_bridge').insert(
-        tag_id=tag_id_list,
-        topic_id=[topicid] * len(tag_id_list)
-    )
-
-    # action
-    # user post topic
-    action_model = LinkedModel('action')
-    action_model.insert(
-        from_object_id=uid,
-        from_object_type='user',
-        action_type='post',
-        target_object_id=topicid,
-        target_object_type='topic',
-        ctime=now
-    )
-
-    # tag post topic
-    action_model.insert(
-        from_object_id=tag_id_list,
-        from_object_type='tag',
-        action_type='post',
-        target_object_id=topicid,
-        target_object_type='topic',
-        ctime=now
+        text=params.get('text', ''),
+        tag_id_list=tag_id_list
     )
 
     self.setVariable('result', 'success')

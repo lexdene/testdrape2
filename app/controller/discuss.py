@@ -8,7 +8,7 @@ import frame
 import userinfo
 import app.lib.text
 from app.lib.tags import Tags
-from app.model.discuss import TopicModel
+from app.model.discuss import TopicModel, add_new_topic
 
 DEFAULT_CLS = 'List'
 
@@ -82,7 +82,7 @@ class ajaxPostTopic(drape.controller.jsonController):
 			self.setVariable('result','failed')
 			self.setVariable('msg',res['msg'])
 			return
-		
+
 		# tags
 		tags = Tags()
 		tags.setTagString( aParams.get('tags','') )
@@ -97,62 +97,12 @@ class ajaxPostTopic(drape.controller.jsonController):
 		# get tag id list
 		tagIdList = tags.idListInDb()
 
-		# now
-		now = int(time.time())
-		
-		# insert topic
-		aDiscussModel = drape.model.LinkedModel('discuss_topic')
-		topicid = aDiscussModel.insert(
-			uid = uid,
-			ctime = now,
-			title = aParams.get('title',''),
-		)
-		
-		# insert reply
-		aReplyModel = drape.model.LinkedModel('discuss_reply')
-		replyid = aReplyModel.insert(
-			tid = topicid,
-			uid = uid,
-			reply_to_id = -1,
-			ctime = now,
-			text = aParams.get('text','')
-		)
-		
-		# topic cache
-		aTopicCacheModel = drape.model.LinkedModel('discuss_topic_cache')
-		aTopicCacheModel.insert(
-			id = topicid,
-			first_reply_id = replyid,
-			last_reply_id = replyid
-		)
-
-		# topic tag bridge
-		aBridgeModel = drape.model.LinkedModel('discuss_topic_tag_bridge')
-		aBridgeModel.insert(
-			tag_id = tagIdList,
-			topic_id = [topicid] * len( tagIdList )
-		)
-
-		# action
-		# user post topic
-		aActionModel = drape.model.LinkedModel('action')
-		aActionModel.insert(
-			from_object_id=uid,
-			from_object_type='user',
-			action_type='post',
-			target_object_id=topicid,
-			target_object_type='topic',
-			ctime=now
-		)
-
-		# tag post topic
-		aActionModel.insert(
-			from_object_id=tagIdList,
-			from_object_type='tag',
-			action_type='post',
-			target_object_id=topicid,
-			target_object_type='topic',
-			ctime=now
+		# add topic to db
+		add_new_topic(
+			uid=uid,
+			title=aParams.get('title', ''),
+			text=aParams.get('text', ''),
+			tag_id_list=tagIdList
 		)
 
 		self.setVariable('result','success')
