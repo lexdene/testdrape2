@@ -8,10 +8,8 @@
 {%- do res.add('/Common', 'coffee') %}
 {%- do res.add('/hot/LoadHot', 'coffee') %}
 <div class="layout_head_line clearfix">
-	<div class="left_buttons">
+	<div class="left_buttons push_left">
 		<img class="website_icon" src="{{ROOT}}/static/image/breaking.ico" alt="testdrape" />
-	</div>
-	<div class="left_buttons">
 		{% if uid > 0 %}
 			<a href="{{ ROOT }}/home">首页</a>
 		{% else %}

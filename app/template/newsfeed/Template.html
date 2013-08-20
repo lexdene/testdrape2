@@ -3,7 +3,7 @@
 <script type="text/template" id="newsfeed_template">
 	<% _(newsfeed_list).each(function(newsfeed){ %>
 		<div class="newsfeed_item clearfix" action_id="<%- newsfeed.id %>">
-			<div class="item_avatar">
+			<div class="item_avatar push_left">
 				<%  switch(newsfeed.from_object_type){
 					case 'user':
 				%>
