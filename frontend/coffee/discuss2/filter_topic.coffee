@@ -73,6 +73,7 @@ do(jq=jQuery)->
         tag_id = jthis.attr('data-id')
         all_tag_list.find(".jf_label[data-id=#{tag_id}]").removeClass 'active'
         jthis.remove()
+        selected_tag_list.trigger 'list_change'
 
       # load first page
       fetch_tag_list 0
