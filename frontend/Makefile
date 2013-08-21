@@ -13,6 +13,7 @@ STYLE_LIST = \
 		jdmd_widget \
 		mail/ReceiveBox \
 		newsfeed/Template \
+		tag/tag_list_page \
 		userinfo/MainPage \
 		userinfo/UserPanel \
 		usermsg/MyMsgList \
@@ -29,6 +30,7 @@ SCRIPT_LIST = \
 		frame/Layout \
 		hot/LoadHot \
 		mail/ReceiveBox \
+		tag/tag_list_page \
 		TransText \
 		usermsg/MyMsgList \
 		usermsg/Usermsg \

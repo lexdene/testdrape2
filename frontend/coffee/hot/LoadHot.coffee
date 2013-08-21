@@ -1,7 +1,7 @@
 do (jq=jQuery) ->
   load_hot_tag = (container) ->
     jq.getJSON(
-      "#{WEB_ROOT}/tag/randomTagList",
+      "#{WEB_ROOT}/tag/random_tag_list",
     ).success (data) ->
       container.html load_hot_tag.template
         tag_list: data.tag_list
@@ -14,6 +14,9 @@ do (jq=jQuery) ->
           <a href="<%- WEB_ROOT %>/discuss/List/tag/<%- tag.id %>"><%- tag.content %></a>
         </span>
       <% }) %>
+    </div>
+    <div>
+      <a href="<%- WEB_ROOT %>/tag/tag_list_page" class="jf_button">查看所有标签</a>
     </div>
   '''
   jq ->
