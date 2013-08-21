@@ -4,8 +4,10 @@ from functools import wraps
 
 import drape
 from drape.util import toInt
+from drape.model import LinkedModel
 
 import app
+from app.lib.cache import Cache
 
 
 class Resource(object):
@@ -130,23 +132,28 @@ class Layout(FrameBase):
 		self.setVariable('uid',uid)
 		
 		if uid > 0:
-			aUserinfoModel = drape.model.LinkedModel('userinfo')
-			userinfo = aUserinfoModel.where(id=uid).find()
-			self.setVariable('userinfo',userinfo)
+			cache = Cache()
+			self.setVariable('userinfo', cache.get(
+				'userinfo/%s' % uid,
+				lambda: LinkedModel('userinfo').where(id=uid).find()
+			))
 			
-			aNoticeModel = drape.model.LinkedModel('notice')
-			noticeCount = aNoticeModel.where(
-				to_uid = uid,
-				isRead = 0,
-			).count()
-			self.setVariable('notice_count',noticeCount)
+			self.setVariable('notice_count', cache.get(
+				'notice_count/%s' % uid,
+				lambda: LinkedModel('notice').where(
+						to_uid = uid,
+						isRead = 0,
+					).count()
+			))
 			
-			aMailModel = drape.model.LinkedModel('mail')
-			mailCount = aMailModel.where(
-				to_uid = uid,
-				isRead = 0
-			).count()
-			self.setVariable('mail_count',mailCount)
+			self.setVariable('mail_count', cache.get(
+				'mail_count/%s' % uid,
+				lambda: LinkedModel('mail').where(
+						to_uid = uid,
+						isRead = 0
+					).count()
+			))
+			
 
 class NotLogin(DefaultFrame):
 	def process(self):

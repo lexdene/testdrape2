@@ -22,5 +22,10 @@ CONFIG = {
     ),
     'tag': dict(
         random_range_length=20,
-    )
+    ),
+    'cache': dict(
+        host='127.0.0.1',
+        port='11211',
+        expire_time=30*24*3600
+    ),
 }

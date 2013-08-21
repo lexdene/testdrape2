@@ -9,6 +9,8 @@ from drape.controller import jsonController
 from drape.util import toInt
 from drape.model import LinkedModel
 
+from app.lib.cache import Cache
+
 
 class ajaxFocus(jsonController):
     '''
@@ -95,6 +97,8 @@ class ajaxFocus(jsonController):
                     ctime=now,
                     isRead=False
                 )
+                cache = Cache()
+                cache.remove('notice_count/%s' % target_id)
 
         elif 'remove' == dire:
             aFocusModel.where(
