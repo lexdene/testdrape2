@@ -9,6 +9,7 @@ from drape.config import get_value as config_value
 from drape.util import tile_list_data, toInt
 
 from .frame import DefaultFrame
+from app.lib.cache import Cache
 
 
 @jsonController.controller
@@ -37,6 +38,10 @@ def update_tag_cache(self):
         )
     )
 
+    # clean up cache
+    cache = Cache()
+    cache.remove('tag/hot_list')
+
     # 输出结果
     tag_model = LinkedModel('tag')
     tag_list = tag_model.join(
@@ -49,11 +54,20 @@ def update_tag_cache(self):
 @jsonController.controller
 def random_tag_list(self):
     ''' 从最热门的标签中，随机选取标签列表 '''
-    tag_model = LinkedModel('tag')
-    limit = config_value('tag/random_range_length')
-    tag_list = tag_model.join(
-        'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
-    ).order('tag_cache.reply_count', 'DESC').limit(limit).select()
+    def get_hot_tag_list_from_db():
+        ''' 从数据库中读取热门标签列表 '''
+        tag_model = LinkedModel('tag')
+        limit = config_value('tag/random_range_length')
+        tag_list = tag_model.join(
+            'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
+        ).order(
+            'tag_cache.reply_count', 'DESC'
+        ).limit(limit).select()
+        return tag_list
+
+    # 从缓存中读取热门标签列表
+    cache = Cache()
+    tag_list = cache.get('tag/hot_list', get_hot_tag_list_from_db)
 
     result_list_length = 10
     result_list = list()
