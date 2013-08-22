@@ -37,3 +37,8 @@ class Cache(object):
     def remove(self, key):
         ''' 从缓存中删除一个值 '''
         self.__connection.delete(key)
+
+
+def remove_cache(key):
+    cache = Cache()
+    cache.remove(key)

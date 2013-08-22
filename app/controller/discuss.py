@@ -9,7 +9,7 @@ import userinfo
 import app.lib.text
 from app.lib.tags import Tags
 from app.model.discuss import TopicModel, add_new_topic
-from app.lib.cache import Cache
+from app.lib.cache import Cache, remove_cache
 
 DEFAULT_CLS = 'List'
 
@@ -279,6 +279,9 @@ class ajaxPostReply(drape.controller.jsonController):
 			target_object_type='reply',
 			ctime=now
 		)
+
+		# remove cache
+		remove_cache('topic_info/%s' % tid)
 
 		# success
 		self.setVariable('result','success')

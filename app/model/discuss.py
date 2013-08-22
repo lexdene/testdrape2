@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 import time
 
 import drape
 from drape.model import LinkedModel
+
+from app.lib.cache import Cache
 
 
 class TopicModel(drape.model.LinkedModel):
@@ -78,20 +81,18 @@ class TopicModel(drape.model.LinkedModel):
         return aTopicList
 
     def get_topic_list_and_count(self, where_obj=None, length=10, offset=0):
+        '''
+            where_obj只支持查询作者和标签
+            length和offset是limit参数
+
+            返回主题列表和总数
+        '''
         self.alias('dt').join(
-            'userinfo', 'topic_ui', 'dt.uid = topic_ui.id'
-        ).join(
             'discuss_topic_cache', 'tc', 'tc.id = dt.id'
         ).join(
             'discuss_reply', 'last_reply', 'last_reply.id = tc.last_reply_id'
         ).join(
-            'userinfo', 'last_reply_ui', 'last_reply.uid = last_reply_ui.id'
-        ).join(
-            'discuss_reply', 'count_dr', 'count_dr.tid = dt.id'
-        ).join(
             'discuss_topic_tag_bridge', 'ttb', 'ttb.topic_id = dt.id'
-        ).field(
-            'COUNT(DISTINCT count_dr.id) as reply_count'
         ).order(
             'last_reply.ctime',  'DESC'
         ).order(
@@ -105,19 +106,48 @@ class TopicModel(drape.model.LinkedModel):
         if where_obj:
             self.where(where_obj)
 
-        topic_list = self.select(['SQL_CALC_FOUND_ROWS'])
-        count = self.found_rows()
+        topic_list, count = self.select_and_count()
 
         # filter tags
-        tag_model = drape.model.LinkedModel('tag')
+        cache = Cache()
         for topic in topic_list:
-            topic['tag_list'] = tag_model.join(
-                'discuss_topic_tag_bridge', 'ttb', 'ttb.tag_id = tag.id'
-            ).where({
-                'ttb.topic_id': topic['id']
-            }).select()
+            topic_info = cache.get(
+                'topic_info/%s' % topic['id'],
+                lambda: self.get_topic_info(topic['id'])
+            )
+            for key, value in topic_info.iteritems():
+                if key not in topic:
+                    topic[key] = value
 
         return topic_list, count
+
+    def get_topic_info(self, topic_id):
+        topic = self.alias(
+            'dt'
+        ).join(
+            'userinfo', 'topic_ui', 'dt.uid = topic_ui.id'
+        ).join(
+            'discuss_topic_cache', 'tc', 'tc.id = dt.id'
+        ).join(
+            'discuss_reply', 'last_reply', 'last_reply.id = tc.last_reply_id'
+        ).join(
+            'userinfo', 'last_reply_ui', 'last_reply.uid = last_reply_ui.id'
+        ).join(
+            'discuss_reply', 'count_dr', 'count_dr.tid = dt.id'
+        ).field(
+            'COUNT(DISTINCT count_dr.id) as reply_count'
+        ).where({
+            'dt.id': topic_id
+        }).find()
+
+        tag_model = drape.model.LinkedModel('tag')
+        topic['tag_list'] = tag_model.join(
+            'discuss_topic_tag_bridge', 'ttb', 'ttb.tag_id = tag.id'
+        ).where({
+            'ttb.topic_id': topic['id']
+        }).select()
+
+        return topic
 
 
 def add_new_topic(uid, title, text, tag_id_list):
