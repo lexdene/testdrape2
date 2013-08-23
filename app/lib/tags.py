@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-import time
+import datetime
 
 from drape.model import LinkedModel
 
@@ -62,7 +62,7 @@ class Tags(object):
             not_exist_tag_list.remove(tag['content'])
 
         if len(not_exist_tag_list) > 0:
-            time_now = int(time.time())
+            time_now = datetime.datetime.now()
             aTagModel.insert(
                 content=list(not_exist_tag_list),
                 ctime=time_now

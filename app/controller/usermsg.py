@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ''' 与用户留言板相关的后台接口 '''
 
-import time
+import datetime
 
 from drape.controller import jsonController
 from drape.util import toInt, tile_list_data
@@ -52,7 +52,7 @@ class AjaxPostMsg(jsonController):
         # params
         to_uid = toInt(params.get('to_uid', -1))
         text = params.get('text', '')
-        now = int(time.time())
+        now = datetime.datetime.now()
 
         # insert to db
         usermsg_model = LinkedModel('usermsg')
@@ -95,7 +95,7 @@ class AjaxMsgList(jsonController):
     '''
     def process(self):
         # now
-        now = int(time.time())
+        now = datetime.datetime.now()
         self.setVariable('now', now)
 
         # page
@@ -116,7 +116,7 @@ class AjaxMsgList(jsonController):
         # to uid
         to_uid = toInt(params.get('to_uid', -1))
         where_data = {}
-        if to_uid < 0:
+        if to_uid < 0 or to_uid == my_uid:
             where_data = {
                 '$or': (
                     {

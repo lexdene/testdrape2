@@ -35,6 +35,7 @@ do (jq=jQuery)->
           <span class="col_content">标签名称</span>
           <span class="col_reply_count">回复数</span>
           <span class="col_topic_count">主题数</span>
+          <span class="col_ctime">创建时间</span>
         </div>
         <% _(tag_list).each(function(tag){ %>
           <div class="tag_item">
@@ -43,6 +44,7 @@ do (jq=jQuery)->
             </span>
             <span class="col_reply_count"><%- tag.cache.reply_count %></span>
             <span class="col_topic_count"><%- tag.cache.topic_count %></span>
+            <span class="col_ctime"><%- tag.ctime %></span>
           </div>
         <% }); %>
       '''

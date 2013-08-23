@@ -4,7 +4,7 @@
     版本: 2.0
 '''
 
-import time
+import datetime
 
 from drape.controller import jsonController
 from drape.model import LinkedModel
@@ -67,7 +67,7 @@ def ajax_topic_list(self):
         topic_list
     '''
     # now
-    self.setVariable('now', int(time.time()))
+    self.setVariable('now', datetime.datetime.now())
 
     # page
     params = self.params()

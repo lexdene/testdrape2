@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import time
+import datetime
 
 import frame,userinfo
 import drape
@@ -212,7 +212,7 @@ class ajaxRegister(drape.controller.jsonController):
 			nickname = aParams.get('nickname'),
 			email = aParams.get('email'),
 			intro = aParams.get('intro'),
-			ctime = time.time(),
+			ctime = datetime.datetime.now(),
 			score = 0,
 		)
 		

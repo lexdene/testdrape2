@@ -4,7 +4,7 @@
     各种动态
 '''
 
-import time
+import datetime
 
 from drape.controller import jsonController
 from drape.util import toInt
@@ -55,7 +55,7 @@ class AjaxHomeLine(jsonController):
         self.setVariable('data', action_list)
 
         # now
-        now = int(time.time())
+        now = datetime.datetime.now()
         self.setVariable('now', now)
 
         # error msg

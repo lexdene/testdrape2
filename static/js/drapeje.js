@@ -370,27 +370,27 @@
 	}
 
 	function create_format_date(now){
-		var today = new Date(now * 1000);
+		now = new Date(now);
+		var today = new Date(now);
 		today.setHours(0);
 		today.setMinutes(0);
 		today.setSeconds(0);
 		today.setMilliseconds(0);
-		var today_timestamp = today.getTime() / 1000;
-		var yesterday_timestamp = today_timestamp - 24 * 3600;
+		var yesterday = today - 24 * 3600 * 1000;
 
-
-		function format_date(timestamp){
-			var diff = now - timestamp;
+		function format_date(to_time){
+			to_time = new Date(to_time);
+			var diff = (now - to_time) / 1000;
 			var f = format_number;
-			if(timestamp < yesterday_timestamp){ // before yesterday
-				var d = new Date(timestamp * 1000);
+			if(to_time < yesterday){ // before yesterday
+				var d = to_time;
 				return d.getFullYear() + '-'
 					+ f((d.getMonth() + 1)) + '-'
 					+ f(d.getDate()) + ' '
 					+ f(d.getHours()) + ':'
 					+ f(d.getMinutes());
-			}else if(timestamp < today_timestamp){ // yesterday
-				var d = new Date(timestamp * 1000);
+			}else if(to_time < today){ // yesterday
+				var d = to_time;
 				return '昨天'
 					+ f(d.getHours()) + ':'
 					+ f(d.getMinutes());
@@ -400,7 +400,7 @@
 				}else if(diff < 3600){ // less than 1 hour
 					return Math.floor(diff / 60) + '分钟前';
 				}else{ // more than 1 hour
-					var d = new Date(timestamp * 1000);
+					var d = to_time;
 					return '今天'
 						+ f(d.getHours()) + ':'
 						+ f(d.getMinutes());

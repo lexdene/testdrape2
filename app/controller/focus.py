@@ -3,7 +3,7 @@
     关注模块
 '''
 
-import time
+import datetime
 
 from drape.controller import jsonController
 from drape.util import toInt
@@ -65,7 +65,7 @@ class ajaxFocus(jsonController):
             return
 
         # save to db
-        now = int(time.time())
+        now = datetime.datetime.now()
         if 'add' == dire:
             focus_id = aFocusModel.insert(
                 from_uid=current_uid,

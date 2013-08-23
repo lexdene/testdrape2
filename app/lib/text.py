@@ -10,6 +10,12 @@ import drape
 def timeStamp2Str(t):
 	return time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(t))
 
+
+@drape.util.utf8
+def datetime2Str(t):
+	return t.strftime('%Y-%m-%d %H:%M:%S')
+
+
 @drape.util.utf8
 def timeStamp2Short(t):
 	now = time.localtime()

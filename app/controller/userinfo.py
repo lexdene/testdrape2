@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import time
+import datetime
 
 import drape
 
@@ -10,7 +10,8 @@ from app.model.discuss import TopicModel
 from focus import isFocused
 from app.model.action import ActionModel
 
-def avatarFunc(root):
+def avatarFunc(controller):
+	root = controller.runbox().request().rootPath()
 	def avatar(a):
 		return a if a else root+'/static/image/avatar.jpg'
 	return avatar
@@ -31,8 +32,8 @@ class MainPage(frame.DefaultFrame):
 		
 		self.setTitle(userinfo['nickname'])
 		self.setVariable('userinfo', userinfo)
-		self.setVariable('timestr', app.lib.text.timeStamp2Str)
-		self.setVariable('avatar', avatarFunc(self.request().rootPath()))
+		self.setVariable('timestr', app.lib.text.datetime2Str)
+		self.setVariable('avatar', avatarFunc(self))
 		self.setVariable('isFocused', isFocused(self, 'user', uid))
 
 
@@ -51,8 +52,8 @@ class UserPanelPage(frame.FrameBase):
 			return
 		
 		self.setVariable('userinfo',userinfo)
-		self.setVariable('avatar',avatarFunc(self.request().rootPath()) )
-		self.setVariable('timestr',app.lib.text.timeStamp2Str)
+		self.setVariable('avatar', avatarFunc(self))
+		self.setVariable('timestr', app.lib.text.datetime2Str)
 
 class UserTopicList(frame.FrameBase):
 	def process(self):
@@ -68,9 +69,9 @@ class UserTopicList(frame.FrameBase):
 		self.setVariable('topic_list',arrTopicList)
 		self.setVariable(
 			'avatar',
-			avatarFunc(self.request().rootPath())
+			avatarFunc(self)
 		)
-		self.setVariable('timestr',app.lib.text.timeStamp2Short)
+		self.setVariable('timestr', app.lib.text.datetime2Str)
 		self.setVariable('show_user_info', False )
 
 
@@ -86,7 +87,7 @@ class ajaxUserActionList(drape.controller.jsonController):
 	'''
 	def process(self):
 		# now
-		now = int(time.time())
+		now = datetime.datetime.now()
 		self.setVariable('now', now)
 
 		aParams = self.params()

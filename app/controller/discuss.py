@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import time
+import datetime
 
 import drape
 
@@ -42,8 +42,8 @@ class List(frame.DefaultFrame):
 		self.setVariable('page',aPager)
 		
 		self.setVariable('topic_list',aTopicModel.getTopicList(tagid=tagid, **aPager.limit()) )
-		self.setVariable('timestr',app.lib.text.timeStamp2Short)
-		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
+		self.setVariable('timestr',app.lib.text.datetime2Str)
+		self.setVariable('avatar', userinfo.avatarFunc(self))
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -152,8 +152,8 @@ class Topic(frame.DefaultFrame):
 		
 		self.setVariable('aTagIter',aTagIter)
 		
-		self.setVariable('timestr',app.lib.text.timeStamp2Str)
-		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
+		self.setVariable('timestr',app.lib.text.datetime2Str)
+		self.setVariable('avatar', userinfo.avatarFunc(self))
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
@@ -202,7 +202,7 @@ class ajaxPostReply(drape.controller.jsonController):
 		
 		tid = drape.util.toInt( aParams.get('tid',-1) )
 		reply_to_id = drape.util.toInt( aParams.get('reply_to_id',-1) )
-		now = int( time.time() )
+		now = datetime.datetime.now()
 		
 		# reply table
 		aReplyModel = drape.model.LinkedModel('discuss_reply')

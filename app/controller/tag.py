@@ -9,7 +9,7 @@ from drape.config import get_value as config_value
 from drape.util import tile_list_data, toInt
 
 from .frame import DefaultFrame
-from app.lib.cache import remove_cache
+from app.lib.cache import Cache, remove_cache
 
 
 @jsonController.controller
@@ -75,18 +75,27 @@ def random_tag_list(self):
         random_top = 0
         for tag in tag_list:
             if tag.get('enable', True):
-                random_top += tag[random_key]
+                if tag[random_key] is None:
+                    random_top += 1
+                else:
+                    random_top += tag[random_key]
+
+        if random_top < 1:
+            break
 
         n_random = random.randint(0, random_top - 1)
         random_top = 0
         for tag in tag_list:
             if tag.get('enable', True):
-                random_top += tag[random_key]
+                if tag[random_key] is None:
+                    random_top += 1
+                else:
+                    random_top += tag[random_key]
 
-            if random_top >= n_random:
-                result_list.append(tag)
-                tag['enable'] = False
-                break
+                if random_top >= n_random:
+                    result_list.append(tag)
+                    tag['enable'] = False
+                    break
 
     self.setVariable('tag_list', tile_list_data(result_list))
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import time
+import datetime
 
 import drape
 from drape.model import LinkedModel
@@ -152,7 +152,7 @@ class TopicModel(drape.model.LinkedModel):
 
 def add_new_topic(uid, title, text, tag_id_list):
     # now
-    now = int(time.time())
+    now = datetime.datetime.now()
 
     # insert topic
     discuss_model = LinkedModel('discuss_topic')

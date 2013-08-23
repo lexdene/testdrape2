@@ -65,7 +65,7 @@ class FrameBase(drape.controller.Controller):
 		res = g['res']
 		self.setVariable('res',res.create_level(self))
 		
-		self.setVariable('ROOT',self.request().rootPath())
+		self.setVariable('ROOT', self.runbox().request().rootPath())
 		self.setVariable('ctrl',self)
 		
 	def setTitle(self,t):

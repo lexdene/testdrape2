@@ -77,7 +77,7 @@ class ajaxWrite(drape.controller.jsonController):
 		aMailModel.insert(**data)
 
 		# clean up cache
-		remove_cache('mail_count/%s' % to_uid)
+		remove_cache('mail_count/%s' % aParams['to_uid'])
 		
 		self.setVariable('result','success')
 

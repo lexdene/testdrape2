@@ -15,6 +15,9 @@
 	}
 
 	function tile_data(source_data){
+		if(source_data === null){
+			return null;
+		}
 		var target_data = {};
 		_(source_data).each(function(value, key){
 			var key_parted_list = key.split('.');

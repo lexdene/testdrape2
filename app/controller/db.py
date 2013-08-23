@@ -1,181 +1,191 @@
 # -*- coding: utf-8 -*-
+''' create tables in db '''
+from drape.db import Db
 
-import drape
+from .frame import DefaultFrame
 
-import frame
 
-tables = (
-('logininfo',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`loginname` varchar(60) NOT NULL,
-	`password` varchar(60) NOT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `loginname` (`loginname`)
-'''),
-('userinfo',
-u'''
-	`id` int NOT NULL,
-	`nickname` varchar(60) NOT NULL,
-	`email` varchar(60) NOT NULL,
-	`intro` TEXT NOT NULL,
-	`avatar` varchar(100),
-	`ctime` int NOT NULL,
-	`score` int NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
-('discuss_topic',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`uid` int NOT NULL COMMENT '用户id',
-	`ctime` int NOT NULL COMMENT '创建时间',
-	`title` varchar(100) NOT NULL COMMENT '标题',
-	PRIMARY KEY (`id`)
-'''),
-('discuss_topic_cache',
-u'''
-	`id` int NOT NULL,
-	`first_reply_id` int NOT NULL,
-	`last_reply_id` int NOT NULL,
-	PRIMARY KEY(`id`)
-'''),
-('discuss_reply',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`tid` int NOT NULL COMMENT '主题id',
-	`uid` int NOT NULL COMMENT '用户id',
-	`reply_to_id` int NOT NULL COMMENT '回复某个回复',
-	`ctime` int NOT NULL COMMENT '创建时间',
-	`text` TEXT NOT NULL COMMENT '正文',
-	PRIMARY KEY (`id`)
-'''),
-('notice',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`from_uid` int NOT NULL,
-	`to_uid` int NOT NULL,
-	`item_id` int NOT NULL,
-	`type` varchar(20) NOT NULL,
-	`ctime` int NOT NULL,
-	`isRead` tinyint(1) NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
-('mail',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`from_uid` int NOT NULL,
-	`to_uid` int NOT NULL,
-	`title` varchar(100) NOT NULL,
-	`text` TEXT NOT NULL,
-	`ctime` int NOT NULL,
-	`isRead` tinyint(1) NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
-('tag',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`content` varchar(100) NOT NULL,
-	`ctime` int NOT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE KEY(`content`)
-'''),
-('tag_cache',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`topic_count` int NOT NULL,
-	`reply_count` int NOT NULL,
-	PRIMARY KEY(`id`)
-'''),
-('discuss_topic_tag_bridge',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`topic_id` int NOT NULL,
-	`tag_id` int NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
-('focus',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`from_uid` int NOT NULL,
-	`focus_type` ENUM('user', 'topic', 'tag') NOT NULL,
-	`target_id` int NOT NULL,
-	`ctime` int NOT NULL,
-	`is_del` BOOLEAN NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
+__tables__ = (
+    ("logininfo", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `loginname` VARCHAR(60) NOT NULL,\n"
+        "    `password` VARCHAR(60) NOT NULL,\n"
+        "    PRIMARY KEY(`id`),\n"
+        "    UNIQUE KEY (`loginname`)\n"
+        )
+     ),
+    ("userinfo", (
+        "    `id` INT NOT NULL,\n"
+        "    `nickname` VARCHAR(60) NOT NULL,\n"
+        "    `email` VARCHAR(60) NOT NULL,\n"
+        "    `intro` TEXT NOT NULL,\n"
+        "    `avatar` VARCHAR(100),\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    `score` INT NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("discuss_topic", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `uid` INT NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    `title` VARCHAR(100) NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("discuss_topic_cache", (
+        "    `id` INT NOT NULL,\n"
+        "    `first_reply_id` INT NOT NULL,\n"
+        "    `last_reply_id` INT NOT NULL,\n"
+        "    PRIMARY KEY(`id`)\n"
+        )
+    ),
+    ("discuss_reply", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `tid` INT NOT NULL,\n"
+        "    `uid` INT NOT NULL,\n"
+        "    `reply_to_id` INT NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    `text` TEXT NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("notice", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `from_uid` INT NOT NULL,\n"
+        "    `to_uid` INT NOT NULL,\n"
+        "    `item_id` INT NOT NULL,\n"
+        "    `type` VARCHAR(20) NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    `isRead` TINYINT(1) NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("mail", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `from_uid` INT NOT NULL,\n"
+        "    `to_uid` INT NOT NULL,\n"
+        "    `title` VARCHAR(100) NOT NULL,\n"
+        "    `text` TEXT NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    `isRead` TINYINT(1) NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("tag", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `content` VARCHAR(100) NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    PRIMARY KEY (`id`),\n"
+        "    UNIQUE KEY(`content`)\n"
+        )
+    ),
+    ("tag_cache", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `topic_count` INT NOT NULL,\n"
+        "    `reply_count` INT NOT NULL,\n"
+        "    PRIMARY KEY(`id`)\n"
+        )
+    ),
+    ("discuss_topic_tag_bridge", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `topic_id` INT NOT NULL,\n"
+        "    `tag_id` INT NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("focus", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `from_uid` INT NOT NULL,\n"
+        "    `focus_type` ENUM('user', 'topic', 'tag') NOT NULL,\n"
+        "    `target_id` INT NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    `is_del` BOOLEAN NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
 
 # action表应该是一个巨大的冗余。
 # 暂时，设计及实现时仅考虑读取的方便，不考虑冗余问题
-('action',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`from_object_id` int NOT NULL,
-	`from_object_type` ENUM('user', 'topic', 'tag') NOT NULL,
-	`action_type` ENUM('focus', 'post', 'reply') NOT NULL,
-	`target_object_id` int NOT NULL,
-	`target_object_type` ENUM('user', 'topic', 'tag', 'reply') NOT NULL,
-	`ctime` int NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
-
-('usermsg',
-u'''
-	`id` int NOT NULL AUTO_INCREMENT,
-	`from_uid` int NOT NULL,
-	`to_uid` int NOT NULL,
-	`text` varchar(200) NOT NULL,
-	`ctime` int NOT NULL,
-	PRIMARY KEY (`id`)
-'''),
+    ("action", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `from_object_id` INT NOT NULL,\n"
+        "    `from_object_type` ENUM('user', 'topic', 'tag') NOT NULL,\n"
+        "    `action_type` ENUM('focus', 'post', 'reply') NOT NULL,\n"
+        "    `target_object_id` INT NOT NULL,\n"
+        "    `target_object_type`"
+        "    ENUM('user', 'topic', 'tag', 'reply') NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
+    ("usermsg", (
+        "    `id` INT NOT NULL AUTO_INCREMENT,\n"
+        "    `from_uid` INT NOT NULL,\n"
+        "    `to_uid` INT NOT NULL,\n"
+        "    `text` VARCHAR(200) NOT NULL,\n"
+        "    `ctime` DATETIME NOT NULL,\n"
+        "    PRIMARY KEY (`id`)\n"
+        )
+    ),
 )
 
 
-class DbFrame(frame.DefaultFrame):
-	def __init__(self, path):
-		super(DbFrame, self).__init__(path)
-		self.setParent('/db/Layout')
+class DbFrame(DefaultFrame):
+    ''' 此页的模板 '''
+    def __init__(self, path):
+        super(DbFrame, self).__init__(path)
+        self.setParent('/db/layout')
+        self.setTemplatePath('/db/CreateTables')
 
 
-class Layout(frame.DefaultFrame):
-	def process(self):
-		self.setTitle(u'数据库')
+@DefaultFrame.controller
+def layout(self):
+    ''' 此页的布局 '''
+    self.setTitle(u'数据库')
 
 
-class CreateTables(DbFrame):
-	def process(self):
-		aDb = drape.db.Db()
-		tablePrefix = aDb.tablePrefix()
+@DbFrame.controller
+def create_tables(self):
+    ''' 创建数据表 '''
+    db_object = Db.singleton()
+    table_prefix = db_object.table_prefix()
 
-		result = []
-		for tableName, sql in tables:
-			sql = u'CREATE TABLE IF NOT EXISTS `%s%s`(%s)ENGINE=MyISAM DEFAULT CHARSET=utf8' % (
-				tablePrefix, tableName, sql
-			)
-			res = aDb.execute(sql)
-			result.append({
-				'tableName': tableName,
-				'sql': sql,
-				'res': res,
-				'error': u''
-			})
+    result = []
+    for table_name, table_sql in __tables__:
+        sql = (
+            u'CREATE TABLE IF NOT EXISTS '
+            '`%s%s`(\n%s)'
+            'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+        ) % (
+            table_prefix, table_name, table_sql
+        )
+        res = db_object.execute(sql)
+        result.append({
+            'table_name': table_name,
+            'sql': sql,
+            'res': res
+        })
 
-		self.setVariable('result', result)
+    self.setVariable('result', result)
 
 
-class DropTables(DbFrame):
-	def process(self):
-		self.setTemplatePath('/db/CreateTables')
-		aDb = drape.application.Application.singleton().db()
-		tablePrefix = aDb.tablePrefix()
+@DbFrame.controller
+def drop_tables(self):
+    ''' 删除数据表 '''
+    db_object = Db.singleton()
+    table_prefix = db_object.table_prefix()
 
-		result = dict()
-		for tableName, sql in tables.iteritems():
-			sql = 'drop table if exists `%s%s`' % (tablePrefix, tableName)
-			res = aDb.execute(sql)
-			result[tableName] = {
-				'sql': sql,
-				'res': res,
-				'error': ''
-			}
+    result = []
+    for table_name, _ in __tables__:
+        sql = 'DROP TABLE IF EXISTS `%s%s`' % (
+            table_prefix, table_name
+        )
+        res = db_object.execute(sql)
+        result.append({
+            'table_name': table_name,
+            'sql': sql,
+            'res': res,
+        })
 
-		self.setVariable('result', result)
+    self.setVariable('result', result)
