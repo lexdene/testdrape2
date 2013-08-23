@@ -8,7 +8,7 @@ from drape.util import toInt, tile_list_data
 from drape.validate import validate_params
 from drape.model import LinkedModel
 
-from app.lib.cache import Cache
+from app.lib.cache import remove_cache
 from frame import DefaultFrame
 
 class AjaxPostMsg(jsonController):
@@ -73,8 +73,7 @@ class AjaxPostMsg(jsonController):
             ctime=now,
             isRead=False
         )
-        cache = Cache()
-        cache.remove('notice_count/%s' % to_uid)
+        remove_cache('notice_count/%s' % to_uid)
 
         # result
         self.setVariable('result', 'success')

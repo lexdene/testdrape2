@@ -9,7 +9,7 @@ import userinfo
 import app.lib.text
 from app.lib.tags import Tags
 from app.model.discuss import TopicModel, add_new_topic
-from app.lib.cache import Cache, remove_cache
+from app.lib.cache import remove_cache
 
 DEFAULT_CLS = 'List'
 
@@ -241,8 +241,7 @@ class ajaxPostReply(drape.controller.jsonController):
 				ctime = now,
 				isRead = False,
 			)
-			cache = Cache()
-			cache.remove('notice_count/%s' % topicInfo['uid'])
+			remove_cache('notice_count/%s' % topicInfo['uid'])
 		
 		# reply to reply notice
 		# except to myself
@@ -255,8 +254,7 @@ class ajaxPostReply(drape.controller.jsonController):
 				ctime = now,
 				isRead = False,
 			)
-			cache = Cache()
-			cache.remove('notice_count/%s' % topicInfo['uid'])
+			remove_cache('notice_count/%s' % topicInfo['uid'])
 		
 		# action
 		# user reply topic

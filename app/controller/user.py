@@ -5,7 +5,7 @@ import time
 import frame,userinfo
 import drape
 
-from app.lib.cache import Cache
+from app.lib.cache import remove_cache
 
 import validatecode
 
@@ -276,8 +276,7 @@ class ajaxEditUserInfo(drape.controller.jsonController):
 		aUserinfoModel.where(id=uid).update(**aParams)
 		
 		# clean up cache
-		cache = Cache()
-		cache.remove('userinfo/%s' % uid)
+		remove_cache('userinfo/%s' % uid)
 		
 		self.setVariable('result','success')
 		self.setVariable('msg',u'修改成功')

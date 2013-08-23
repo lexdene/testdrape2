@@ -9,7 +9,7 @@ from drape.config import get_value as config_value
 from drape.util import tile_list_data, toInt
 
 from .frame import DefaultFrame
-from app.lib.cache import Cache
+from app.lib.cache import remove_cache
 
 
 @jsonController.controller
@@ -39,8 +39,7 @@ def update_tag_cache(self):
     )
 
     # clean up cache
-    cache = Cache()
-    cache.remove('tag/hot_list')
+    remove_cache('tag/hot_list')
 
     # 输出结果
     tag_model = LinkedModel('tag')

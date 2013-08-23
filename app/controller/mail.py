@@ -6,7 +6,7 @@ import drape
 
 import frame
 from app.lib.text import timeStamp2Str
-from app.lib.cache import Cache
+from app.lib.cache import remove_cache
 
 class Write(frame.DefaultFrame):
 	def process(self):
@@ -77,8 +77,7 @@ class ajaxWrite(drape.controller.jsonController):
 		aMailModel.insert(**data)
 
 		# clean up cache
-		cache = Cache()
-		cache.remove('mail_count/%s' % to_uid)
+		remove_cache('mail_count/%s' % to_uid)
 		
 		self.setVariable('result','success')
 
