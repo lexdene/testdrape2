@@ -3,6 +3,8 @@
 import drape
 
 import frame
+from app.lib.cache import remove_cache
+
 
 class Panel(frame.FrameBase):
 	def process(self):
@@ -56,3 +58,5 @@ class setIsRead(drape.controller.jsonController):
 		aNoticeModel.where(id=noticeid).update(isRead=1)
 		
 		self.setVariable('result','success')
+
+		remove_cache('notice_count/%s' % uid)

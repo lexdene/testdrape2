@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import time
+import datetime
 
 import drape
 
 import frame
-from app.lib.text import timeStamp2Str
+from app.lib.text import datetime2Str
 from app.lib.cache import remove_cache
 
 class Write(frame.DefaultFrame):
@@ -72,7 +72,7 @@ class ajaxWrite(drape.controller.jsonController):
 		aMailModel = drape.model.LinkedModel('mail')
 		data = dict(aParams)
 		data['from_uid'] = uid
-		data['ctime'] = int(time.time())
+		data['ctime'] = datetime.datetime.now()
 		data['isRead'] = 0
 		aMailModel.insert(**data)
 
@@ -106,4 +106,4 @@ class ReceiveBox(MailBox):
 			.where(to_uid = uid).select()
 		
 		self.setVariable('maillist',maillist)
-		self.setVariable('timestr', timeStamp2Str)
+		self.setVariable('timestr', datetime2Str)

@@ -16,7 +16,7 @@
 				return ;
 			}
 			
-			d.html('<img src="'+WEB_ROOT+'/static/image/loading.gif" />载入中...');
+			d.html(loading_html);
 			
 			// position
 			var pos = btn.position();
