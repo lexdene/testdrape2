@@ -27,10 +27,10 @@ class List(frame.DefaultFrame):
 
 			ttb_model = drape.model.LinkedModel('discuss_topic_tag_bridge')
 			tag_info['topic_count'] = ttb_model.where(tag_id=tagid).count()
-			self.setVariable('tag_info', tag_info)
+			self.set_variable('tag_info', tag_info)
 			self.setTitle(u'标签: %s' % tag_info['content'])
 		else:
-			self.setVariable('tag_info', None)
+			self.set_variable('tag_info', None)
 			self.setTitle(u'讨论区')
 
 		aTopicModel = TopicModel()
@@ -39,23 +39,23 @@ class List(frame.DefaultFrame):
 		page = drape.util.toInt(aParams.get('page',0))
 		count = aTopicModel.getTopicCount(tagid=tagid)
 		aPager = self.runbox().controller('/widget/Pager',total_count=count,current_page=page)
-		self.setVariable('page',aPager)
+		self.set_variable('page',aPager)
 		
-		self.setVariable('topic_list',aTopicModel.getTopicList(tagid=tagid, **aPager.limit()) )
-		self.setVariable('timestr',app.lib.text.datetime2Str)
-		self.setVariable('avatar', userinfo.avatarFunc(self))
+		self.set_variable('topic_list',aTopicModel.getTopicList(tagid=tagid, **aPager.limit()) )
+		self.set_variable('timestr',app.lib.text.datetime2Str)
+		self.set_variable('avatar', userinfo.avatarFunc(self))
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
-		self.setVariable('uid',uid)
+		self.set_variable('uid',uid)
 
-class ajaxPostTopic(drape.controller.jsonController):
+class ajaxPostTopic(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','请先登录')
+			self.set_variable('result','failed')
+			self.set_variable('msg','请先登录')
 			return
 		
 		aParams = self.params()
@@ -80,8 +80,8 @@ class ajaxPostTopic(drape.controller.jsonController):
 		]
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 
 		# tags
@@ -91,8 +91,8 @@ class ajaxPostTopic(drape.controller.jsonController):
 		# validate tags
 		res = tags.validate()
 		if False == res['result']:
-			self.setVariable('result', 'failed')
-			self.setVariable('msg', res['msg'])
+			self.set_variable('result', 'failed')
+			self.set_variable('msg', res['msg'])
 			return
 
 		# get tag id list
@@ -106,8 +106,8 @@ class ajaxPostTopic(drape.controller.jsonController):
 			tag_id_list=tagIdList
 		)
 
-		self.setVariable('result','success')
-		self.setVariable('msg',u'发表成功')
+		self.set_variable('result','success')
+		self.set_variable('msg',u'发表成功')
 
 class Topic(frame.DefaultFrame):
 	def process(self):
@@ -128,7 +128,7 @@ class Topic(frame.DefaultFrame):
 			self.Error(u'参数无效:没有与id对应的主题')
 			return
 		
-		self.setVariable('topicInfo',aTopicInfo)
+		self.set_variable('topicInfo',aTopicInfo)
 		self.setTitle(u'%s - 讨论区'%aTopicInfo['title'])
 
 		aReplyModel = drape.model.LinkedModel('discuss_reply')
@@ -142,7 +142,7 @@ class Topic(frame.DefaultFrame):
 		for c,reply in enumerate(aReplyIter):
 			reply['floor'] = c+1
 		
-		self.setVariable('aReplyIter',aReplyIter)
+		self.set_variable('aReplyIter',aReplyIter)
 		
 		aTagModel = drape.model.LinkedModel('tag')
 		aTagIter = aTagModel \
@@ -150,22 +150,22 @@ class Topic(frame.DefaultFrame):
 			.where({'ttb.topic_id':tid}) \
 			.select()
 		
-		self.setVariable('aTagIter',aTagIter)
+		self.set_variable('aTagIter',aTagIter)
 		
-		self.setVariable('timestr',app.lib.text.datetime2Str)
-		self.setVariable('avatar', userinfo.avatarFunc(self))
+		self.set_variable('timestr',app.lib.text.datetime2Str)
+		self.set_variable('avatar', userinfo.avatarFunc(self))
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
-		self.setVariable('uid',uid)
+		self.set_variable('uid',uid)
 
-class ajaxPostReply(drape.controller.jsonController):
+class ajaxPostReply(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','请先登录')
+			self.set_variable('result','failed')
+			self.set_variable('msg','请先登录')
 			return
 		
 		aParams = self.params()
@@ -196,8 +196,8 @@ class ajaxPostReply(drape.controller.jsonController):
 		]
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 		
 		tid = drape.util.toInt( aParams.get('tid',-1) )
@@ -282,16 +282,16 @@ class ajaxPostReply(drape.controller.jsonController):
 		remove_cache('topic_info/%s' % tid)
 
 		# success
-		self.setVariable('result','success')
-		self.setVariable('msg',u'回复成功')
+		self.set_variable('result','success')
+		self.set_variable('msg',u'回复成功')
 
-class ajaxEditReply(drape.controller.jsonController):
+class ajaxEditReply(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','请先登录')
+			self.set_variable('result','failed')
+			self.set_variable('msg','请先登录')
 			return
 		
 		aParams = self.params()
@@ -315,19 +315,19 @@ class ajaxEditReply(drape.controller.jsonController):
 		]
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 		
 		reply_id = drape.util.toInt(aParams.get('reply_id'),-1)
 		aReplyModel = drape.model.LinkedModel('discuss_reply')
 		replyinfo = aReplyModel.where(id=reply_id).find()
 		if replyinfo is None or uid != replyinfo['uid']:
-			self.setVariable('result','failed')
-			self.setVariable('msg','您无权修改此回复')
+			self.set_variable('result','failed')
+			self.set_variable('msg','您无权修改此回复')
 			return
 		
 		aReplyModel.where(id=reply_id).update(text=aParams.get('text',''))
 		
-		self.setVariable('result','success')
-		self.setVariable('msg',u'修改成功')
+		self.set_variable('result','success')
+		self.set_variable('msg',u'修改成功')

@@ -3,7 +3,7 @@
 
 import datetime
 
-from drape.controller import jsonController
+from drape.controller import JsonController
 from drape.util import toInt, tile_list_data
 from drape.validate import validate_params
 from drape.model import LinkedModel
@@ -11,15 +11,15 @@ from drape.model import LinkedModel
 from app.lib.cache import remove_cache
 from frame import DefaultFrame
 
-class AjaxPostMsg(jsonController):
+class AjaxPostMsg(JsonController):
     ''' 发表留言 '''
     def process(self):
         # get uid from session
         session = self.session()
         my_uid = toInt(session.get('uid', -1))
         if my_uid < 0:
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'请先登录')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'请先登录')
             return
 
         # validate
@@ -45,8 +45,8 @@ class AjaxPostMsg(jsonController):
             ]
         )
         if False == res['result']:
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', res['msg'])
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', res['msg'])
             return
 
         # params
@@ -76,11 +76,11 @@ class AjaxPostMsg(jsonController):
         remove_cache('notice_count/%s' % to_uid)
 
         # result
-        self.setVariable('result', 'success')
-        self.setVariable('msg', u'留言成功')
+        self.set_variable('result', 'success')
+        self.set_variable('msg', u'留言成功')
 
 
-class AjaxMsgList(jsonController):
+class AjaxMsgList(JsonController):
     ''' 留言列表
         返回值格式
         {
@@ -96,21 +96,21 @@ class AjaxMsgList(jsonController):
     def process(self):
         # now
         now = datetime.datetime.now()
-        self.setVariable('now', now)
+        self.set_variable('now', now)
 
         # page
         params = self.params()
         per_page = 10
         page = toInt(params.get('page', 0))
-        self.setVariable('per_page', per_page)
-        self.setVariable('page', page)
+        self.set_variable('per_page', per_page)
+        self.set_variable('page', page)
 
         # my uid
         session = self.session()
         my_uid = toInt(session.get('uid', -1))
         if my_uid < 0:
-            self.setVariable('errormsg', u'未登录用户无法查看留言板')
-            self.setVariable('data', [])
+            self.set_variable('errormsg', u'未登录用户无法查看留言板')
+            self.set_variable('data', [])
             return
 
         # to uid
@@ -141,7 +141,7 @@ class AjaxMsgList(jsonController):
                 )
             }
 
-        self.setVariable('errormsg', '')
+        self.set_variable('errormsg', '')
 
         usermsg_model = LinkedModel('usermsg')
         usermsg_list = usermsg_model.join(
@@ -154,10 +154,10 @@ class AjaxMsgList(jsonController):
             per_page,
             per_page * page
         ).order('usermsg.ctime', 'DESC').select(['SQL_CALC_FOUND_ROWS'])
-        self.setVariable('data', tile_list_data(usermsg_list))
+        self.set_variable('data', tile_list_data(usermsg_list))
 
         # count
-        self.setVariable('count', usermsg_model.found_rows())
+        self.set_variable('count', usermsg_model.found_rows())
 
 
 @DefaultFrame.controller

@@ -8,5 +8,5 @@ class Index(frame.DefaultFrame):
 		self.setTitle(u'首页')
 		
 		# version
-		self.setVariable('testdrape_version',app.version)
-		self.setVariable('drape_version',drape.version)
+		self.set_variable('testdrape_version',app.version)
+		self.set_variable('drape_version',drape.version)

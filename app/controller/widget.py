@@ -21,9 +21,9 @@ class Pager(WidgetBase):
 	
 	def process(self):
 		page_count = int(math.ceil(self.__total_count*1.0/self.__item_per_page))
-		self.setVariable('page_count',page_count)
-		self.setVariable('current_page',self.__current_page)
-		self.setVariable('total_count',self.__total_count)
+		self.set_variable('page_count',page_count)
+		self.set_variable('current_page',self.__current_page)
+		self.set_variable('total_count',self.__total_count)
 		
 		page_begin = self.__current_page - self.__page_width/2
 		page_end = page_begin + self.__page_width
@@ -37,5 +37,5 @@ class Pager(WidgetBase):
 			else:
 				page_begin = page_end - self.__page_width
 		
-		self.setVariable('page_begin',page_begin)
-		self.setVariable('page_end',page_end)
+		self.set_variable('page_begin',page_begin)
+		self.set_variable('page_end',page_end)

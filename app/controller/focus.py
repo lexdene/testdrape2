@@ -5,14 +5,14 @@
 
 import datetime
 
-from drape.controller import jsonController
+from drape.controller import JsonController
 from drape.util import toInt
 from drape.model import LinkedModel
 
 from app.lib.cache import remove_cache
 
 
-class ajaxFocus(jsonController):
+class ajaxFocus(JsonController):
     '''
         focus or unfocus user / topic / tag by ajax
     '''
@@ -21,8 +21,8 @@ class ajaxFocus(jsonController):
         aSession = self.session()
         current_uid = toInt(aSession.get('uid', -1))
         if current_uid < 0:
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'请先登录')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'请先登录')
             return
 
         # target type and target id
@@ -33,23 +33,23 @@ class ajaxFocus(jsonController):
 
         # check param
         if not focus_type in ('user', 'topic', 'tag'):
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'参数非法: type')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'参数非法: type')
             return
 
         if target_id < 0:
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'参数非法: target')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'参数非法: target')
             return
 
         if not dire in ('add', 'remove'):
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'参数非法: dire')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'参数非法: dire')
             return
 
         if current_uid == target_id and 'user' == focus_type:
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'不可以关注自己')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'不可以关注自己')
             return
 
         # check repeat
@@ -60,8 +60,8 @@ class ajaxFocus(jsonController):
             target_id=target_id,
             is_del=False
         ).find():
-            self.setVariable('result', 'failed')
-            self.setVariable('msg', u'已经关注，不可以重复关注')
+            self.set_variable('result', 'failed')
+            self.set_variable('msg', u'已经关注，不可以重复关注')
             return
 
         # save to db
@@ -108,8 +108,8 @@ class ajaxFocus(jsonController):
                 is_del=True
             )
 
-        self.setVariable('result', 'success')
-        self.setVariable('msg', '')
+        self.set_variable('result', 'success')
+        self.set_variable('msg', '')
 
 
 def isFocused(controller, focus_type, target_id):

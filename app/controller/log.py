@@ -23,7 +23,7 @@ class DateList(frame.DefaultFrame):
         log_dir_path = 'data/log'
         datelist = [f.split('.')[0] for f in listdir(log_dir_path)]
         datelist.sort(reverse=True)
-        self.setVariable('datelist', datelist)
+        self.set_variable('datelist', datelist)
 
 
 class Content(frame.DefaultFrame):
@@ -50,4 +50,4 @@ class Content(frame.DefaultFrame):
                     'type': m.group('type'),
                     'content': re.sub(r'\\n', '\n', m.group('content'))
                 })
-        self.setVariable('datalist', datalist[-100:])
+        self.set_variable('datalist', datalist[-100:])

@@ -6,7 +6,7 @@
 
 import datetime
 
-from drape.controller import jsonController
+from drape.controller import JsonController
 from drape.util import toInt
 from drape.model import LinkedModel
 
@@ -25,7 +25,7 @@ class HomeLine(frame.DefaultFrame):
         self.setTitle(u'首页')
 
 
-class AjaxHomeLine(jsonController):
+class AjaxHomeLine(JsonController):
     '''
         HomeLine的数据
     '''
@@ -52,11 +52,11 @@ class AjaxHomeLine(jsonController):
             },
             from_id
         )
-        self.setVariable('data', action_list)
+        self.set_variable('data', action_list)
 
         # now
         now = datetime.datetime.now()
-        self.setVariable('now', now)
+        self.set_variable('now', now)
 
         # error msg
-        self.setVariable('errormsg', '')
+        self.set_variable('errormsg', '')

@@ -1,4 +1,9 @@
 <div class="userinfo_userpanelpage">
+	{% if error_msg %}
+	<div>
+		{{ error_msg }}
+	</div>
+	{% else %}
 	<div class="common_layout_column left_column">
 		<div class="common_avatar_block">
 			<img class="avatar" src="{{avatar(userinfo['avatar'])}}" alt="avatar" />
@@ -26,4 +31,5 @@
 			<span class="common_content">{{userinfo['score']}}</span>
 		</div>
 	</div>
+	{% endif %}
 </div>

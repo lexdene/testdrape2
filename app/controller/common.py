@@ -8,13 +8,13 @@ class UploadImage(frame.EmptyFrame):
 	def process(self):
 		aParams = self.params()
 		accept = aParams.get('accept','')
-		self.setVariable('accept',accept)
+		self.set_variable('accept',accept)
 
 class UploadImageResult(frame.EmptyFrame):
 	def process(self):
 		aParams = self.params()
 		accept = aParams.get('accept','')
-		self.setVariable('accept',accept)
+		self.set_variable('accept',accept)
 		
 		def checkFileType(fileType,acceptType):
 			if '' == acceptType:
@@ -33,7 +33,7 @@ class UploadImageResult(frame.EmptyFrame):
 			import drape.debug
 			drape.debug.debug(myfile.type)
 			if not checkFileType(myfile.type,accept):
-				self.setVariable('result',u'文件类型错误')
+				self.set_variable('result',u'文件类型错误')
 				return
 			
 			sufix = os.path.splitext(myfile.filename)[1][1:]
@@ -47,7 +47,7 @@ class UploadImageResult(frame.EmptyFrame):
 			app = drape.application.Application.singleton()
 			savepath = app.saveUploadFile(myfile,filepath, 'public')
 			savepath = os.path.join(self.request().rootPath(),savepath)
-			self.setVariable('savepath', savepath)
-			self.setVariable('result',u'success')
+			self.set_variable('savepath', savepath)
+			self.set_variable('result',u'success')
 		else:
-			self.setVariable('result',u'未上传文件')
+			self.set_variable('result',u'未上传文件')

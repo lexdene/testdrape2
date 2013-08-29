@@ -135,8 +135,8 @@ class DbFrame(DefaultFrame):
     ''' 此页的模板 '''
     def __init__(self, path):
         super(DbFrame, self).__init__(path)
-        self.setParent('/db/layout')
-        self.setTemplatePath('/db/CreateTables')
+        self._set_parent('/db/layout')
+        self._set_template_path('/db/CreateTables')
 
 
 @DefaultFrame.controller
@@ -167,7 +167,7 @@ def create_tables(self):
             'res': res
         })
 
-    self.setVariable('result', result)
+    self.set_variable('result', result)
 
 
 @DbFrame.controller
@@ -188,4 +188,4 @@ def drop_tables(self):
             'res': res,
         })
 
-    self.setVariable('result', result)
+    self.set_variable('result', result)

@@ -31,32 +31,32 @@ class Panel(frame.FrameBase):
 			else:
 				raise ValueError('no such type: %s' % notice['type'])
 		
-		self.setVariable('noticeList',noticeList)
+		self.set_variable('noticeList',noticeList)
 
-class setIsRead(drape.controller.jsonController):
+class setIsRead(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		
 		aParams = self.params()
 		noticeid = drape.util.toInt(aParams.get('noticeid',-1))
-		self.setVariable('noticeid',noticeid)
+		self.set_variable('noticeid',noticeid)
 		
 		aNoticeModel = drape.model.LinkedModel('notice')
 		noticeInfo = aNoticeModel.where(id=noticeid).find()
-		self.setVariable('noticeInfo',noticeInfo)
+		self.set_variable('noticeInfo',noticeInfo)
 		if noticeInfo is None:
-			self.setVariable('result','failed')
-			self.setVariable('msg','no such notice')
+			self.set_variable('result','failed')
+			self.set_variable('msg','no such notice')
 			return
 		
 		if noticeInfo['to_uid'] != uid:
-			self.setVariable('result','failed')
-			self.setVariable('msg','notice is not for you')
+			self.set_variable('result','failed')
+			self.set_variable('msg','notice is not for you')
 			return
 		
 		aNoticeModel.where(id=noticeid).update(isRead=1)
 		
-		self.setVariable('result','success')
+		self.set_variable('result','success')
 
 		remove_cache('notice_count/%s' % uid)

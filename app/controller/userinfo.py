@@ -31,10 +31,10 @@ class MainPage(frame.DefaultFrame):
 			return
 		
 		self.setTitle(userinfo['nickname'])
-		self.setVariable('userinfo', userinfo)
-		self.setVariable('timestr', app.lib.text.datetime2Str)
-		self.setVariable('avatar', avatarFunc(self))
-		self.setVariable('isFocused', isFocused(self, 'user', uid))
+		self.set_variable('userinfo', userinfo)
+		self.set_variable('timestr', app.lib.text.datetime2Str)
+		self.set_variable('avatar', avatarFunc(self))
+		self.set_variable('isFocused', isFocused(self, 'user', uid))
 
 
 class UserPanelPage(frame.FrameBase):
@@ -42,18 +42,18 @@ class UserPanelPage(frame.FrameBase):
 		aParams = self.params()
 		uid = drape.util.toInt(aParams.get('uid',-1))
 		if uid < 0:
-			self.Error(u'参数无效:id格式非法')
+			self.set_variable('error_msg', u'参数无效:id格式非法')
 			return
 		
 		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		userinfo = aUserinfoModel.where(id=uid).find()
 		if userinfo is None:
-			self.Error(u'无此用户')
+			self.set_variable('error_msg', u'无此用户')
 			return
 		
-		self.setVariable('userinfo',userinfo)
-		self.setVariable('avatar', avatarFunc(self))
-		self.setVariable('timestr', app.lib.text.datetime2Str)
+		self.set_variable('userinfo',userinfo)
+		self.set_variable('avatar', avatarFunc(self))
+		self.set_variable('timestr', app.lib.text.datetime2Str)
 
 class UserTopicList(frame.FrameBase):
 	def process(self):
@@ -66,16 +66,16 @@ class UserTopicList(frame.FrameBase):
 		aTopicModel = TopicModel()
 		arrTopicList = aTopicModel.getTopicList(uid = uid)
 		
-		self.setVariable('topic_list',arrTopicList)
-		self.setVariable(
+		self.set_variable('topic_list',arrTopicList)
+		self.set_variable(
 			'avatar',
 			avatarFunc(self)
 		)
-		self.setVariable('timestr', app.lib.text.datetime2Str)
-		self.setVariable('show_user_info', False )
+		self.set_variable('timestr', app.lib.text.datetime2Str)
+		self.set_variable('show_user_info', False )
 
 
-class ajaxUserActionList(drape.controller.jsonController):
+class ajaxUserActionList(drape.controller.JsonController):
 	'''
 	返回值格式：
 	{
@@ -88,15 +88,15 @@ class ajaxUserActionList(drape.controller.jsonController):
 	def process(self):
 		# now
 		now = datetime.datetime.now()
-		self.setVariable('now', now)
+		self.set_variable('now', now)
 
 		aParams = self.params()
 		uid = drape.util.toInt(aParams.get('uid', -1))
 		if uid < 0:
-			self.setVariable('errormsg', u'uid参数错误')
-			self.setVariable('data', [])
+			self.set_variable('errormsg', u'uid参数错误')
+			self.set_variable('data', [])
 		else:
-			self.setVariable('errormsg', '')
+			self.set_variable('errormsg', '')
 
 			from_id = drape.util.toInt(aParams.get('from_id', 0))
 			action_model = ActionModel()
@@ -104,4 +104,4 @@ class ajaxUserActionList(drape.controller.jsonController):
 				'from_object_id': uid,
 				'from_object_type': 'user'
 			}, from_id)
-			self.setVariable('data', action_list)
+			self.set_variable('data', action_list)

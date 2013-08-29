@@ -1,39 +1,61 @@
 # -*- coding: utf-8 -*-
+''' 手册相关页面 '''
 
-import frame
+from . import frame
+
+from app.lib.render import markdown
+
 
 class ManualFrame(frame.FrameBase):
-	def __init__(self,path):
-		super(ManualFrame,self).__init__(path)
-		self.setParent('/manual/Layout')
-		self.setRenderFunc('app.lib.render.markdown')
-		
-	def setSubTitle(self,title):
-		g = self.runbox().variables()
-		g['subtitle'] = title
+    ''' 页面结构 '''
+    def __init__(self, path):
+        super(ManualFrame, self).__init__(path)
+        self._set_parent('/manual/Layout')
+
+    def set_sub_title(self, title):
+        ''' 设置子标题 '''
+        self.runbox().variables()['subtitle'] = title
+
+    def render(self, template_path, variables):
+        return markdown(
+            template_path,
+            variables
+        )
+
 
 class Layout(frame.DefaultFrame):
-	def process(self):
-		g = self.runbox().variables()
-		self.setVariable('subtitle', g.get('subtitle'))
-		self.setTitle(u'%s - drape开发手册' % g.get('subtitle'))
+    ''' 布局 '''
+    def process(self):
+        subtitle = self.runbox().variables().get('subtitle')
+        self.set_variable('subtitle', subtitle)
+        self.setTitle(u'%s - drape开发手册' % subtitle)
+
 
 class Index(ManualFrame):
-	def process(self):
-		self.setSubTitle(u'简介')
+    ''' 简介 '''
+    def process(self):
+        self.set_sub_title(u'简介')
+
 
 class Mvc(ManualFrame):
-	def process(self):
-		self.setSubTitle('MVC')
+    ''' MVC '''
+    def process(self):
+        self.set_sub_title('MVC')
 
-class Mvc_Controller(ManualFrame):
-	def process(self):
-		self.setSubTitle('MVC/Controller')
 
-class Mvc_Model(ManualFrame):
-	def process(self):
-		self.setSubTitle('MVC/Model')
+class MvcController(ManualFrame):
+    ''' MVC/Controller '''
+    def process(self):
+        self.set_sub_title('MVC/Controller')
 
-class Mvc_View(ManualFrame):
-	def process(self):
-		self.setSubTitle('MVC/View')
+
+class MvcModel(ManualFrame):
+    ''' MVC/Model '''
+    def process(self):
+        self.set_sub_title('MVC/Model')
+
+
+class MvcView(ManualFrame):
+    ''' MVC/View '''
+    def process(self):
+        self.set_sub_title('MVC/View')

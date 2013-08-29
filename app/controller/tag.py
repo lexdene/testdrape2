@@ -2,7 +2,7 @@
 ''' some controllers about tag '''
 import random
 
-from drape.controller import jsonController
+from drape.controller import JsonController, post_only
 from drape.db import Db
 from drape.model import LinkedModel
 from drape.config import get_value as config_value
@@ -12,7 +12,8 @@ from .frame import DefaultFrame
 from app.lib.cache import Cache, remove_cache
 
 
-@jsonController.controller
+@JsonController.controller
+@post_only
 def update_tag_cache(self):
     ''' 更新tag_cache表 '''
     db_object = Db()
@@ -47,10 +48,10 @@ def update_tag_cache(self):
         'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
     ).order('tag_cache.reply_count', 'DESC').limit(50).select()
 
-    self.setVariable('tag_list', tag_list)
+    self.set_variable('tag_list', tag_list)
 
 
-@jsonController.controller
+@JsonController.controller
 def random_tag_list(self):
     ''' 从最热门的标签中，随机选取标签列表 '''
     def get_hot_tag_list_from_db():
@@ -97,7 +98,7 @@ def random_tag_list(self):
                     tag['enable'] = False
                     break
 
-    self.setVariable('tag_list', tile_list_data(result_list))
+    self.set_variable('tag_list', tile_list_data(result_list))
 
 
 @DefaultFrame.controller
@@ -106,15 +107,15 @@ def tag_list_page(self):
     self.setTitle(u'全部标签')
 
 
-@jsonController.controller
+@JsonController.controller
 def ajax_tag_list(self):
     ''' ajax请求标签列表 '''
     # page
     params = self.params()
     per_page = 20
     page = toInt(params.get('page', 0))
-    self.setVariable('page', page)
-    self.setVariable('per_page', per_page)
+    self.set_variable('page', page)
+    self.set_variable('per_page', per_page)
 
     # tag list
     tag_model = LinkedModel('tag')
@@ -130,8 +131,8 @@ def ajax_tag_list(self):
         per_page,
         per_page * page
     ).select(['SQL_CALC_FOUND_ROWS'])
-    self.setVariable('tag_list', tile_list_data(tag_list))
+    self.set_variable('tag_list', tile_list_data(tag_list))
 
     # count
     count = tag_model.found_rows()
-    self.setVariable('total_count', count)
+    self.set_variable('total_count', count)

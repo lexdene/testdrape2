@@ -24,15 +24,15 @@ class Write(frame.DefaultFrame):
 		if to_userinfo is None:
 			self.Error(u'用户不存在: %s' % to_uid)
 		
-		self.setVariable('to_userinfo',to_userinfo)
+		self.set_variable('to_userinfo',to_userinfo)
 
-class ajaxWrite(drape.controller.jsonController):
+class ajaxWrite(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','请先登录')
+			self.set_variable('result','failed')
+			self.set_variable('msg','请先登录')
 			return
 		
 		aParams = self.params()
@@ -65,8 +65,8 @@ class ajaxWrite(drape.controller.jsonController):
 		]
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 		
 		aMailModel = drape.model.LinkedModel('mail')
@@ -79,17 +79,17 @@ class ajaxWrite(drape.controller.jsonController):
 		# clean up cache
 		remove_cache('mail_count/%s' % aParams['to_uid'])
 		
-		self.setVariable('result','success')
+		self.set_variable('result','success')
 
 class MailBox(frame.FrameBase):
 	def __init__(self,path):
 		super(MailBox,self).__init__(path)
-		self.setParent('/mail/MailBoxLayout')
+		self._set_parent('/mail/MailBoxLayout')
 
 class MailBoxLayout(frame.DefaultFrame):
 	def process(self):
 		g = self.runbox().variables()
-		self.setVariable('title',g.get('title'))
+		self.set_variable('title',g.get('title'))
 
 class ReceiveBox(MailBox):
 	def process(self):
@@ -105,5 +105,5 @@ class ReceiveBox(MailBox):
 			.join('userinfo','fromuser','fromuser.id=mail.from_uid') \
 			.where(to_uid = uid).select()
 		
-		self.setVariable('maillist',maillist)
-		self.setVariable('timestr', datetime2Str)
+		self.set_variable('maillist',maillist)
+		self.set_variable('timestr', datetime2Str)

@@ -116,7 +116,7 @@ class genImage(drape.controller.Controller):
 		aSession = self.session()
 		aSession.set('md5_validate_code',drape.util.md5sum( self.__code.lower() ) )
 		
-	def render(self):
+	def render(self, _tp, _vr):
 		mstream = StringIO.StringIO()
 		img = create_validate_code(self.__code)
 		img.save(mstream, "PNG")
@@ -135,9 +135,9 @@ def validate(code,aSession):
 	aSession.remove('md5_validate_code')
 	return result
 	
-class ajaxValidate(drape.controller.jsonController):
+class ajaxValidate(drape.controller.JsonController):
 	def process(self):
-		self.setVariable(
+		self.set_variable(
 			'result',
 			validate(
 				self.params().get('code'),

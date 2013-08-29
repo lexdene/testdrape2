@@ -2,9 +2,10 @@
 
 import datetime
 
-import frame,userinfo
 import drape
+from drape.controller import JsonController, post_only
 
+import frame,userinfo
 from app.lib.cache import remove_cache
 
 import validatecode
@@ -48,15 +49,16 @@ class Login(frame.DefaultFrame):
 
 		aParams = self.params()
 		redirect = aParams.get('redirect', '/home')
-		self.setVariable('redirect', redirect)
+		self.set_variable('redirect', redirect)
 
-		self.setVariable(
+		self.set_variable(
 			'autologin_daylength',
 			drape.config.get_value('app/autologin_daylength')
 		)
 
 
-class ajaxLogin(drape.controller.jsonController):
+class ajaxLogin(drape.controller.JsonController):
+	@post_only
 	def process(self):
 		aParams = self.params()
 		
@@ -64,8 +66,8 @@ class ajaxLogin(drape.controller.jsonController):
 			self.params().get('valcode'),
 			self.session()
 		):
-			self.setVariable('result','failed')
-			self.setVariable('msg',u'验证码错误')
+			self.set_variable('result','failed')
+			self.set_variable('msg',u'验证码错误')
 			return
 		
 		# validates
@@ -89,23 +91,23 @@ class ajaxLogin(drape.controller.jsonController):
 		]
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 		
 		aLoginModel = drape.model.LinkedModel('logininfo')
 		res = aLoginModel.where(loginname=aParams['loginname']).find()
 		
 		if res is None:
-			self.setVariable('result','failed')
-			self.setVariable('msg',u'登录名不存在')
+			self.set_variable('result','failed')
+			self.set_variable('msg',u'登录名不存在')
 			return
 		elif not validate_password(input=aParams['password'],db=res['password']):
-			self.setVariable('result','failed')
-			self.setVariable('msg',u'密码错误')
+			self.set_variable('result','failed')
+			self.set_variable('msg',u'密码错误')
 			return
 		else:
-			self.setVariable('result','success')
+			self.set_variable('result','success')
 			
 			aSession = self.session()
 			aSession.set('uid',res['id'])
@@ -121,9 +123,9 @@ class Register(frame.DefaultFrame):
 		
 		aParams = self.params()
 		redirect = aParams.get('redirect','/')
-		self.setVariable('redirect',redirect)
+		self.set_variable('redirect',redirect)
 
-class ajaxRegister(drape.controller.jsonController):
+class ajaxRegister(drape.controller.JsonController):
 	def process(self):
 		aParams = self.params()
 		
@@ -131,8 +133,8 @@ class ajaxRegister(drape.controller.jsonController):
 			self.params().get('valcode'),
 			self.session()
 		):
-			self.setVariable('result','failed')
-			self.setVariable('msg',u'验证码错误')
+			self.set_variable('result','failed')
+			self.set_variable('msg',u'验证码错误')
 			return
 		
 		# validates
@@ -189,22 +191,22 @@ class ajaxRegister(drape.controller.jsonController):
 		
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 		
 		aLogininfoModel = drape.model.LinkedModel('logininfo')
 		res = aLogininfoModel.where(loginname=aParams.get('loginname')).select()
 		if len(res) > 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','存在登录名相同的用户，无法注册')
+			self.set_variable('result','failed')
+			self.set_variable('msg','存在登录名相同的用户，无法注册')
 			return
 		
 		id = aLogininfoModel.insert(
 			loginname = aParams.get('loginname'),
 			password = password_for_db(aParams.get('password'))
 		)
-		self.setVariable('id',id)
+		self.set_variable('id',id)
 		
 		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		aUserinfoModel.insert(
@@ -216,7 +218,7 @@ class ajaxRegister(drape.controller.jsonController):
 			score = 0,
 		)
 		
-		self.setVariable('result','success')
+		self.set_variable('result','success')
 
 class Logout(frame.DefaultFrame):
 	def process(self):
@@ -227,16 +229,16 @@ class Logout(frame.DefaultFrame):
 		
 		aParams = self.params()
 		redirect = aParams.get('redirect','/')
-		self.setVariable('redirect',redirect)
+		self.set_variable('redirect',redirect)
 
 class UserCenterFrame(frame.FrameBase):
 	def __init__(self,path):
 		super(UserCenterFrame,self).__init__(path)
-		self.setParent('/user/UserCenterLayout')
+		self._set_parent('/user/UserCenterLayout')
 
 class UserCenterLayout(frame.DefaultFrame):
 	def process(self):
-		self.setVariable('title',self.title())
+		self.set_variable('title',self.title())
 
 class UserCenter(UserCenterFrame):
 	def process(self):
@@ -259,16 +261,16 @@ class EditUserInfo(UserCenterFrame):
 		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		aUserinfo = aUserinfoModel.where(id=uid).find()
 		
-		self.setVariable('userinfo',aUserinfo)
-		self.setVariable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
+		self.set_variable('userinfo',aUserinfo)
+		self.set_variable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
 
-class ajaxEditUserInfo(drape.controller.jsonController):
+class ajaxEditUserInfo(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','未登录用户不能修改用户资料')
+			self.set_variable('result','failed')
+			self.set_variable('msg','未登录用户不能修改用户资料')
 			return
 		
 		aParams = self.params()
@@ -278,8 +280,8 @@ class ajaxEditUserInfo(drape.controller.jsonController):
 		# clean up cache
 		remove_cache('userinfo/%s' % uid)
 		
-		self.setVariable('result','success')
-		self.setVariable('msg',u'修改成功')
+		self.set_variable('result','success')
+		self.set_variable('msg',u'修改成功')
 
 class ChangePassword(UserCenterFrame):
 	def process(self):
@@ -290,13 +292,13 @@ class ChangePassword(UserCenterFrame):
 		if uid < 0:
 			self.notLogin()
 
-class ajaxChangePassword(drape.controller.jsonController):
+class ajaxChangePassword(drape.controller.JsonController):
 	def process(self):
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
-			self.setVariable('result','failed')
-			self.setVariable('msg','未登录用户不能修改用户资料')
+			self.set_variable('result','failed')
+			self.set_variable('msg','未登录用户不能修改用户资料')
 			return
 		
 		aParams = self.params()
@@ -308,8 +310,8 @@ class ajaxChangePassword(drape.controller.jsonController):
 		newpassword = aParams.get('password','')
 		renewpassword = aParams.get('repassword','')
 		if validate_password(input=oldpassword,db=logininfo['password']):
-			self.setVariable('result','failed')
-			self.setVariable('msg','原密码不正确')
+			self.set_variable('result','failed')
+			self.set_variable('msg','原密码不正确')
 			return
 		
 		validates = [
@@ -318,11 +320,11 @@ class ajaxChangePassword(drape.controller.jsonController):
 		]
 		res = drape.validate.validate_params(aParams,validates)
 		if False == res['result']:
-			self.setVariable('result','failed')
-			self.setVariable('msg',res['msg'])
+			self.set_variable('result','failed')
+			self.set_variable('msg',res['msg'])
 			return
 		
 		aLogininfoModel.where(id=uid).update(password = password_for_db(newpassword))
 		
-		self.setVariable('result','success')
-		self.setVariable('msg',u'修改成功')
+		self.set_variable('result','success')
+		self.set_variable('msg',u'修改成功')
