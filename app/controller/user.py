@@ -262,7 +262,7 @@ class EditUserInfo(UserCenterFrame):
 		aUserinfo = aUserinfoModel.where(id=uid).find()
 		
 		self.set_variable('userinfo',aUserinfo)
-		self.set_variable('avatar',userinfo.avatarFunc(self.request().rootPath()) )
+		self.set_variable('avatar',userinfo.avatarFunc(self))
 
 class ajaxEditUserInfo(drape.controller.JsonController):
 	def process(self):
