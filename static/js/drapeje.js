@@ -278,42 +278,6 @@
 			}
 			changePageByHash();
 		}
-		,delay_load: function(time, url, templator){
-			var load_data = undefined;
-			var isTimerFinished = false;
-			var jthis = this;
-			function load(){
-				if( load_data && isTimerFinished ){
-					if('error' == load_data){
-						jthis.html(error_html);
-					}else{
-						jthis.html(load_data);
-					}
-				}
-			}
-
-			jthis.html(loading_html);
-
-			jq.get(url,{},null,'html')
-				.success(function(data){
-					templator = templator || function(s){return s;};
-					load_data = templator(data);
-					load();
-				})
-				.error(function(){
-					load_data = 'error';
-					load();
-				});
-
-			var timer = setTimeout(
-				function(){
-					isTimerFinished = true;
-					load()
-				},
-				time
-			);
-			return this;
-		}
 	});
 	jq.extend({
 		htmlEscape: function(str) {

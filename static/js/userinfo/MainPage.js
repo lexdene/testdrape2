@@ -56,9 +56,22 @@
 			'pages': {
 				'topic': {
 					'onload': function(){
-						jq(this).delay_load(
+						var topic_area = jq(this);
+						jq.delay(
 							1000,
-							WEB_ROOT + '/userinfo/UserTopicList/uid/' + user_id
+							function(set_result){
+								topic_area.html(loading_html);
+								jq.get(
+									WEB_ROOT + '/userinfo/UserTopicList/uid/' + user_id
+								).success(function(data){
+									set_result(data);
+								}).error(function(){
+									set_result(error_html);
+								});
+							},
+							function(result){
+								topic_area.html(result);
+							}
 						);
 					}
 				},
