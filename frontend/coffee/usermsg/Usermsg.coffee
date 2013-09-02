@@ -3,13 +3,13 @@ do (jq=jQuery) ->
   <% _(msg_list).each(function(msg){ %>
     <div class="msg_item" msg_id="<%- msg.id %>">
       <div class="first_line">
-        <a class="from_user username_btn" href="#" userid="<%- msg.from_ui.id %>">
+        <a class="from_user username_btn" href="#" data-userid="<%- msg.from_ui.id %>">
           <%- msg.from_ui.nickname %>
         </a>
 
         <% if (msg.to_uid > 0){ %>
           回复
-          <a class="to_user username_btn" href="#" userid="<%- msg.to_ui.id %>">
+          <a class="to_user username_btn" href="#" data-userid="<%- msg.to_ui.id %>">
             <%- msg.to_ui.nickname %>
           </a>
         <% } %>

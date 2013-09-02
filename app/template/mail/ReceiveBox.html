@@ -1,5 +1,5 @@
 {% do res.addResByPath(('coffee', 'css')) -%}
-{% do res.add('/userinfo/UserPanel') -%}
+{% include 'widget/UserPanel.html' %}
 {% include 'widget/TransText.html' %}
 <div class="mail_receivebox common_center_block">
 	<div class="head_line">
@@ -13,7 +13,7 @@
 			<div class="title_line">
 				<span class="isread">*</span>
 				<span class="fromuser">
-					<a class="username_btn" href='#' userid='{{mail['fromuser.id']}}'>
+					<a class="username_btn" href='#' data-userid='{{mail['fromuser.id']}}'>
 						{{mail['fromuser.nickname']|e}}
 					</a>
 				</span>

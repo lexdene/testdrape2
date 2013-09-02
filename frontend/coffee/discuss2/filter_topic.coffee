@@ -115,7 +115,7 @@ do(jq=jQuery)->
                     <img class="avatar" src="<%= avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
                   </div>
                   <div class="author_nickname">
-                    <a class="username_btn" href="#" userid="<%- topic_item["topic_ui.id"] %>">
+                    <a class="username_btn" href="#" data-userid="<%- topic_item["topic_ui.id"] %>">
                       <%- topic_item["topic_ui.nickname"] %>
                     </a>
                   </div>

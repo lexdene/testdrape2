@@ -32,6 +32,7 @@ SCRIPT_LIST = \
 		mail/ReceiveBox \
 		tag/tag_list_page \
 		TransText \
+		userinfo/UserPanel \
 		usermsg/MyMsgList \
 		usermsg/Usermsg \
 

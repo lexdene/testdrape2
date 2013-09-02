@@ -1,5 +1,5 @@
 {% do res.addResByPath('js') -%}
-{% do res.add(path='/userinfo/UserPanel') -%}
+{% include 'widget/UserPanel.html' %}
 <div class="mail_write common_center_block">
 	<h1 class="common_page_title">发送私信</h1>
 	<div class="form_block">
@@ -12,7 +12,7 @@
 				<span class="jf_hint">发送给</span>
 				<span>
 					<input type='hidden' name="to_uid" value="{{to_userinfo['id']}}" />
-					<a class="username_btn" href="#" userid="{{to_userinfo['id']}}">
+					<a class="username_btn" href="#" data-userid="{{to_userinfo['id']}}">
 						{{to_userinfo['nickname']}}
 					</a>
 				</span>

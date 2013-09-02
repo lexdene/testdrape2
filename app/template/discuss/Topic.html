@@ -1,4 +1,5 @@
 {% do res.addResByPath() %}
+{% include 'widget/UserPanel.html' %}
 {% include 'widget/TransText.html' %}
 
 <script type="text/javascript">
@@ -32,7 +33,7 @@ var topic_id = {{ topicInfo['id'] }};
 							<img class="avatar" src="{{ avatar( reply['ui.avatar'] ) }}" alt="avatar" />
 						</div>
 						<div class="nickname">
-							<a href="{{ROOT}}/userinfo/MainPage/id/{{reply['ui.id']}}">
+							<a href="#" class="username_btn" data-userid="{{reply['ui.id']}}">
 								{{reply['ui.nickname']}}
 							</a>
 						</div>
@@ -43,7 +44,7 @@ var topic_id = {{ topicInfo['id'] }};
 						<div class="reply_to_reply" reply_to_id="{{reply['reply_to_id']}}">
 							<span>reply to:</span>
 							<span>
-								<a href="{{ROOT}}/user/MainPage/id/{{reply['rtrui.uid']}}">
+								<a href="#" class="username_btn" data-userid="{{reply['rtrui.id']}}">
 									{{reply['rtrui.nickname']|e}}
 								</a>
 							</span>
