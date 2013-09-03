@@ -28,6 +28,7 @@ SCRIPT_LIST = \
 		dje/dje.pager \
 		dje/dje.util \
 		frame/Layout \
+		frame/notice \
 		hot/LoadHot \
 		mail/ReceiveBox \
 		tag/tag_list_page \

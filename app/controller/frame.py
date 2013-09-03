@@ -161,19 +161,3 @@ class NotLogin(DefaultFrame):
 @DefaultFrame.controller
 def Error(self):
 	pass
-
-
-def check_login(fun):
-	''' 判断是否登录
-	    未登录，则显示NotLogin
-	'''
-	@wraps(fun)
-	def new_fun(self):
-		fun(self)
-
-		session = self.session()
-		uid = toInt(session.get('uid', -1))
-		if uid < 0:
-			self.notLogin()
-
-	return new_fun

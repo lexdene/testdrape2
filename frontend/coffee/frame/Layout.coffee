@@ -25,7 +25,7 @@ do(jq=jQuery) ->
       )
 
       block = jq template
-      jq('.layout_head_line').append(block)
-      jwin = jq(window)
-      block.height( jwin.height() - 100 )
+      jq('.layout_head_line').append block
+      jwin = jq window
+      block.height jwin.height() - 100
       block.slideDown 'slow'
