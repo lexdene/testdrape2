@@ -31,6 +31,7 @@ SCRIPT_LIST = \
 		frame/notice \
 		hot/LoadHot \
 		mail/ReceiveBox \
+		mail/Write \
 		tag/tag_list_page \
 		TransText \
 		userinfo/UserPanel \

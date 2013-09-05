@@ -49,7 +49,7 @@ class Resource(object):
 
 class FrameBase(drape.controller.Controller):
 	def notLogin(self):
-		self.icRedirect('/frame/NotLogin')
+		raise drape.controller.Forbidden()
 		
 	def run(self):
 		g = self.runbox().variables()

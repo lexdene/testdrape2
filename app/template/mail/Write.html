@@ -1,4 +1,6 @@
-{% do res.addResByPath('js') -%}
+{% do res.add('/dje/dje.mask', 'coffee') -%}
+{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
+{% do res.addResByPath('coffee') -%}
 {% include 'widget/UserPanel.html' %}
 <div class="mail_write common_center_block">
 	<h1 class="common_page_title">发送私信</h1>
