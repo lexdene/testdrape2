@@ -236,8 +236,16 @@
 				elapse = 300;
 			}
 			if(this.length > 0 ){
-				var _targetTop = this.offset().top;
+				var _targetTop = this.offset().top - ($(window).height() - this.outerHeight(true)) / 2;
 				jq("html,body").animate({scrollTop:_targetTop},elapse);
+				this.addClass('jf_flash_out');
+				var me = this;
+				this.bind(
+					"animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
+					function(){
+						me.removeClass('jf_flash_out');
+					}
+				);
 			}
 		}
 		,tabs: function(options){
