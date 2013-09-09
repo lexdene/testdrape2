@@ -29,6 +29,7 @@ SCRIPT_LIST = \
 		dje/dje.util \
 		frame/Layout \
 		frame/notice \
+		home/HomeLine \
 		hot/LoadHot \
 		mail/ReceiveBox \
 		mail/Write \
