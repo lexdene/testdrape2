@@ -34,6 +34,7 @@ SCRIPT_LIST = \
 		mail/Write \
 		tag/tag_list_page \
 		TransText \
+		userinfo/MainPage \
 		userinfo/UserPanel \
 		usermsg/MyMsgList \
 		usermsg/Usermsg \

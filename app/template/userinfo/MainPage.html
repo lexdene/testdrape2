@@ -1,10 +1,11 @@
-{% do res.addResByPath() %}
+{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
+{% do res.add('/dje/dje.mask', 'coffee') -%}
+{% do res.add('/dje/dje.pager', 'coffee') -%}
+{% do res.addResByPath(('coffee', 'css')) %}
 {% do res.add('/discuss/List','css') %}
+{% include 'discuss2/topic_list.html' %}
 
-<script type="text/javascript">
-var user_id = {{ userinfo['id'] }};
-</script>
-<div class="user_homepage clearfix">
+<div class="user_homepage clearfix" data-user-id="{{userinfo['id']}}">
 	<div class="common_layout_column left_column">
 		<div class="nickname">
 			{{ userinfo['nickname'] }}
@@ -14,7 +15,7 @@ var user_id = {{ userinfo['id'] }};
 		</div>
 		<div class="button_area">
 			<div>
-				<a class="jf_button" id="focus_button" isfocused="{{ isFocused }}" href="#">载入中...</a>
+				<a class="jf_button" id="focus_button" data-is-focused="{{ isFocused }}" href="#">载入中...</a>
 				<a class="jf_button" href="{{ ROOT }}/mail/Write/to_uid/{{ userinfo['id'] }}">发送私信</a>
 			</div>
 		</div>
@@ -59,10 +60,13 @@ var user_id = {{ userinfo['id'] }};
 				</div>
 			</div>
 			<div class="tab_page" tab_page="topic">
+				<div class="discuss_list">
+					<div class="list"></div>
+				</div>
 			</div>
 			<div class="tab_page" tab_page="album">相册功能仍在开发中...</div>
 			<div class="tab_page" tab_page="msg">
-				<form id="msg_form" action="{{ROOT}}/usermsg/AjaxPostMsg" method="post" onsubmit="return false;" class="jdmd_form">
+				<form action="{{ROOT}}/usermsg/AjaxPostMsg" method="post" class="jdmd_form">
 					<input type="hidden" name="to_uid" value="{{ userinfo['id'] }}" />
 					<div>给TA留言</div>
 					<div>
@@ -72,13 +76,10 @@ var user_id = {{ userinfo['id'] }};
 						<input type="submit" value="留言" />
 					</div>
 				</form>
-				<div class="msg_list" id="msg_list">
+				<div class="msg_list">
 					留言列表
 				</div>
-				<div class="buttons" id="page_buttons">
-					<a class="jf_button" href="#" action="prev">上一页</a>
-					<span class="page_count" id="page_count"></span>
-					<a class="jf_button" href="#" action="next">下一页</a>
+				<div class="jf_pager pager">
 				</div>
 			</div>
 		</div>
@@ -102,7 +103,7 @@ var user_id = {{ userinfo['id'] }};
 				<span><%- msg.text %></span>
 			</div>
 			<div class="second_line">
-				<span class="ctime"><%- formate_date(msg.ctime) %></span>
+				<span class="ctime"><%- format_date(msg.ctime) %></span>
 			</div>
 		</div>
 	<% }) %>

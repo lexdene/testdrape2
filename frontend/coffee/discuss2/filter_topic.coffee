@@ -105,62 +105,7 @@ do(jq=jQuery)->
           render_topic_list topic_list_data.topic_list, topic_list_data.now
 
       # render topic list
-      template = _.template(
-        '''
-          <% _(topic_list).each(function(topic_item){ %>
-            <div class="item">
-              <div class="title_line clearfix">
-                <div class="common_layout_column">
-                  <div class="avatar_block">
-                    <img class="avatar" src="<%= avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
-                  </div>
-                  <div class="author_nickname">
-                    <a class="username_btn" href="#" data-userid="<%- topic_item["topic_ui.id"] %>">
-                      <%- topic_item["topic_ui.nickname"] %>
-                    </a>
-                  </div>
-                </div>
-                <div class="common_layout_column">
-                  <div class="title">
-                    <a href="<%= WEB_ROOT %>/discuss/Topic/id/<%- topic_item["id"] %>">
-                      <%- topic_item["title"] %>
-                    </a>
-                  </div>
-                  <div class="jf_tag_line">
-                    <% _(topic_item["tag_list"]).each(function(tag){ %>
-                      <span class="jf_tag">
-                        <a href="<%= WEB_ROOT %>/discuss/List/tag/<%- tag.id %>"><%- tag.content %></a>
-                      </span>
-                    <% }) %>
-                  </div>
-                </div>
-              </div>
-              <div class="topic_info_line">
-                <span class="ctime">
-                  发表时间：
-                  <%- format_date(topic_item["ctime"]) %>
-                </span>
-                <span class="reply_count">
-                  楼层数：
-                  <%- topic_item["reply_count"] %>
-                </span>
-                <span class="last_reply">
-                  最后回复：
-                  <% if(topic_item["tc.first_reply_id"] != topic_item["tc.last_reply_id"]){ %>
-                    <span class="time"><%- format_date(topic_item["last_reply.ctime"]) %></span>
-                    <span class="user">
-                      <img class="avatar" src="<%= avatar(topic_item["last_reply_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["last_reply_ui.nickname"] %>" />
-                    </span>
-                  <% }else{ %>
-                    <span class="time">-</span>
-                    <span class="user"></span>
-                  <% } %>
-                </span>
-              </div>
-            </div>
-          <% }) %>
-        '''
-      )
+      template = _.template jq('#topic_list_template').html()
       render_topic_list = (topic_list, now)->
         html = template
           topic_list: topic_list

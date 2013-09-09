@@ -3,10 +3,12 @@
     与用户信息相关的controller
     版本: 2.0
 '''
+import datetime
 
 from drape.controller import JsonController
 from drape.util import toInt
 from drape.model import LinkedModel
+from app.model.discuss import TopicModel
 
 
 @JsonController.controller
@@ -39,3 +41,24 @@ def ajax_user_info(self):
     # set variable
     self.set_variable('result', 'success')
     self.set_variable('userinfo', userinfo)
+
+
+@JsonController.controller
+def ajax_user_topic_list(self):
+    ''' 获取某用户发过的文章列表 '''
+    params = self.params()
+    uid = toInt(params.get('uid', -1))
+
+    topic_model = TopicModel()
+    topic_list, count = topic_model.get_topic_list_and_count(
+        where_obj={
+            'dt.uid': uid
+        }
+    )
+
+    self.set_variable('result', 'success')
+    self.set_variable('topic_list', topic_list)
+    self.set_variable('count', count)
+
+    # now
+    self.set_variable('now', datetime.datetime.now())
