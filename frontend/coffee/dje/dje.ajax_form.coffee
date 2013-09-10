@@ -35,7 +35,7 @@ do(jq=jQuery)->
     validate_result = validate_params params, options.validate
     if not validate_result.result
       show_all_error_hint form, validate_result
-      options.failed 'validate', validate_result.msg
+      on_failed form, 'validate', '填写内容不合格', options
       return
 
     form.add_mask
@@ -51,9 +51,9 @@ do(jq=jQuery)->
       if data.result == 'success'
         options.success()
       else
-        options.failed 'post', data.msg
+        on_failed form, 'post', data.msg, options
     ).error( ->
-      options.failed('network')
+      on_failed form, 'network', '系统错误', options
     ).complete ->
       form.remove_mask()
 
@@ -133,6 +133,7 @@ do(jq=jQuery)->
   remove_error_hint = ->
     line = jq this
     line.find('.jf_error').remove()
+    clear_form_error line.closest('form')
 
   show_error_hint = (msg)->
     line = jq this
@@ -144,6 +145,17 @@ do(jq=jQuery)->
       if line
         remove_error_hint.call line
         show_error_hint.call line, area.msg
+
+  on_failed = (form, type, msg, options)->
+    clear_form_error form
+    show_form_error form, type, msg
+    options.failed type, msg
+
+  show_form_error = (form, type, msg)->
+    form.append "<div class='jf_form_error'>#{msg}</div>"
+
+  clear_form_error = (form)->
+    form.find('.jf_form_error').remove()
 
   jq.fn.extend
     ajax_form: (options={})->

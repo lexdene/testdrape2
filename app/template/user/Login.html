@@ -1,10 +1,12 @@
-{% do res.addResByPath('js') %}
+{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
+{% do res.add('/dje/dje.mask', 'coffee') -%}
+{% do res.addResByPath('coffee') %}
 
 <div class="user_login common_center_block">
 	<h1>登录</h1>
 	<form method="post" id="submit_form"
 		action="{{ROOT}}/user/ajaxLogin"
-		redirect="{{redirect}}"
+		data-redirect="{{redirect}}"
 		onsubmit="return false;"
 		class="jdmd_form"
 		>

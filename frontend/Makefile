@@ -36,6 +36,7 @@ SCRIPT_LIST = \
 		newsfeed/Template \
 		tag/tag_list_page \
 		TransText \
+		user/Login \
 		userinfo/MainPage \
 		userinfo/UserPanel \
 		usermsg/MyMsgList \
