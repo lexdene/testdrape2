@@ -33,6 +33,7 @@ SCRIPT_LIST = \
 		hot/LoadHot \
 		mail/ReceiveBox \
 		mail/Write \
+		newsfeed/Template \
 		tag/tag_list_page \
 		TransText \
 		userinfo/MainPage \

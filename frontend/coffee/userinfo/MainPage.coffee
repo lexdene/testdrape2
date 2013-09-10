@@ -53,16 +53,8 @@ do(jq=jQuery)->
         this.first_load()
     first_load: ->
       me = this
-      newsfeed.load me.area, (from_id, r)->
-        jq.getJSON(WEB_ROOT + '/userinfo/ajaxUserActionList',
-          uid: userinfo.id
-          from_id: from_id
-        ).success (data)->
-          r data
-        .error ->
-          r
-            errormsg: '网络错误'
-            data: []
+      newsfeed me.area, '/userinfo/ajaxUserActionList',
+        uid: userinfo.id
 
   topic_page =
     area: null

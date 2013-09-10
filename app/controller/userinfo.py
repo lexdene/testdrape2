@@ -3,6 +3,7 @@
 import datetime
 
 import drape
+from drape.util import tile_list_data
 
 import frame
 import app.lib.text
@@ -86,4 +87,4 @@ class ajaxUserActionList(drape.controller.JsonController):
 				'from_object_id': uid,
 				'from_object_type': 'user'
 			}, from_id)
-			self.set_variable('data', action_list)
+			self.set_variable('data', tile_list_data(action_list))

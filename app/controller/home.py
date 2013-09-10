@@ -7,8 +7,7 @@
 import datetime
 
 from drape.controller import JsonController
-from drape.util import toInt
-from drape.model import LinkedModel
+from drape.util import toInt, tile_list_data
 
 from . import frame
 from app.model.action import ActionModel
@@ -31,12 +30,12 @@ class AjaxHomeLine(JsonController):
     '''
     def process(self):
         # get uid from session
-        aSession = self.session()
-        uid = toInt(aSession.get('uid', -1))
+        session = self.session()
+        uid = toInt(session.get('uid', -1))
 
         # from id
-        aParams = self.params()
-        from_id = toInt(aParams.get('from_id', 0))
+        params = self.params()
+        from_id = toInt(params.get('from_id', 0))
 
         # get data from db
         action_model = ActionModel()
@@ -52,7 +51,7 @@ class AjaxHomeLine(JsonController):
             },
             from_id
         )
-        self.set_variable('data', action_list)
+        self.set_variable('data', tile_list_data(action_list))
 
         # now
         now = datetime.datetime.now()
