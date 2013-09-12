@@ -309,7 +309,7 @@ class ajaxChangePassword(drape.controller.JsonController):
 		oldpassword = aParams.get('oldpassword','')
 		newpassword = aParams.get('password','')
 		renewpassword = aParams.get('repassword','')
-		if validate_password(input=oldpassword,db=logininfo['password']):
+		if not validate_password(input=oldpassword,db=logininfo['password']):
 			self.set_variable('result','failed')
 			self.set_variable('msg','原密码不正确')
 			return

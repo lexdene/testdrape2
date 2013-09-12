@@ -2,14 +2,17 @@ do(jq=jQuery)->
   extend_option = (options)->
     default_option =
       success: ->
-        alert '提交成功'
+        action = get_action_name this
+        alert "#{action}成功"
+        window.location.reload()
       failed: (type, msg)->
         '''
           type: post/network/validate
         '''
+        action = get_action_name this
         switch type
           when 'post'
-            alert "提交失败: #{msg}"
+            alert "#{action}失败: #{msg}"
           when 'network'
             alert "网络错误，请联系网站管理员"
           when 'validate'
@@ -49,7 +52,7 @@ do(jq=jQuery)->
       'json'
     ).success( (data)->
       if data.result == 'success'
-        options.success()
+        options.success.call form
       else
         on_failed form, 'post', data.msg, options
     ).error( ->
@@ -149,13 +152,16 @@ do(jq=jQuery)->
   on_failed = (form, type, msg, options)->
     clear_form_error form
     show_form_error form, type, msg
-    options.failed type, msg
+    options.failed.call form, type, msg
 
   show_form_error = (form, type, msg)->
     form.append "<div class='jf_form_error'>#{msg}</div>"
 
   clear_form_error = (form)->
     form.find('.jf_form_error').remove()
+
+  get_action_name = (form)->
+    form.find('input[type=submit]').val()
 
   jq.fn.extend
     ajax_form: (options={})->
