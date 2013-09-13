@@ -1,14 +1,8 @@
-{% do res.addResByPath('js') %}
-
-<script type="text/javascript">
-	var redirect = "{{redirect}}";
-</script>
+{% do res.add('/dje/dje.count_down', 'coffee') -%}
+{% do res.addResByPath('coffee') %}
 
 <div class="user_login common_center_block">
 	<div class="common_page_title">退出成功</div>
-	<div id="count_down">
-		<span class="num"></span>
-		秒钟后跳转至
-		<a class="location" href="{{ROOT}}{{redirect}}">{{redirect}}</a>
+	<div id="count_down" data-time="3" data-location="{{redirect}}">
 	</div>
 </div>

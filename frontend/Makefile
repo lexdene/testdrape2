@@ -24,6 +24,7 @@ SCRIPT_LIST = \
 		discuss2/filter_topic \
 		discuss2/post_topic \
 		dje/dje.ajax_form \
+		dje/dje.count_down \
 		dje/dje.mask \
 		dje/dje.pager \
 		dje/dje.util \
@@ -39,6 +40,7 @@ SCRIPT_LIST = \
 		user/ChangePassword \
 		user/EditUserInfo \
 		user/Login \
+		user/Logout \
 		userinfo/MainPage \
 		userinfo/UserPanel \
 		usermsg/MyMsgList \

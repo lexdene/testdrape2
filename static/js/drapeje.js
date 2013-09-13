@@ -192,26 +192,6 @@
 				form.refresh_valcode();
 			});
 			return this;
-		},
-		count_down: function(options) {
-			return this.each(function(){
-				var numObj = jq(this).find('.'+options['num_class']);
-				var locationObj = jq(this).find('.'+options['location_class']);
-				var location = locationObj.attr('href');
-				var time = options['time'];
-				numObj.html( time );
-				var timer = setInterval(
-					function(){
-						--time;
-						numObj.html( time );
-						if( time <= 0 ){
-							clearInterval( timer );
-							window.location = location;
-						}
-					},
-					1000
-				);
-			});
 		}
 		,centerInWindow : function(){
 			return this.each(function(){

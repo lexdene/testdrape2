@@ -228,7 +228,7 @@ class Logout(frame.DefaultFrame):
 		aSession.remove('uid')
 		
 		aParams = self.params()
-		redirect = aParams.get('redirect','/')
+		redirect = aParams.get('redirect', '')
 		self.set_variable('redirect',redirect)
 
 class UserCenterFrame(frame.FrameBase):
