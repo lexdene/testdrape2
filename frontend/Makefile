@@ -41,6 +41,7 @@ SCRIPT_LIST = \
 		user/EditUserInfo \
 		user/Login \
 		user/Logout \
+		user/Register \
 		userinfo/MainPage \
 		userinfo/UserPanel \
 		usermsg/MyMsgList \
