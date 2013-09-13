@@ -1,4 +1,6 @@
-{% do res.addResByPath('js') %}
+{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
+{% do res.add('/dje/dje.mask', 'coffee') -%}
+{% do res.addResByPath('coffee') %}
 
 <div class="user_edituserinfo">
 	<div class="msg_block">
@@ -7,7 +9,6 @@
 	<div class="form_block">
 		<form id="edituserinfo_form"
 			method="post"
-			onsubmit="return false;"
 			action="{{ROOT}}/user/ajaxEditUserInfo"
 			class="jdmd_form"
 			>
@@ -27,7 +28,7 @@
 				<span class="jf_hint">头像</span>
 				<span>
 					<input type='hidden' name="avatar" value="{{userinfo['avatar'] if userinfo['avatar'] else ''}}" />
-					<a id='upload_avatar_btn' href='#' onclick="return false;">上传</a>
+					<a id='upload_avatar_btn' href='#'>上传</a>
 				</span>
 			</div>
 			<div class="avatar_preview jf_line">
@@ -38,12 +39,12 @@
 			</div>
 			<div class="submit jf_line">
 				<span class="jf_hint"></span>
-				<span><input type="submit" name="submit" /></span>
+				<span><input type="submit" name="submit" value="修改" /></span>
 			</div>
 		</form>
 	</div>
 	<div id="dialog" class="common_dialog">
-		<a href='#' class='close_button' onclick="return false;">关闭</a>
+		<a href='#' class='close_button'>关闭</a>
 		<iframe src="">
 		</iframe>
 	</div>

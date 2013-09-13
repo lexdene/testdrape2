@@ -37,6 +37,7 @@ SCRIPT_LIST = \
 		tag/tag_list_page \
 		TransText \
 		user/ChangePassword \
+		user/EditUserInfo \
 		user/Login \
 		userinfo/MainPage \
 		userinfo/UserPanel \
