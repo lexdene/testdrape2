@@ -58,24 +58,13 @@ do (jq=jQuery) ->
 
     set_form: (f) ->
       @from = f
-      @from.submit =>
-        @from.ajaxSubmit(
-          success: =>
-            alert '回复成功'
-            location.reload()
-          error: (msg)=>
-            alert '回复失败：' + msg
-          validate:
-            form_area: [
-              {
-                key: 'text'
-                name: '留言内容'
-                validates: [
-                  ['len', 1, 200]
-                ]
-              }
+      @from.ajax_form
+        validate:
+          text:
+            title: '留言内容'
+            validates: [
+              ['len', 1, 200]
             ]
-        )
       true
 
     reply_to: (userid, username) ->
