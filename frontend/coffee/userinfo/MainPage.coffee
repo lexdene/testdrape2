@@ -145,14 +145,8 @@ do(jq=jQuery)->
 
   tabs =
     init: ->
-      jq('#tabs').tabs
-        pages:
-          topic:
-            onload: ->
-              topic_page.load jq this
-          newsfeed:
-            onload: ->
-              newsfeed_page.load jq this
-          msg:
-            onload: ->
-              msg_page.load jq this
+      jq('#tabs').tabs().bind 'page_change', (e, pagename, page)->
+        switch pagename
+          when 'topic' then topic_page.load page
+          when 'newsfeed' then newsfeed_page.load page
+          when 'msg' then msg_page.load page

@@ -62,44 +62,6 @@
 				);
 			}
 		}
-		,tabs: function(options){
-			onhashchange = function(event){
-				changePageByHash();
-			}
-			var jobj = this;
-			function changePage(pagename){
-				jobj.find('.tab_page').hide();
-				var selected_page = jobj.find('.tab_page[tab_page='+pagename+']');
-				selected_page.show();
-				jobj.find('.tab_nav').find('.nav_btn').closest('.nav_btn_wrap').removeClass('nav_btn_active');
-				jobj.find('.tab_nav').find('.nav_btn[tab_page='+pagename+']').closest('.nav_btn_wrap').addClass('nav_btn_active');
-
-				// trigger on load function
-				if('object' == typeof options['pages']
-					&& 'object' == typeof options['pages'][pagename]
-					&& 'function' == typeof options['pages'][pagename].onload
-				){
-					options['pages'][pagename].onload.call(selected_page.get(0));
-				}
-			}
-			function showFirstPage(){
-				changePage( jobj.find('.tab_page').first().attr('tab_page') );
-			}
-			function changePageByHash(){
-				var tab_page = location.hash.substr(2);
-				if( '' == tab_page ){
-					showFirstPage();
-				}else{
-					// is start with #!
-					if( location.hash.indexOf('#!') != 0){
-						return;
-					}
-
-					changePage(tab_page);
-				}
-			}
-			changePageByHash();
-		}
 	});
 	jq.extend({
 		htmlEscape: function(str) {
