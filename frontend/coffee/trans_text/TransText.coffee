@@ -12,7 +12,7 @@ do (jq=jQuery) ->
       else
         aword
   is_emoji = (word)->
-    if word of emoji_list then true else false
+    if word of window.emoji_dict then true else false
   markdown = (origin)->
     markdown_converter.makeHtml origin
 
