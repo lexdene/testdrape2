@@ -1,12 +1,10 @@
-{% do res.addResByPath() %}
+{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
+{% do res.add('/dje/dje.mask', 'coffee') -%}
+{% do res.addResByPath(('coffee', 'css')) %}
 {% include 'widget/UserPanel.html' %}
 {% include 'widget/TransText.html' %}
 
-<script type="text/javascript">
-var topic_id = {{ topicInfo['id'] }};
-</script>
-
-<div class="discuss_topic">
+<div class="discuss_topic" data-topic-id="{{ topicInfo['id'] }}">
 	<div class="top_button_block">
 		<a href="{{ROOT}}/discuss/List">返回讨论区列表</a>
 	</div>
@@ -25,7 +23,7 @@ var topic_id = {{ topicInfo['id'] }};
 	</div>
 	<div class="building">
 		{% for reply in aReplyIter %}
-			<div class="floor common_horizontal_block clearfix" floor_num="{{ reply['floor'] }}" floor_id="{{reply['id']}}">
+			<div class="floor common_horizontal_block clearfix" floor_num="{{ reply['floor'] }}" data-floor-id="{{reply['id']}}">
 				<a name="reply{{reply['id']}}"></a>
 				<div class="common_layout_column floor_left_column">
 					<div class="user_panel">
@@ -100,10 +98,13 @@ var topic_id = {{ topicInfo['id'] }};
 			onsubmit="return false;">
 			<input type='hidden' name='tid' value='{{topicInfo['id']}}' />
 			<input type='hidden' name='reply_to_id' value='-1' />
-			<div class="h">发表回复</div>
-			<div class="reply_to_hint">
-				<span>回复<span class="floor_num">-1</span>楼</span>
-				<a href='#' class="cancel_reply_button">取消</a>
+			<h1>发表回复</h1>
+			<div class="reply_to_hint common_horizontal_block" style="display:none">
+				<div class="clear_fix head_line">
+					<span>回复<span class="to_username"></span></span>
+					<a href='#' class="push_right cancel_reply_button">取消</a>
+				</div>
+				<div class="jf_markdown"></div>
 			</div>
 			<div>
 				<textarea name="text" placeholder="请输入回复内容..."></textarea>

@@ -113,7 +113,7 @@ class ajaxLogin(drape.controller.JsonController):
 			aSession.set('uid',res['id'])
 
 			# 自动登录
-			if 'on' == aParams['autologin']:
+			if 'on' == aParams.get('autologin', 'off'):
 				expired = int( aParams['autologin_daylength'] ) * 24 * 3600
 				aSession.setCookieAttr(expired = expired)
 
