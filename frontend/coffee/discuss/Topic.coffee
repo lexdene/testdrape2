@@ -74,7 +74,7 @@ do(jq=jQuery)->
           edit_area = floor_content.find '.floor_edit'
           text = floor_content.find('script[type="text/markdown"]').text()
           if edit_area.is ':hidden'
-            edit_area.find('textarea').val jq.htmlUnescape text
+            edit_area.find('textarea').val _.unescape text
             edit_button.text '取消编辑'
           else
             edit_area.find('textarea').val ''
@@ -84,7 +84,7 @@ do(jq=jQuery)->
           edit_area.slideToggle 'slow'
 
         jq('.floor .floor_edit textarea').keyup ->
-          jq(this).closest('.floor').find('.floor_content .jf_markdown').html transText jq.htmlEscape jq(this).val()
+          jq(this).closest('.floor').find('.floor_content .jf_markdown').html transText _.escape jq(this).val()
 
         jq('.edit_form').ajax_form
           validate:

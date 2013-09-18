@@ -2,6 +2,7 @@ do(jq=jQuery)->
   jq ->
     jq('#submit_form').ajax_form
       success: ->
+        form = this
         # 在complete中会remove mask
         # 所以此时要延时到remove mask之后执行
         setTimeout(
