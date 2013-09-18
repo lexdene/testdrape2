@@ -19,7 +19,7 @@ do(jq=jQuery)->
 
     newsfeed_template
       newsfeed_list: data.data
-      format_date: jq.create_format_date data.now
+      format_date: jq.create_date_formater data.now
 
   bind_events = ->
     newsfeed_area.on 'click', '.load_more', (e)->

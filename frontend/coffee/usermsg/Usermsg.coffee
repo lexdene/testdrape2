@@ -87,7 +87,7 @@ do (jq=jQuery) ->
 
         @container.html @template {
           msg_list: data.data
-          format_date: jq.create_format_date data.now
+          format_date: jq.create_date_formater data.now
           my_userid: my_userid
         }
 

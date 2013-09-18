@@ -82,7 +82,7 @@ do(jq=jQuery)->
         if result.result == 'success'
           topic_list_area.html me.template
             topic_list: result.topic_list
-            format_date: jq.create_format_date result.now
+            format_date: jq.create_date_formater result.now
         else
           topic_list_area.html error_msg_html
             msg: result.msg
@@ -138,7 +138,7 @@ do(jq=jQuery)->
           me.page_widget.setData data.page, Math.ceil data.count / data.per_page
           msg_list_area.html me.template
             msg_list: data.data
-            format_date: jq.create_format_date data.now
+            format_date: jq.create_date_formater data.now
         else
           msg_list_area.html error_msg_html
             msg: data.msg

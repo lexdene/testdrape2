@@ -1,4 +1,7 @@
 {% include 'widget/UserPanel.html' %}
+{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
+{% do res.add('/dje/dje.mask', 'coffee') -%}
+{% do res.add('/dje/dje.format_date', 'coffee') -%}
 {% do res.add('/usermsg/Usermsg', 'coffee') %}
 {% do res.addResByPath('coffee') %}
 {% do res.addResByPath('css') %}

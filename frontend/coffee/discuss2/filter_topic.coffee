@@ -109,7 +109,7 @@ do(jq=jQuery)->
       render_topic_list = (topic_list, now)->
         html = template
           topic_list: topic_list
-          format_date: jq.create_format_date(now)
+          format_date: jq.create_date_formater now
         jtopic_list.html html
 
       # init pager
