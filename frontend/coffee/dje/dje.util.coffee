@@ -1,4 +1,12 @@
 do(jq=jQuery)->
+  jq.fn.extend
+    refresh_img: ->
+      this.each ->
+        src = jq(this).attr 'src'
+        clean_src = src.split('?')[0]
+        new_src = clean_src + '?t=' + (+new Date())
+        jq(this).attr 'src', new_src
+
   jq.extend
     version_cmp: (a,b)->
       arr_a = a.split('.')
@@ -18,3 +26,5 @@ do(jq=jQuery)->
         return -1
       else
         return 0
+
+  true

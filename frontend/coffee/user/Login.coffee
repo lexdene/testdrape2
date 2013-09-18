@@ -1,12 +1,6 @@
 do(jq=jQuery)->
   jq ->
-    form = jq '#submit_form'
-
-    # 验证码
-    form.valcode()
-
-    # ajax form
-    form.ajax_form
+    jq('#submit_form').ajax_form
       success: ->
         # 在complete中会remove mask
         # 所以此时要延时到remove mask之后执行
@@ -18,8 +12,6 @@ do(jq=jQuery)->
             window.location = WEB_ROOT + form.data('redirect')
           ,100
         )
-      failed: (type, msg)->
-        form.refresh_valcode()
       validate:
         loginname:
           title: '登录名'
@@ -39,3 +31,4 @@ do(jq=jQuery)->
             ['notempty'],
             ['len', 4, 4]
           ]
+      validate_code: true

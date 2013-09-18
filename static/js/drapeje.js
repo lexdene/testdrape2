@@ -5,29 +5,7 @@
 (function(jq) {
 	var jQuery = undefined;
 	jq.fn.extend({
-		img_refresh : function(){
-			return this.each(function(){
-				var src = jq(this).attr('src');
-				var cleansrc = src.split('?')[0];
-				var newsrc = cleansrc+'?t='+new Date().getTime();
-				jq(this).attr('src',newsrc);
-			});
-		},
-		refresh_valcode : function(){
-			var form = this;
-			form.find('.jf_valcode_input').val('');
-			form.find('.jf_valcode_img').img_refresh();
-			return this;
-		},
-		valcode : function(){
-			var form = this;
-			form.find('.jf_valcode_btn').click(function(e){
-				e.preventDefault();
-				form.refresh_valcode();
-			});
-			return this;
-		}
-		,centerInWindow : function(){
+		centerInWindow : function(){
 			return this.each(function(){
 				var jwin = jq(window);
 				var jdoc = jq(document);

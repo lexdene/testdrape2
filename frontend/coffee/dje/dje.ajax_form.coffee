@@ -22,14 +22,27 @@ do(jq=jQuery)->
       before_submit: ->
         true
       loading_text: 'loading'
+      validate_code: false
 
     jq.extend default_option, options
 
   bind_events = (jobj, options)->
+    # submit
     jobj.submit (e)->
       e.preventDefault()
       ajax_submit jq(this), options
+
+    # remove error hint
     jobj.on 'click focus', '.jf_line', remove_error_hint
+
+    # refresh val code
+    if options.validate_code
+      jobj.find('.jf_valcode_btn').click (e)->
+        e.preventDefault()
+
+        jobj.find('.jf_valcode_input').val ''
+        jobj.find('.jf_valcode_img').refresh_img()
+
     true
 
   ajax_submit = (form, options)->
@@ -152,6 +165,11 @@ do(jq=jQuery)->
   on_failed = (form, type, msg, options)->
     clear_form_error form
     show_form_error form, type, msg
+
+    if options.validate_code
+      form.find('.jf_valcode_input').val ''
+      form.find('.jf_valcode_img').refresh_img()
+
     options.failed.call form, type, msg
 
   show_form_error = (form, type, msg)->

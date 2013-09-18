@@ -1,16 +1,8 @@
 do(jq=jQuery)->
   jq ->
-    form = jq '#register_form'
-
-    form.valcode()
-
-    form.ajax_form
+    jq('#register_form').ajax_form
       success: ->
         window.location = WEB_ROOT + form.data 'redirect'
-
-      failed: (type, msg)->
-        form.refresh_valcode()
-
       validate:
         loginname:
           title: '登录名'
@@ -48,3 +40,4 @@ do(jq=jQuery)->
             ['notempty'],
             ['len', 4, 50]
           ]
+      validate_code: true
