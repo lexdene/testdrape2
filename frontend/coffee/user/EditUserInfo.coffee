@@ -20,7 +20,7 @@ do(jq=jQuery)->
     jq('#upload_avatar_btn').click (e)->
       e.preventDefault()
       dialog.find('iframe').attr 'src', WEB_ROOT + '/common/UploadImage?accept=image/gif,image/jpeg,image/png'
-      dialog.centerInWindow()
+      dialog.center_in_window()
       dialog.show()
 
     dialog.find('.close_button').click (e)->

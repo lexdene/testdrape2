@@ -39,7 +39,7 @@
 				</div>
 				<div class="common_layout_column floor_right_column">
 					{% if reply['reply_to_id'] > 0 and reply['rtr.id'] %}
-						<div class="reply_to_reply" reply_to_id="{{reply['reply_to_id']}}">
+						<div class="reply_to_reply" data-reply-to-id="{{reply['reply_to_id']}}">
 							<span>reply to:</span>
 							<span>
 								<a href="#" class="username_btn" data-userid="{{reply['rtrui.id']}}">

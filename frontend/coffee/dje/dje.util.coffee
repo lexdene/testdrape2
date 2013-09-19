@@ -1,11 +1,47 @@
 do(jq=jQuery)->
   jq.fn.extend
     refresh_img: ->
-      this.each ->
-        src = jq(this).attr 'src'
-        clean_src = src.split('?')[0]
-        new_src = clean_src + '?t=' + (+new Date())
-        jq(this).attr 'src', new_src
+      src = jq(this).attr 'src'
+      clean_src = src.split('?')[0]
+      new_src = clean_src + '?t=' + (+new Date())
+      jq(this).attr 'src', new_src
+
+      this
+
+    center_in_window: ->
+      jwin = jq window
+      jdoc = jq document
+      jobj = this
+      top = (jwin.height() - jobj.height()) / 2
+      left = (jwin.width() - jobj.width()) / 2
+      scroll_top = jdoc.scrollTop()
+      scroll_left = jdoc.scrollLeft()
+
+      jobj.css
+        position: 'absolute'
+        top: top + scroll_top
+        left: left + scroll_left
+      .show()
+
+      this
+
+    scroll_to: (elapse=300)->
+      me = this
+      target_top = this.offset().top - ($(window).height() - this.outerHeight(true)) / 2
+      jq('body').animate
+        scrollTop: target_top
+      , elapse
+
+      # flash out
+      this.addClass('jf_flash_out')
+      this.bind(
+        "animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
+        ->
+          me.removeClass('jf_flash_out')
+      )
+
+      # return
+      this
 
   jq.extend
     version_cmp: (a,b)->
@@ -26,5 +62,24 @@ do(jq=jQuery)->
         return -1
       else
         return 0
+
+    delay: (time, action, finish)->
+      result = undefined
+      is_timer_finished = false
+
+      load = ->
+        if result and is_timer_finished
+          finish result
+
+      set_result = (r)->
+        result = r
+        load()
+
+      action set_result
+
+      timer = setTimeout ->
+        is_timer_finished = true
+        load()
+      , time
 
   true

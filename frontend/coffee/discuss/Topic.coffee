@@ -49,7 +49,7 @@ do(jq=jQuery)->
           reply_to_hint.find('.to_username').html floor_username
           reply_to_hint.find('.jf_markdown').html floor_content
           reply_to_hint.show()
-          reply_to_hint.jump()
+          reply_to_hint.scroll_to()
 
         reply_to_hint.find('.cancel_reply_button').click (e)->
           e.preventDefault()
@@ -62,7 +62,7 @@ do(jq=jQuery)->
         jq('.reply_to_reply').find('.jump_button').click (e)->
           e.preventDefault()
           reply_to_id = jq(this).closest('.reply_to_reply').data('reply-to-id')
-          jq(".floor[data-floor-id=#{reply_to_id}]").jump()
+          jq(".floor[data-floor-id=#{reply_to_id}]").scroll_to()
 
     edit:
       init: ->
