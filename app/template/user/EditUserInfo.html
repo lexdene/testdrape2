@@ -1,6 +1,5 @@
-{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
-{% do res.add('/dje/dje.mask', 'coffee') -%}
-{% do res.addResByPath('coffee') %}
+{% include 'widget/form.html' %}
+{% do res.addResByPath('js') %}
 
 <div class="user_edituserinfo">
 	<div class="msg_block">

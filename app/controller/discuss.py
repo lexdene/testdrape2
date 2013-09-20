@@ -38,7 +38,7 @@ class List(frame.DefaultFrame):
 		# pager
 		page = drape.util.toInt(aParams.get('page',0))
 		count = aTopicModel.getTopicCount(tagid=tagid)
-		aPager = self.runbox().controller('/widget/Pager',total_count=count,current_page=page)
+		aPager = self.runbox().controller('widget/Pager',total_count=count,current_page=page)
 		self.set_variable('page',aPager)
 		
 		self.set_variable('topic_list',aTopicModel.getTopicList(tagid=tagid, **aPager.limit()) )

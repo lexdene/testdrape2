@@ -11,11 +11,13 @@
     <title>{{title}}</title>
     {% for res in reslist -%}
       {% if res.type == 'css' -%}
-        {%- if 'http' == res.path[0:4] -%}
-          <link rel="stylesheet" type="text/css" href="{{res.path}}.css" />
+        {%- if res.path[0] == '/' -%}
+          <link rel="stylesheet" type="text/css" href="/slash/{{res.path}}.css" />
         {%- else -%}
-          <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/css{{res.path}}.css?v={{res.version}}" />
+          <link rel="stylesheet" type="text/css" href="{{ROOT}}/static/css/{{res.path}}.css?v={{res.version}}" />
         {%- endif -%}
+      {%- elif res.type == 'publiccss' -%}
+        <link rel="stylesheet" type="text/css" href="{{res.path}}.css" />
       {%- endif -%}
     {%- endfor %}
 <script type="text/javascript">
@@ -32,14 +34,19 @@ var joj = {
   <body>
   {{body}}
     {% for res in reslist -%}
-      {%- if res.type == 'js' -%}
-        {%- if 'http' == res.path[0:4] -%}
-          <script language="javascript" type="text/javascript" src="{{res.path}}.js"></script>
+      {%- if res.type == 'publicjs' -%}
+        <script language="javascript" type="text/javascript" src="{{res.path}}.js"></script>
+      {%- elif res.type == 'js' -%}
+        {%- if res.path[0] == '/' -%}
+          <script language="javascript" type="text/javascript" src="/slash/{{res.path}}.js"></script>
+        {%- elif coffee_debug -%}
+          <script language="javascript" type="text/javascript" src="{{ROOT}}/static/js/{{res.path}}.js?v={{ res.version }}"></script>
         {%- else -%}
-          <script language="javascript" type="text/javascript" src="{{ROOT}}/static/js{{res.path}}.js?v={{ res.version }}"></script>
+          <script language="javascript" type="text/javascript" src="{{ROOT}}/static/js/{{res.path}}.min.js?v={{ res.version }}"></script>
         {%- endif -%}
-      {%- elif 'coffee' == res.type -%}
-        <script language="javascript" type="text/javascript" src="{{ROOT}}/static/coffee{{res.path}}{{ coffee_ext }}?v={{ res.version }}"></script>
+      {%- elif res.type == 'css' -%}
+      {%- else -%}
+        <script language="javascript" type="text/javascript" src="/unknown/{{res.path}}.js"></script>
       {%- endif -%}
     {%- endfor %}
   </body>

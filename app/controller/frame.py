@@ -62,6 +62,9 @@ class FrameBase(drape.controller.Controller):
 		self.set_variable('ROOT', self.request().rootPath())
 		self.set_variable('ctrl',self)
 
+		# lib cdn
+		self.set_variable('LIBCDN', drape.config.get_value('system/libcdn'))
+
 		return super(FrameBase, self).run()
 		
 	def setTitle(self,t):
@@ -75,12 +78,12 @@ class FrameBase(drape.controller.Controller):
 class DefaultFrame(FrameBase):
 	def __init__(self,runbox):
 		super(DefaultFrame,self).__init__(runbox)
-		self._set_parent('/frame/Layout')
+		self._set_parent('frame/Layout')
 
 class EmptyFrame(FrameBase):
 	def __init__(self,runbox):
 		super(EmptyFrame,self).__init__(runbox)
-		self._set_parent('/frame/HtmlBody')
+		self._set_parent('frame/HtmlBody')
 
 class HtmlBody(FrameBase):
 	def process(self):
@@ -116,12 +119,9 @@ class HtmlBody(FrameBase):
 class Layout(FrameBase):
 	def __init__(self,runbox):
 		super(Layout,self).__init__(runbox)
-		self._set_parent('/frame/HtmlBody')
+		self._set_parent('frame/HtmlBody')
 		
 	def process(self):
-		# lib cdn
-		self.set_variable('LIBCDN', drape.config.get_value('system/libcdn'))
-
 		# uid
 		aSession = self.session()
 		uid = aSession.get('uid',-1)

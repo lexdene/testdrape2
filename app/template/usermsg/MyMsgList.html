@@ -1,9 +1,8 @@
 {% include 'widget/UserPanel.html' %}
-{% do res.add('/dje/dje.ajax_form', 'coffee') -%}
-{% do res.add('/dje/dje.mask', 'coffee') -%}
-{% do res.add('/dje/dje.format_date', 'coffee') -%}
-{% do res.add('/usermsg/Usermsg', 'coffee') %}
-{% do res.addResByPath('coffee') %}
+{% include 'widget/form.html' %}
+{% do res.add('dje/dje.format_date', 'js') -%}
+{% do res.add('usermsg/Usermsg', 'js') %}
+{% do res.addResByPath('js') %}
 {% do res.addResByPath('css') %}
 <div class="mymsglist" id="mymsglist">
 	<h1>我的留言板</h1>
