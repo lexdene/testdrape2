@@ -9,11 +9,10 @@ from drape import config
 class Cache(object):
     ''' 简单封装一下 memcache '''
     def __init__(self):
-        self.__config = config.get_value('cache')
         self.__connection = memcache.Client([
             '%s:%s' % (
-                self.__config['host'],
-                self.__config['port']
+                config.CACHE_HOST,
+                config.CACHE_PORT
             )
         ])
 
@@ -30,7 +29,7 @@ class Cache(object):
             self.__connection.set(
                 key,
                 value,
-                time=self.__config['expire_time']
+                time=config.CACHE_EXPIRE_TIME
             )
         return value
 

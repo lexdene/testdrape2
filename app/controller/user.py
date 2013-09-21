@@ -53,7 +53,7 @@ class Login(frame.DefaultFrame):
 
 		self.set_variable(
 			'autologin_daylength',
-			drape.config.get_value('app/autologin_daylength')
+			drape.config.AUTOLOGIN_DAY_LENGTH
 		)
 
 

@@ -5,7 +5,7 @@ import random
 from drape.controller import JsonController, post_only
 from drape.db import Db
 from drape.model import LinkedModel
-from drape.config import get_value as config_value
+import drape.config
 from drape.util import tile_list_data, toInt
 
 from .frame import DefaultFrame
@@ -57,7 +57,7 @@ def random_tag_list(self):
     def get_hot_tag_list_from_db():
         ''' 从数据库中读取热门标签列表 '''
         tag_model = LinkedModel('tag')
-        limit = config_value('tag/random_range_length')
+        limit = drape.config.TAG_RANDOM_RANGE_LENGTH
         tag_list = tag_model.join(
             'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
         ).order(

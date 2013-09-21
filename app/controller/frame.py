@@ -63,7 +63,7 @@ class FrameBase(drape.controller.Controller):
 		self.set_variable('ctrl',self)
 
 		# lib cdn
-		self.set_variable('LIBCDN', drape.config.get_value('system/libcdn'))
+		self.set_variable('LIBCDN', drape.config.LIBCDN)
 
 		return super(FrameBase, self).run()
 		
@@ -106,11 +106,7 @@ class HtmlBody(FrameBase):
 		self.set_variable('my_userid', drape.util.toInt(aSession.get('uid', -1)))
 
 		# coffee debug
-		if drape.config.get_value('front/coffee_debug'):
-			coffee_ext = '.js'
-		else:
-			coffee_ext = '.min.js'
-		self.set_variable('coffee_ext', coffee_ext)
+		self.set_variable('coffee_debug', drape.config.COFFEE_IS_DEBUG)
 
 		# version
 		self.set_variable('version', app.version)

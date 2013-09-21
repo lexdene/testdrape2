@@ -1,31 +1,24 @@
 ''' config for app '''
 
-CONFIG = {
-    'db': dict(
-        user='tp_user',
-        password='tp123321',
-        dbname='tp_db',
-        tablePrefix='testdrape2_',
-    ),
-    'sae_storage': dict(
-        domain_name='storage'
-    ),
-    'system': dict(
-        font_path='/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf',
-        libcdn='http://libs.baidu.com'
-    ),
-    'app': dict(
-        autologin_daylength=7,
-    ),
-    'front': dict(
-        coffee_debug=False
-    ),
-    'tag': dict(
-        random_range_length=20,
-    ),
-    'cache': dict(
-        host='127.0.0.1',
-        port='11211',
-        expire_time=30*24*3600
-    ),
-}
+
+DB_NAME = 'tp_db'
+DB_USER = 'tp_user'
+DB_PASSWORD = 'tp123321'
+DB_TABLE_PREFIX = 'testdrape2_'
+
+LIBCDN = 'http://libs.baidu.com'
+
+CACHE_HOST = '127.0.0.1'
+CACHE_PORT = '11211'
+CACHE_EXPIRE_TIME = 30 * 24 * 3600  # 30 days
+
+COFFEE_IS_DEBUG = False
+
+AUTOLOGIN_DAY_LENGTH = 7
+
+FONT_FILE_PATH = '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf'
+
+TAG_RANDOM_RANGE_LENGTH = 20
+
+
+from .distribution import *
