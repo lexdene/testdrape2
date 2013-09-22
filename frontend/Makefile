@@ -1,6 +1,7 @@
 STYLE_COMPILER = lessc --yui-compress
 SCRIPT_COMPILER = coffee -b -c -o
 MIN_SCRIPT_COMPILER = uglifyjs -o
+TEMPLATE_COMPILER = haml
 MKDIR = mkdir -p
 
 # dir
@@ -15,6 +16,10 @@ STYLE_TARGET_DIR = $(TARGET_DIR)/css
 SCRIPT_SOURCE_DIR = $(SOURCE_DIR)/coffee
 SCRIPT_TARGET_DIR = $(TARGET_DIR)/js
 
+# dir for template
+TEMPLATE_SOURCE_DIR = $(SOURCE_DIR)/haml
+TEMPLATE_TARGET_DIR = $(TARGET_DIR)/template
+
 # less file list
 STYLE_SOURCES = $(shell find $(STYLE_SOURCE_DIR) -name '*.less')
 STYLE_TARGETS = $(patsubst $(STYLE_SOURCE_DIR)/%.less, $(STYLE_TARGET_DIR)/%.css, $(STYLE_SOURCES))
@@ -23,6 +28,12 @@ STYLE_TARGETS = $(patsubst $(STYLE_SOURCE_DIR)/%.less, $(STYLE_TARGET_DIR)/%.css
 SCRIPT_SOURCES = $(shell find $(SCRIPT_SOURCE_DIR) -name '*.coffee')
 SCRIPT_TARGETS = $(patsubst $(SCRIPT_SOURCE_DIR)/%.coffee, $(SCRIPT_TARGET_DIR)/%.js, $(SCRIPT_SOURCES))
 SCRIPT_COMPRESSED_TARGETS = $(patsubst $(SCRIPT_TARGET_DIR)/%.js, $(SCRIPT_TARGET_DIR)/%.min.js, $(SCRIPT_TARGETS))
+
+# haml file list
+TEMPLATE_SOURCES = $(shell find $(TEMPLATE_SOURCE_DIR) -name '*.haml')
+TEMPLATE_TARGETS = $(patsubst $(TEMPLATE_SOURCE_DIR)/%.haml, $(TEMPLATE_TARGET_DIR)/%.html, $(TEMPLATE_SOURCES))
+
+TARGETS = $(STYLE_TARGETS) $(SCRIPT_TARGETS) $(SCRIPT_COMPRESSED_TARGETS) $(TEMPLATE_TARGETS)
 
 first : all
 
@@ -36,6 +47,9 @@ $(SCRIPT_TARGET_DIR)/%.js : $(SCRIPT_SOURCE_DIR)/%.coffee Makefile
 $(SCRIPT_TARGET_DIR)/%.min.js : $(SCRIPT_TARGET_DIR)/%.js
 	$(MIN_SCRIPT_COMPILER) "$@" "$<"
 
+$(TEMPLATE_TARGET_DIR)/%.html : $(TEMPLATE_SOURCE_DIR)/%.haml Makefile
+	$(TEMPLATE_COMPILER) "$<" "$@"
+
 # auto make dir
 define depend_on_dir
 $(1): | $(dir $(1))
@@ -47,11 +61,10 @@ $(dir $(1))_DIRECTORY_RULE_IS_DEFINED := 1
 endif
 endef
 
-$(foreach file, $(STYLE_TARGETS), $(eval $(call depend_on_dir, $(file))))
-$(foreach file, $(SCRIPT_TARGETS), $(eval $(call depend_on_dir, $(file))))
+$(foreach file, $(TARGETS), $(eval $(call depend_on_dir, $(file))))
 
 # all
-all: $(STYLE_TARGETS) $(SCRIPT_TARGETS) $(SCRIPT_COMPRESSED_TARGETS)
+all: $(TARGETS)
 
 # common.less
 $(STYLE_TARGETS) : less/common.less
