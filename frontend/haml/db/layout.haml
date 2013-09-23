@@ -1,0 +1,11 @@
+.manual_layout
+  .common_layout_column.jdmd_nav_left
+    %ul
+      %li
+        %a{:href => "{{ROOT}}/db/create_tables"} 创建数据表
+      %li
+        %a{:href => "{{ROOT}}/db/drop_tables"} 删除数据表
+  .common_layout_column.jdmd_nav_right
+    .jdmd_nav_right_body
+      {{body}}
+  .clear

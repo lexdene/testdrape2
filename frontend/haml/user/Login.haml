@@ -1,0 +1,31 @@
+{% include 'widget/form.html' %}
+{% do res.addResByPath('js') %}
+.user_login.common_center_block
+  %h1 登录
+  %form#submit_form.jdmd_form{:action => "{{ROOT}}/user/ajaxLogin", "data-redirect" => "{{redirect}}", :method => "post", :onsubmit => "return false;"}
+    .jf_line
+      %span.jf_hint 登录名
+      %span
+        %input.jf_input{:name => "loginname"}/
+    .jf_line
+      %span.jf_hint 密码
+      %span
+        %input.jf_input{:name => "password", :type => "password"}/
+    .jf_line
+      %span.jf_hint 验证码
+      %span
+        %input.jf_valcode_input{:name => "valcode"}/
+        %img.jf_valcode_img{:src => "{{ROOT}}/validatecode/genImage"}/
+        %a.jf_valcode_btn{:href => "#"} 看不清，换一个
+    .jf_line
+      %span.jf_hint
+      %span
+        %label
+          %input{:name => "autologin", :type => "checkbox"}/
+          {{autologin_daylength}}天内自动登录
+        %input{:name => "autologin_daylength", :type => "hidden", :value => "{{autologin_daylength}}"}/
+    .jf_line
+      %span.jf_hint
+      %span
+        %input{:type => "submit", :value => "\347\231\273\345\275\225"}/
+        %a{:href => "{{ROOT}}/user/Register?redirect={{redirect}}"} 注册

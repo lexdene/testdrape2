@@ -1,0 +1,30 @@
+{% do res.addResByPath() %}
+{% include 'widget/UserPanel.html' %}
+.discuss_list
+  {% if tag_info %}
+  %h1 标签: {{ tag_info.content }}
+  .tag_info.clearfix
+    %span 此标签下共有主题{{ tag_info.topic_count }}个。
+    .push_right
+      %a#focus_tag_btn.jf_button{"data-tagid" => "{{ tag_info.id }}", :href => "#"} 关注此标签
+  {% else %}
+  .clearfix
+    %h1.push_left 讨论区
+    .push_right
+      %a.jf_button{:href => "{{ROOT}}/discuss2"} 筛选主题
+  {% endif %}
+  .list
+    {% for topic_item in topic_list %}
+    {% include 'discuss/TopicItemInList.html' %}
+    {% endfor %}
+    .common_pager_container.jf_pager {{page}}
+  .button_links
+    .post_block
+      {% if uid > 0 %}
+      %a.jf_button{:href => "{{ROOT}}/discuss2/post_topic"} 发表新主题
+      {% else %}
+      %div 未登录用户无法发表主题。
+      %div
+        请先
+        %a{:href => "{{ROOT}}/user/Login?redirect=/discuss/List"} 登录
+      {% endif %}

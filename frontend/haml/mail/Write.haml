@@ -1,0 +1,25 @@
+{% include 'widget/form.html' %}
+{% do res.addResByPath('js') -%}
+{% include 'widget/UserPanel.html' %}
+.mail_write.common_center_block
+  %h1.common_page_title 发送私信
+  .form_block
+    %form#write_form.jdmd_form{:action => "{{ROOT}}/mail/ajaxWrite", :method => "post", :onsubmit => "return false;"}
+      .touser.jf_line
+        %span.jf_hint 发送给
+        %span
+          %input{:name => "to_uid", :type => "hidden", :value => "{{to_userinfo['id']}}"}/
+          %a.username_btn{"data-userid" => "{{to_userinfo['id']}}", :href => "#"}
+            {{to_userinfo['nickname']}}
+      .input_title.jf_line
+        %span.jf_hint 标题
+        %span
+          %input.jf_input{:name => "title"}/
+      .input_content.jf_line
+        %span.jf_hint 内容
+        %span
+          %textarea.jf_input{:name => "text"}
+      .input_submit.jf_line
+        %span.jf_hint
+        %span
+          %input{:type => "submit"}/

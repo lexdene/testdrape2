@@ -1,0 +1,20 @@
+{% do res.addResByPath() -%}
+{% do res.add('dje/dje.format_date', 'js') -%}
+{% do res.add('dje/dje.pager', 'js') -%}
+{% include 'widget/UserPanel.html' %}
+{% include 'discuss2/topic_list.html' %}
+.discuss2_filter_topic
+  .tags
+    %h3 所有标签
+    #all-tag-list.tag-list
+    .jr_pager.page
+  .selected-tags
+    %h3 已选择的标签
+    .tag-list
+      %ul#selected-tag-list.jf_label_list
+  .discuss_list
+    .clearfix
+      %h3.push_left 主题列表
+      %a.jf_button.push_right{:href => "{{ROOT}}/discuss2/post_topic"} 发表新主题
+    #topic-list.topic-list.list
+    .jf_pager.page

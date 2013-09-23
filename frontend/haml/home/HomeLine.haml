@@ -1,0 +1,10 @@
+{% do res.addResByPath('js') %}
+.home_homeline.clearfix
+  .common_layout_column.jdmd_nav_left
+    %ul
+      %li
+        %a{:href => "{{ROOT}}/home"} 首页
+  .common_layout_column.jdmd_nav_right
+    #content-area.jdmd_nav_right_body
+      载入中...
+{% include 'newsfeed/Template.html' %}

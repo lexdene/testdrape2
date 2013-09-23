@@ -1,0 +1,42 @@
+{% include 'widget/form.html' %}
+{% do res.addResByPath('js') -%}
+.user_login.common_center_block
+  %h1 注册
+  %form#register_form.jdmd_form{:action => "{{ROOT}}/user/ajaxRegister", "data-redirect" => "{{redirect}}", :method => "post"}
+    %h2 基本信息
+    .jf_line
+      %span.jf_hint 登录名
+      %span
+        %input.jf_input{:name => "loginname"}/
+    .jf_line
+      %span.jf_hint 密码
+      %span
+        %input.jf_input{:name => "password", :type => "password"}/
+    .jf_line
+      %span.jf_hint 重复密码
+      %span
+        %input.jf_input{:name => "repassword", :type => "password"}/
+    %h2 详细信息
+    .jf_line
+      %span.jf_hint 昵称
+      %span
+        %input.jf_input{:name => "nickname"}/
+    .jf_line
+      %span.jf_hint 电子邮箱
+      %span
+        %input.jf_input{:name => "email"}/
+    .jf_line
+      %span.jf_hint 个人介绍
+      %span
+        %textarea.jf_textarea{:name => "intro"}
+    %h2 验证码
+    .jf_line
+      %span.jf_hint 验证码
+      %span
+        %input.jf_valcode_input{:name => "valcode"}/
+        %img.jf_valcode_img{:src => "{{ROOT}}/validatecode/genImage"}/
+        %a.jf_valcode_btn{:href => "#"} 看不清，换一个
+    .jf_line
+      %span.jf_hint
+      %span
+        %input{:type => "submit", :value => "\346\263\250\345\206\214"}/

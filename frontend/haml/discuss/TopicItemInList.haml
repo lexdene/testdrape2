@@ -1,0 +1,34 @@
+.item
+  .title_line.clearfix
+    .common_layout_column
+      .avatar_block
+        %img.avatar{:alt => "avatar", :src => "{{ avatar( topic_item['topic_ui.avatar'] ) }}", :title => "{{ topic_item['topic_ui.nickname'] }}"}/
+      .author_nickname
+        %a.username_btn{"data-userid" => "{{ topic_item['topic_ui.id'] }}", :href => "#"}
+          {{ topic_item['topic_ui.nickname'] }}
+    .common_layout_column
+      .title
+        %a{:href => "{{ROOT}}/discuss/Topic/id/{{ topic_item['id']}}"}
+          {{topic_item['title']|e}}
+      .jf_tag_line
+        {% for tag in topic_item['tag_list'] %}
+        %span.jf_tag
+          %a{:href => "{{ROOT}}/discuss/List/tag/{{tag.id}}"} {{ tag.content | e }}
+        {% endfor %}
+  .topic_info_line
+    %span.ctime
+      发表时间：
+      {{ timestr( topic_item['ctime'] ) }}
+    %span.reply_count
+      楼层数：
+      {{ topic_item['reply_count']}}
+    %span.last_reply
+      最后回复：
+      {% if topic_item['tc.first_reply_id'] != topic_item['tc.last_reply_id'] %}
+      %span.time {{ timestr( topic_item['last_reply.ctime'] ) }}
+      %span.user
+        %img.avatar{:alt => "avatar", :src => "{{ avatar( topic_item['last_reply_ui.avatar'] ) }}", :title => "{{ topic_item['last_reply_ui.nickname'] }}"}/
+      {% else %}
+      %span.time -
+      %span.user
+      {% endif %}

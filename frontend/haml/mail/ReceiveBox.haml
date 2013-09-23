@@ -1,0 +1,22 @@
+{% do res.addResByPath() -%}
+{% include 'widget/UserPanel.html' %}
+{% include 'widget/TransText.html' %}
+.mail_receivebox.common_center_block
+  .head_line
+    %span.isread &nbsp;
+    %span.fromuser 发件人
+    %span.title 主题
+    %span.time 发送时间
+  {% for mail in maillist %}
+  .mail_item
+    .title_line
+      %span.isread *
+      %span.fromuser
+        <a class="username_btn" href='#' data-userid='{{mail['fromuser.id']}}'>
+        {{mail['fromuser.nickname']|e}}
+      %a.title{:href => "#"} {{mail['title']|e}}
+      %span.time {{ timestr( mail['ctime'] ) }}
+    .body{:style => "display:none"}
+      %script{:type => "text/markdown"} {{ mail['text'] |e }}
+      .jf_markdown {{ mail['text'] |e }}
+  {% endfor %}

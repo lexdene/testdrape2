@@ -10,7 +10,7 @@ class ManualFrame(frame.FrameBase):
     ''' 页面结构 '''
     def __init__(self, path):
         super(ManualFrame, self).__init__(path)
-        self._set_parent('/manual/Layout')
+        self._set_parent('manual/Layout')
 
     def set_sub_title(self, title):
         ''' 设置子标题 '''

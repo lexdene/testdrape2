@@ -1,0 +1,20 @@
+{% include 'widget/UserPanel.html' %}
+{% include 'widget/form.html' %}
+{% do res.add('dje/dje.format_date', 'js') -%}
+{% do res.add('usermsg/Usermsg', 'js') %}
+{% do res.addResByPath('js') %}
+{% do res.addResByPath('css') %}
+#mymsglist.mymsglist
+  %h1 我的留言板
+  %form.jdmd_form{:action => "{{ROOT}}/usermsg/AjaxPostMsg", :method => "post", :onsubmit => "return false;"}
+    %input{:name => "to_uid", :type => "hidden", :value => "-1"}/
+    .reply_to_hint
+    %div
+      %textarea.jf_textarea{:name => "text"}
+    %div
+      %input{:type => "submit", :value => "\347\225\231\350\250\200"}/
+  .msg_list 留言列表
+  .buttons
+    %a.jf_button{:action => "prev", :href => "#"} 上一页
+    %span.page_count
+    %a.jf_button{:action => "next", :href => "#"} 下一页

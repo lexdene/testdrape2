@@ -4,7 +4,7 @@ MaxRequestsPerChild 1
 
 	DocumentRoot /home/elephant/workspace/webpage
 	<Directory />
-		Options FollowSymLinks
+		Options None
 		AllowOverride None
 	</Directory>
 	<Directory /home/elephant/workspace/webpage/>
@@ -15,17 +15,41 @@ MaxRequestsPerChild 1
 	</Directory>
 	
 	WSGIScriptAlias /python/testdrape2/ /home/elephant/workspace/webpage/python/testdrape2/wsgi-index.py/
-	Alias /python/testdrape2/static/css /home/elephant/workspace/webpage/python/testdrape2/data/static/css/
+
+	# compiled
+	Alias /python/testdrape2/static/css/ /home/elephant/workspace/webpage/python/testdrape2/data/compiled/css/
+	Alias /python/testdrape2/static/js/ /home/elephant/workspace/webpage/python/testdrape2/data/compiled/js/
+
+	# emoji
+	Alias /python/testdrape2/static/emoji/ /home/elephant/workspace/javascript/emoji/public/graphics/emojis/
+
+	# upload
+	Alias /python/testdrape2/static/upload/public/ /home/elephant/workspace/webpage/python/testdrape2/data/public/
+
+	# static
 	Alias /python/testdrape2/static/ /home/elephant/workspace/webpage/python/testdrape2/static/
 	
+	# fav icon
 	Alias /favicon.ico /home/elephant/workspace/webpage/python/testdrape2/static/image/breaking.ico
+
+
 	WSGIScriptReloading On
-	
+
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 
 	# Possible values include: debug, info, notice, warn, error, crit,
 	# alert, emerg.
-	LogLevel debug
+	LogLevel notice
 
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+	<Location /python/testdrape2/static/>
+		<IfModule mod_expires.c>
+			ExpiresActive On
+			ExpiresByType image/* "now plus 5 month"
+			ExpiresByType text/css "now plus 4 month"
+			ExpiresByType text/javascript "now plus 3 month"
+			ExpiresByType application/x-javascript "now plus 2 month"
+		</IfModule>
+	</Location>
 </VirtualHost>

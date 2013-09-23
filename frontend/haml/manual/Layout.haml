@@ -1,0 +1,29 @@
+.manual_layout.clearfix
+  .common_layout_column.jdmd_nav_left
+    %ul
+      %li
+        %a{:href => "{{ROOT}}/manual/Index"} 简介
+      %li
+        %a{:href => "{{ROOT}}/manual/Mvc"} MVC
+        %ul
+          %li
+            %a{:href => "{{ROOT}}/manual/MvcController"} Controller
+          %li
+            %a{:href => "{{ROOT}}/manual/MvcModel"} Model
+          %li
+            %a{:href => "{{ROOT}}/manual/MvcView"} View
+  .common_layout_column.jdmd_nav_right
+    .jdmd_nav_right_top
+      .common_center_block
+        %h1.common_page_title {{subtitle}}
+    .jdmd_nav_right_body
+      {{body}}
+    .jdmd_nav_right_bottom
+      %p
+        以上内容由
+        %b> Markdown
+        生成。
+      %p
+        有任何的疑问、建议、批评，欢迎到
+        %a{:href => "{{ROOT}}/discuss/List"}> 讨论区
+        参与讨论。

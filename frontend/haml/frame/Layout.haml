@@ -1,0 +1,48 @@
+{%- do res.add(LIBCDN + '/jquery/1.9.1/jquery.min', 'publicjs') %}
+{%- do res.add(LIBCDN + '/underscore/1.5.2/underscore-min', 'publicjs') %}
+{%- do res.add('frame/notice','js') %}
+{%- do res.add('jdmd_widget','css') %}
+{%- do res.add('dje/dje.util','js') %}
+{%- do res.addResByPath() %}
+{%- do res.add('Common', 'js') %}
+{%- do res.add('hot/LoadHot', 'js') %}
+.layout_head_line.clearfix
+  .left_buttons.push_left
+    %img.website_icon{:alt => "testdrape", :src => "{{ROOT}}/static/image/breaking.ico"}/
+    {% if uid > 0 %}
+    %a{:href => "{{ ROOT }}/home"} 首页
+    {% else %}
+    %a{:href => "{{ ROOT }}/index"} 首页
+    {% endif %}
+    %a{:href => "{{ROOT}}/discuss"} 讨论区
+    %a{:href => "{{ROOT}}/manual"} drape介绍
+  .right_buttons.push_right
+    {% if uid > 0 %}
+    %a{:href => "{{ROOT}}/user/UserCenter"} 个人中心
+    %a{:href => "{{ROOT}}/userinfo/MainPage/id/{{userinfo['id']}}"} {{userinfo['nickname']}}
+    %a.notice_btn{:href => "#"}
+      通知
+      {% if notice_count > 0 %}
+      (
+      %span.count> {{notice_count}}
+      )
+      {% endif %}
+    %a.mail_btn{:href => "{{ROOT}}/mail/ReceiveBox"}
+      私信
+      {% if mail_count > 0 %}
+      (
+      %span.count> {{mail_count}}
+      )
+      {% endif %}
+    %a{:href => "{{ROOT}}/user/Logout"} 注销
+    {% else %}
+    %a{:href => "{{ROOT}}/user/Register"} 注册
+    %a{:href => "{{ROOT}}/user/Login"} 登录
+    {% endif %}
+.body_block
+  .frontpage
+    .frontpage_body.frontpage_block.frontpage_content_block.clearfix
+      .frontpage_body_main.common_layout_column {{body}}
+      #body_right.frontpage_body_right.common_layout_column
+    .frontpage_bottom.frontpage_block.frontpage_content_block
+      %div 大连理工大学电子信息与电气工程学部CPF科技协会JDMD工作室

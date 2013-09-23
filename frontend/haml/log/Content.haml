@@ -1,0 +1,6 @@
+{% for d in datalist %}
+%p
+  %div {{ d.n }} : {{ d.time }}
+  %div {{ d.type }}
+  %pre {{ d.content }}
+{% endfor %}

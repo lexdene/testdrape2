@@ -1,0 +1,36 @@
+.notice_list
+  {% for notice in noticeList %}
+  .notice_item{:noticeid => "{{notice['id']}}"}
+    {% if 'reply_topic' == notice['type'] %}
+    <a target='_blank' class="fromuser"
+    href='{{ROOT}}/userinfo/MainPage/id/{{notice['fromuser.id']}}'
+    >{{notice['fromuser.nickname']}}
+    回复了您的主题
+    <a target='_blank' class="fromtopic"
+    href='{{ROOT}}/discuss/Topic/id/{{notice['reply_info']['dt.id']}}#reply{{notice['item_id']}}'
+    >{{notice['reply_info']['dt.title']}}
+    {% elif 'reply_to_reply' == notice['type'] %}
+    <a target='_blank' class="fromuser"
+    href='{{ROOT}}/userinfo/MainPage/id/{{notice['fromuser.id']}}'
+    >{{notice['fromuser.nickname']}}
+    在主题
+    <a target='_blank' class="fromtopic"
+    href='{{ROOT}}/discuss/Topic/id/{{notice['reply_info']['dt.id']}}#reply{{notice['item_id']}}'
+    >{{notice['reply_info']['dt.title']}}
+    回复了您
+    {% elif 'focus_user' == notice['type'] %}
+    <a target='_blank' class="fromuser"
+    href='{{ROOT}}/userinfo/MainPage/id/{{notice['fromuser.id']}}'
+    >{{notice['fromuser.nickname']}}
+    关注了您
+    {% elif 'usermsg' == notice['type'] %}
+    <a target='_blank' class="fromuser"
+    href='{{ROOT}}/userinfo/MainPage/id/{{notice['fromuser.id']}}'
+    >{{notice['fromuser.nickname']}}
+    给您
+    %a{:href => "{{ ROOT }}/usermsg/MyMsgList", :target => "_blank"}> 留言
+    了
+    {% endif %}
+  {% else %}
+  .no_notice 无未读通知
+  {% endfor %}

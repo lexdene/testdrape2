@@ -1,0 +1,47 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "content-type"}/
+    %link{:href => "{{ROOT}}/static/image/breaking.ico", :rel => "icon", :type => "image/x-icon"}/
+    %link{:href => "{{ROOT}}/static/image/breaking.ico", :rel => "shortcut icon", :type => "image/x-icon"}/
+    %meta{:content => "testdrape,drape,python,web,\345\220\216\345\217\260\357\274\214\346\241\206\346\236\266", :name => "keywords"}/
+    %meta{:content => "testdrape,drape,drape\346\230\257\344\270\200\344\270\252Python\347\232\204web\345\220\216\345\217\260\346\241\206\346\236\266", :name => "description"}/
+    %title {{title}}
+    {% for res in reslist -%}
+    {% if res.type == 'css' -%}
+    {%- if res.path[0] == '/' -%}
+    %link{:href => "/slash/{{res.path}}.css", :rel => "stylesheet", :type => "text/css"}/
+    {%- else -%}
+    %link{:href => "{{ROOT}}/static/css/{{res.path}}.css?v={{res.version}}", :rel => "stylesheet", :type => "text/css"}/
+    {%- endif -%}
+    {%- elif res.type == 'publiccss' -%}
+    %link{:href => "{{res.path}}.css", :rel => "stylesheet", :type => "text/css"}/
+    {%- endif -%}
+    {%- endfor %}
+    :javascript
+      var WEB_ROOT = "{{ROOT}}";
+      var my_userid= {{my_userid}};
+      var joj = {
+      	version:'{{version}}',
+      	drape:{
+      		version : '{{drape_version}}'
+      	}
+      };
+  %body
+    {{body}}
+    {% for res in reslist -%}
+    {%- if res.type == 'publicjs' -%}
+    %script{:language => "javascript", :src => "{{res.path}}.js", :type => "text/javascript"}
+    {%- elif res.type == 'js' -%}
+    {%- if res.path[0] == '/' -%}
+    %script{:language => "javascript", :src => "/slash/{{res.path}}.js", :type => "text/javascript"}
+    {%- elif coffee_debug -%}
+    %script{:language => "javascript", :src => "{{ROOT}}/static/js/{{res.path}}.js?v={{ res.version }}", :type => "text/javascript"}
+    {%- else -%}
+    %script{:language => "javascript", :src => "{{ROOT}}/static/js/{{res.path}}.min.js?v={{ res.version }}", :type => "text/javascript"}
+    {%- endif -%}
+    {%- elif res.type == 'css' -%}
+    {%- else -%}
+    %script{:language => "javascript", :src => "/unknown/{{res.path}}.js", :type => "text/javascript"}
+    {%- endif -%}
+    {%- endfor %}

@@ -6,7 +6,7 @@ MKDIR = mkdir -p
 
 # dir
 SOURCE_DIR = .
-TARGET_DIR = ../data/static
+TARGET_DIR = ../data/compiled
 
 # dir for less
 STYLE_SOURCE_DIR = $(SOURCE_DIR)/less
@@ -18,7 +18,7 @@ SCRIPT_TARGET_DIR = $(TARGET_DIR)/js
 
 # dir for template
 TEMPLATE_SOURCE_DIR = $(SOURCE_DIR)/haml
-TEMPLATE_TARGET_DIR = $(TARGET_DIR)/template
+TEMPLATE_TARGET_DIR = $(TARGET_DIR)/html
 
 # less file list
 STYLE_SOURCES = $(shell find $(STYLE_SOURCE_DIR) -name '*.less')

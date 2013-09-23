@@ -1,0 +1,35 @@
+{% include 'widget/form.html' %}
+{% do res.addResByPath('js') %}
+.user_edituserinfo
+  .msg_block
+    .msg
+  .form_block
+    %form#edituserinfo_form.jdmd_form{:action => "{{ROOT}}/user/ajaxEditUserInfo", :method => "post"}
+      .nickname.jf_line
+        %span.jf_hint 昵称
+        %span
+          %input.jf_input{:name => "nickname", :value => "{{userinfo['nickname']}}"}/
+      .jf_line
+        %span.jf_hint 电子邮箱
+        %span
+          %input.jf_input{:name => "email", :value => "{{userinfo['email']}}"}/
+      .jf_line
+        %span.jf_hint 个人介绍
+        %span
+          %textarea.jf_input{:name => "intro"} {{userinfo['intro']}}
+      .avatar.jf_line
+        %span.jf_hint 头像
+        %span
+          %input{:name => "avatar", :type => "hidden", :value => "{{userinfo['avatar'] if userinfo['avatar'] else ''}}"}/
+          %a#upload_avatar_btn{:href => "#"} 上传
+      .avatar_preview.jf_line
+        .jf_hint 头像预览
+        .common_avatar_block
+          %img.avatar{:alt => "avatar", :src => "{{ avatar( userinfo['avatar'] ) }}"}/
+      .submit.jf_line
+        %span.jf_hint
+        %span
+          %input{:name => "submit", :type => "submit", :value => "\344\277\256\346\224\271"}/
+  #dialog.common_dialog
+    %a.close_button{:href => "#"} 关闭
+    %iframe{:src => ""}

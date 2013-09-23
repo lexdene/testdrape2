@@ -1,0 +1,8 @@
+.userinfo_usertopiclist
+  .discuss_list
+    .list
+      {% for topic_item in topic_list %}
+      {% include 'discuss/TopicItemInList.html' %}
+      {% else %}
+      该用户未发表过任何主题
+      {% endfor %}

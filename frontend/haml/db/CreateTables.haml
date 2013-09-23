@@ -1,0 +1,8 @@
+.db_createtables
+  {% for i in result %}
+  %div
+    %h2 {{ i.tableName }}
+    %pre {{ i.sql }}
+    %div {{ i.ret }}
+    %div {{ i.error }}
+  {% endfor %}

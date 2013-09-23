@@ -1,0 +1,14 @@
+.usercenter_layout.clearfix
+  .common_layout_column.jdmd_nav_left
+    %ul
+      %li
+        %a{:href => "{{ROOT}}/user/UserCenter"} 个人中心
+      %li
+        %a{:href => "{{ROOT}}/user/ChangePassword"} 修改密码
+      %li
+        %a{:href => "{{ROOT}}/user/EditUserInfo"} 修改个人资料
+  .common_layout_column.jdmd_nav_right
+    .common_center_block
+      %h1.common_page_title {{title}}
+    .common_center_block
+      {{body}}

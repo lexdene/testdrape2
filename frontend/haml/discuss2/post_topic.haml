@@ -1,0 +1,27 @@
+{% include 'widget/form.html' %}
+{% do res.addResByPath() -%}
+.discuss2_post_topic
+  %h1 发表新主题
+  .form_block
+    %form#post_form.jdmd_form{:action => "{{ROOT}}/discuss2/ajax_post_topic", :method => "post"}
+      .jf_line
+        %span.jf_hint 标题
+        %span
+          %input.jf_input{:name => "title"}/
+      .jf_line
+        %span.jf_hint 内容
+        %span
+          %textarea.jf_input{:name => "text"}
+      .jf_line
+        %span.jf_hint 已选标签
+        %span#tag_line.jf_tag_line
+          %span.jf_input{:name => "tags"}
+      .jf_line
+        %span.jf_hint 标签
+        %span
+          %input#tags_input.jf_input{:placeholder => "\346\234\200\345\244\232\345\217\257\346\267\273\345\212\2405\344\270\252\346\240\207\347\255\276\357\274\214\344\273\245\347\251\272\346\240\274\345\210\206\351\232\224"}/
+      .jf_line
+        %span.jf_hint
+        %span.c
+          %input.jdmd_validate_submit{:type => "submit"}/
+  %a{:href => "{{ROOT}}/discuss2/filter_topic"} 返回主题列表

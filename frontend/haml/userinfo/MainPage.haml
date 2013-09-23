@@ -1,0 +1,80 @@
+{% include 'widget/form.html' %}
+{% do res.add('dje/dje.pager', 'js') -%}
+{% do res.add('dje/dje.tabs', 'js') -%}
+{% do res.add('dje/dje.format_date', 'js') -%}
+{% do res.addResByPath() %}
+{% do res.add('discuss/List','css') %}
+{% include 'discuss2/topic_list.html' %}
+.user_homepage.clearfix{"data-user-id" => "{{userinfo['id']}}"}
+  .common_layout_column.left_column
+    .nickname
+      {{ userinfo['nickname'] }}
+    .common_avatar_block
+      %img.avatar{:alt => "avatar", :src => "{{ avatar(userinfo['avatar']) }}"}/
+    .button_area
+      %div
+        %a#focus_button.jf_button{"data-is-focused" => "{{ isFocused }}", :href => "#"} 载入中...
+        %a.jf_button{:href => "{{ ROOT }}/mail/Write/to_uid/{{ userinfo['id'] }}"} 发送私信
+  .common_layout_column.right_column
+    #tabs.jdmd_tabs
+      .tab_nav
+        %span.nav_btn_wrap
+          %a.nav_btn{:href => "#!newsfeed", :tab_page => "newsfeed"} 最近动态
+        %span.nav_btn_wrap
+          %a.nav_btn{:href => "#!userinfo", :tab_page => "userinfo"} 资料
+        %span.nav_btn_wrap
+          %a.nav_btn{:href => "#!topic", :tab_page => "topic"} 主题
+        %span.nav_btn_wrap
+          %a.nav_btn{:href => "#!album", :tab_page => "album"} 相册
+        %span.nav_btn_wrap
+          %a.nav_btn{:href => "#!msg", :tab_page => "msg"} 留言板
+      .tab_page{:tab_page => "newsfeed"}
+      .tab_page{:tab_page => "userinfo"}
+        %div
+          %span.common_hint 昵称
+          %span.common_content {{userinfo['nickname']}}
+        %div
+          %span.common_hint 个人介绍
+          %span.common_content/
+          %pre {{userinfo['intro']}}
+        %div
+          %span.common_hint 注册时间
+          %span.common_content {{timestr(userinfo['ctime'])}}
+        %div
+          %span.common_hint 积分
+          %span.common_content {{userinfo['score']}}
+      .tab_page{:tab_page => "topic"}
+        .discuss_list
+          .list
+      .tab_page{:tab_page => "album"} 相册功能仍在开发中...
+      .tab_page{:tab_page => "msg"}
+        %form.jdmd_form{:action => "{{ROOT}}/usermsg/AjaxPostMsg", :method => "post"}
+          %input{:name => "to_uid", :type => "hidden", :value => "{{ userinfo['id'] }}"}/
+          %div 给TA留言
+          %div
+            %textarea.jf_textarea{:name => "text"}
+          %div
+            %input{:type => "submit", :value => "\347\225\231\350\250\200"}/
+        .msg_list
+          留言列表
+        .jf_pager.pager
+{% include 'newsfeed/Template.html' %}
+%script#msg_template{:type => "text/template"}
+  <% _(msg_list).each(function(msg){ %>
+  <div class="msg_item" msg_id="<%- msg.id %>">
+  <div class="first_line">
+  <a class="username_btn" href="#" userid="<%- msg.from_ui.id %>">
+  <%- msg.from_ui.nickname %>
+  </a>
+  回复
+  <a class="username_btn" href="#" userid="<%- msg.to_ui.id %>">
+  <%- msg.to_ui.nickname %>
+  </a>
+  \:
+  <span><%- msg.text %></span>
+  </div>
+  <div class="second_line">
+  <span class="ctime"><%- format_date(msg.ctime) %></span>
+  </div>
+  </div>
+  <% }) %>
