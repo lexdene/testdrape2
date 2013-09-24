@@ -53,7 +53,7 @@ do(jq=jQuery)->
         this.first_load()
     first_load: ->
       me = this
-      newsfeed me.area, '/userinfo/ajaxUserActionList',
+      dje.newsfeed me.area, '/userinfo/ajaxUserActionList',
         uid: userinfo.id
 
   topic_page =
@@ -69,7 +69,7 @@ do(jq=jQuery)->
       me = this
       topic_list_area = me.area.find '.discuss_list .list'
       jq.delay 1000, (set_result)->
-        topic_list_area.html loading_html
+        topic_list_area.html dje.loading_html
         jq.getJSON(WEB_ROOT + '/userinfo2/ajax_user_topic_list',
           uid: userinfo.id
         ).success (data)->
@@ -84,7 +84,7 @@ do(jq=jQuery)->
             topic_list: result.topic_list
             format_date: jq.create_date_formater result.now
         else
-          topic_list_area.html error_msg_html
+          topic_list_area.html dje.error_msg_html
             msg: result.msg
 
   msg_page =
@@ -123,7 +123,7 @@ do(jq=jQuery)->
       me = this
       msg_list_area = this.area.find '.msg_list'
       jq.delay 1000, (set_result)->
-        msg_list_area.html loading_html
+        msg_list_area.html dje.loading_html
         jq.getJSON(WEB_ROOT + '/usermsg/AjaxMsgList/',
           to_uid: userinfo.id
           page: to_page
@@ -140,7 +140,7 @@ do(jq=jQuery)->
             msg_list: data.data
             format_date: jq.create_date_formater data.now
         else
-          msg_list_area.html error_msg_html
+          msg_list_area.html dje.error_msg_html
             msg: data.msg
 
   tabs =

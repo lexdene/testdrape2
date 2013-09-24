@@ -95,13 +95,14 @@ do (jq=jQuery) ->
         @page_hint.html "共#{page_str}/#{@total_page}页"
 
       else
-        @container.html error_html + data['errormsg']
+        @container.html dje.error_msg_html
+          msg: data.errormsg
 
     refresh: (page=0) ->
       jq.delay(
         1000,
         (r) =>
-          @container.html loading_html
+          @container.html dje.loading_html
 
           jq.get(
             WEB_ROOT + "/usermsg/AjaxMsgList/to_uid/#{@to_uid}",
@@ -137,5 +138,5 @@ do (jq=jQuery) ->
 
         me.refresh target_page
 
-  window.Usermsg = Usermsg
+  dje.Usermsg = Usermsg
   true

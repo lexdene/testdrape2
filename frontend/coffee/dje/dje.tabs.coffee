@@ -24,7 +24,7 @@ do(jq=jQuery)->
 
   jq.fn.extend
     tabs: ->
-      window.onhashchange = =>
+      jq(window).on 'hashchange', =>
         change_page_by_hash this
 
       # delay change page

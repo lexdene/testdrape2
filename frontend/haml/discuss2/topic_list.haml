@@ -5,7 +5,7 @@
   <div class="title_line clearfix">
   <div class="common_layout_column">
   <div class="avatar_block">
-  <img class="avatar" src="<%= avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
+  <img class="avatar" src="<%= dje.avatar(topic_item["topic_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["topic_ui.nickname"] %>" />
   </div>
   <div class="author_nickname">
   <a class="username_btn" href="#" data-userid="<%- topic_item["topic_ui.id"] %>">
@@ -42,7 +42,7 @@
   <% if(topic_item["tc.first_reply_id"] != topic_item["tc.last_reply_id"]){ %>
   <span class="time"><%- format_date(topic_item["last_reply.ctime"]) %></span>
   <span class="user">
-  <img class="avatar" src="<%= avatar(topic_item["last_reply_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["last_reply_ui.nickname"] %>" />
+  <img class="avatar" src="<%= dje.avatar(topic_item["last_reply_ui.avatar"]) %>" alt="avatar" title="<%- topic_item["last_reply_ui.nickname"] %>" />
   </span>
   <% }else{ %>
   <span class="time">-</span>

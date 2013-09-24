@@ -1,7 +1,7 @@
 do(jq=jQuery)->
   jq ->
     loading_icon = (el)->
-      el.html(loading_html)
+      el.html dje.loading_html
 
     # tag list
     do ->

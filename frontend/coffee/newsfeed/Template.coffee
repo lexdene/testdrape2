@@ -28,7 +28,7 @@ do(jq=jQuery)->
       fetch()
 
   fetch = ->
-    loading_obj = jq loading_html
+    loading_obj = jq dje.loading_html
     jq.delay 1000, (set_result)->
       newsfeed_area.append loading_obj
 
@@ -48,7 +48,7 @@ do(jq=jQuery)->
 
       # error
       if data.errormsg != ''
-        newsfeed_area.append error_msg_html
+        newsfeed_area.append dje.error_msg_html
           msg: data.errormsg
         return
 
@@ -65,7 +65,7 @@ do(jq=jQuery)->
       newsfeed_area.append render data
       newsfeed_area.append more_button_html
 
-  window.newsfeed = (area, url, params)->
+  dje.newsfeed = (area, url, params)->
     newsfeed_area = area
     request_url = url
     request_params = params

@@ -12,8 +12,8 @@ do (jq=jQuery) ->
       else
         aword
   is_emoji = (word)->
-    if word of window.emoji_dict then true else false
+    if word of dje.emoji_dict then true else false
   markdown = (origin)->
     markdown_converter.makeHtml origin
 
-  window.transText = transText
+  dje.transText = transText

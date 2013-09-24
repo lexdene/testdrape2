@@ -12,7 +12,7 @@ do(jq=jQuery) ->
         return
 
       # loading and show
-      dialog.html loading_html
+      dialog.html dje.loading_html
       dialog.show()
 
       # delay data
@@ -30,7 +30,7 @@ do(jq=jQuery) ->
           dialog.html template
             notice_list: data.notice_list
         else
-          dialog.html error_msg_html
+          dialog.html dje.error_msg_html
             msg: data.msg
 
     get_dialog_object = ->

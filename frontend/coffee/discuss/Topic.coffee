@@ -16,7 +16,7 @@ do(jq=jQuery)->
         jq('script[type="text/markdown"]').each ->
           me.update_content jq this
       update_content: (obj)->
-        obj.siblings('.jf_markdown').html transText obj.html()
+        obj.siblings('.jf_markdown').html dje.transText obj.html()
 
     reply_form:
       from: null
@@ -78,13 +78,13 @@ do(jq=jQuery)->
             edit_button.text '取消编辑'
           else
             edit_area.find('textarea').val ''
-            floor_content.find('.jf_markdown').html transText text
+            floor_content.find('.jf_markdown').html dje.transText text
             edit_button.text '编辑'
 
           edit_area.slideToggle 'slow'
 
         jq('.floor .floor_edit textarea').keyup ->
-          jq(this).closest('.floor').find('.floor_content .jf_markdown').html transText _.escape jq(this).val()
+          jq(this).closest('.floor').find('.floor_content .jf_markdown').html dje.transText _.escape jq(this).val()
 
         jq('.edit_form').ajax_form
           validate:

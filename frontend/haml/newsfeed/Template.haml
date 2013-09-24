@@ -8,7 +8,7 @@
   <%  switch(newsfeed.from_object_type){
   case 'user':
   \%>
-  <img class="avatar" src="<%- avatar(newsfeed.from_user_info.avatar) %>" alt="avatar" title="<%- newsfeed.from_user_info.nickname %>" />
+  <img class="avatar" src="<%- dje.avatar(newsfeed.from_user_info.avatar) %>" alt="avatar" title="<%- newsfeed.from_user_info.nickname %>" />
   <%  break;
   case 'topic':
   \%>

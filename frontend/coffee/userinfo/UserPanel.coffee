@@ -8,7 +8,7 @@ do(jq=jQuery)->
       userid = btn.data 'userid'
 
       dialog = get_dialog_object()
-      dialog.html loading_html
+      dialog.html dje.loading_html
 
       # position and show
       pos = btn.offset()
@@ -32,7 +32,7 @@ do(jq=jQuery)->
           dialog.html template
               userinfo: data.userinfo
         else
-          dialog.html error_msg_html
+          dialog.html dje.error_msg_html
             msg: data.msg
 
     get_dialog_object = ->
@@ -56,7 +56,7 @@ do(jq=jQuery)->
       <div class="userinfo_userpanelpage">
         <div class="common_layout_column left_column">
           <div class="common_avatar_block">
-            <img class="avatar" src="<%- avatar(userinfo.avatar) %>" alt="avatar" title="<%- userinfo.nickname %>" />
+            <img class="avatar" src="<%- dje.avatar(userinfo.avatar) %>" alt="avatar" title="<%- userinfo.nickname %>" />
           </div>
           <div class="button_block">
             <a href="<%- WEB_ROOT %>/mail/Write/to_uid/<%- userinfo.id %>">发送私信</a>

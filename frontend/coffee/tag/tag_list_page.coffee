@@ -4,7 +4,7 @@ do (jq=jQuery)->
 
     fetch_tag_list = (want_page=0)->
       # show loading
-      tag_list_container.html loading_html
+      tag_list_container.html dje.loading_html
 
       # ajax tag list
       jq.getJSON(

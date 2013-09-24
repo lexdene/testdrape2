@@ -879,4 +879,4 @@ do ->
   for key in emoji_list
     emoji_dict[key] = true
 
-  window.emoji_dict = emoji_dict
+  dje.emoji_dict = emoji_dict
