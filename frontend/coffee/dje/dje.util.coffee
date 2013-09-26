@@ -33,12 +33,14 @@ do(jq=jQuery)->
       , elapse
 
       # flash out
-      this.addClass('jf_flash_out')
-      this.bind(
-        "animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
-        ->
-          me.removeClass('jf_flash_out')
-      )
+      flash_out_class_name = 'jf_flash_out'
+      this.removeClass flash_out_class_name
+      this.css 'background-color', 'yellow'
+
+      setTimeout =>
+        this.addClass flash_out_class_name
+        this.css 'background-color', ''
+      ,100
 
       # return
       this

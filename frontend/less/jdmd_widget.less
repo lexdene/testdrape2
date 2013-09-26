@@ -365,45 +365,8 @@ pre{
   }
 }
 
-
-/* flash out */
-@color-flash-on: rgba(255, 255, 0, 100);
-@color-flash-off: rgba(255, 255, 0, 0);
-@keyframes flash_out{
-  0% {
-    background-color: @color-flash-on;
-  }
-  100% {
-    background-color: @color-flash-off;
-  }
-}
-@-moz-keyframes flash_out{
-  0% {
-    background-color: @color-flash-on;
-  }
-  100% {
-    background-color: @color-flash-off;
-  }
-}
-@-o-keyframes flash_out{
-  0% {
-    background-color: @color-flash-on;
-  }
-  100% {
-    background-color: @color-flash-off;
-  }
-}
-@-webkit-keyframes flash_out{
-  0% {
-    background-color: @color-flash-on;
-  }
-  100% {
-    background-color: @color-flash-off;
-  }
-}
+// flash out
 .jf_flash_out{
-  animation: flash_out 2s 1 linear;
-  -moz-animation: flash_out 2s 1 linear;
-  -o-animation: flash_out 2s 1 linear;
-  -webkit-animation: flash_out 2s 1 linear;
+  background-color: rgba(255, 255, 255, 0);
+  .transition(background-color, 2s, ease-out, 0.5s);
 }

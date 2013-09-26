@@ -234,7 +234,7 @@ class Logout(frame.DefaultFrame):
 class UserCenterFrame(frame.FrameBase):
 	def __init__(self,path):
 		super(UserCenterFrame,self).__init__(path)
-		self._set_parent('/user/UserCenterLayout')
+		self._set_parent('user/UserCenterLayout')
 
 class UserCenterLayout(frame.DefaultFrame):
 	def process(self):
