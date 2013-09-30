@@ -5,8 +5,8 @@
 	.rounded-corners;
 	padding: .2em;
 	zoom: 1;
-	
-	.tab_nav{
+
+	.tab_nav_area{
 		margin: 0;
 		padding: .2em .8em 0;
 		border-bottom: 1px solid @color-grey;
@@ -40,11 +40,23 @@
 		}
 	}
 
-	.tab_page{
-		padding: 1em 1.4em;
-		background: @color-mid;
-		.rounded-corners;
-		display: none;
+	.tab_page_viewport{
+		overflow-x: hidden;
+		width: 500px;
+
+		.tab_page_wrap{
+			width: 100000px;
+			.transition(margin-left, 1s, ease-out, 0s);
+
+			.tab_page{
+				padding: 15px 25px;
+				.rounded-corners;
+				width: 450px;
+
+				float: left;
+			}
+
+		}
 	}
 }
 

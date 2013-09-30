@@ -140,8 +140,9 @@ do(jq=jQuery)->
             msg_list: data.data
             format_date: jq.create_date_formater data.now
         else
+          me.page_widget.setData 0, 1
           msg_list_area.html dje.error_msg_html
-            msg: data.msg
+            msg: data.errormsg
 
   tabs =
     init: ->

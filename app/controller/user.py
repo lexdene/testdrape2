@@ -3,6 +3,7 @@
 import datetime
 
 import drape
+import drape.validate
 from drape.controller import JsonController, post_only
 
 import frame,userinfo
