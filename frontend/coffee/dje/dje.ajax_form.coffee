@@ -64,14 +64,15 @@ do(jq=jQuery)->
       null,
       'json'
     ).success( (data)->
+      form.remove_mask()
       if data.result == 'success'
         options.success.call form
       else
         on_failed form, 'post', data.msg, options
     ).error( ->
-      on_failed form, 'network', '系统错误', options
-    ).complete ->
       form.remove_mask()
+      on_failed form, 'network', '系统错误', options
+    )
 
   get_form_params = (form)->
     return form.serializeArray()

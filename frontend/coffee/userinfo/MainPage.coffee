@@ -105,12 +105,15 @@ do(jq=jQuery)->
       form = this.area.find('form')
       form.ajax_form
         success: ->
+          form.find('textarea').val ''
+          form.add_mask
+            type: 'success'
+            text: '发表成功'
+          me.fetch_msg_list()
+
           setTimeout ->
-            form.add_mask
-              type: 'success'
-              text: '发表成功'
-            window.location.reload()
-          ,100
+            form.remove_mask()
+          ,1000
 
       # pager
       this.page_widget = this.area.find('.pager').pager

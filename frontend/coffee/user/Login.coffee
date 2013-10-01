@@ -2,17 +2,11 @@ do(jq=jQuery)->
   jq ->
     jq('#submit_form').ajax_form
       success: ->
-        form = this
-        # 在complete中会remove mask
-        # 所以此时要延时到remove mask之后执行
-        setTimeout(
-          ->
-            form.add_mask
-              type: 'success'
-              text: '登录成功'
-            window.location = WEB_ROOT + form.data('redirect')
-          ,100
-        )
+        this.add_mask
+          type: 'success'
+          text: '登录成功'
+        window.location = WEB_ROOT + this.data('redirect')
+
       validate:
         loginname:
           title: '登录名'
