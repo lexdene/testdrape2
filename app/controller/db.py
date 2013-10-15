@@ -135,7 +135,7 @@ class DbFrame(DefaultFrame):
     ''' 此页的模板 '''
     def __init__(self, path):
         super(DbFrame, self).__init__(path)
-        self._set_parent('/db/layout')
+        self._set_parent('db/layout')
         self._set_template_path('/db/CreateTables')
 
 
