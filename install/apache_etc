@@ -12,6 +12,7 @@ MaxRequestsPerChild 1
 		AllowOverride All
 		Order allow,deny
 		allow from all
+		# Require all granted
 	</Directory>
 	
 	WSGIScriptAlias /python/testdrape2/ /home/elephant/workspace/webpage/python/testdrape2/wsgi-index.py/
@@ -19,9 +20,6 @@ MaxRequestsPerChild 1
 	# compiled
 	Alias /python/testdrape2/static/css/ /home/elephant/workspace/webpage/python/testdrape2/data/compiled/css/
 	Alias /python/testdrape2/static/js/ /home/elephant/workspace/webpage/python/testdrape2/data/compiled/js/
-
-	# emoji
-	Alias /python/testdrape2/static/emoji/ /home/elephant/workspace/javascript/emoji/public/graphics/emojis/
 
 	# upload
 	Alias /python/testdrape2/static/upload/public/ /home/elephant/workspace/webpage/python/testdrape2/data/public/

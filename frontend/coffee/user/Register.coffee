@@ -2,7 +2,7 @@ do(jq=jQuery)->
   jq ->
     jq('#register_form').ajax_form
       success: ->
-        window.location = WEB_ROOT + form.data 'redirect'
+        window.location = WEB_ROOT + this.data 'redirect'
       validate:
         loginname:
           title: '登录名'

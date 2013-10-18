@@ -4,8 +4,8 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "content-type"}/
     %link{:href => "{{ROOT}}/static/image/breaking.ico", :rel => "icon", :type => "image/x-icon"}/
     %link{:href => "{{ROOT}}/static/image/breaking.ico", :rel => "shortcut icon", :type => "image/x-icon"}/
-    %meta{:content => "testdrape,drape,python,web,\345\220\216\345\217\260\357\274\214\346\241\206\346\236\266", :name => "keywords"}/
-    %meta{:content => "testdrape,drape,drape\346\230\257\344\270\200\344\270\252Python\347\232\204web\345\220\216\345\217\260\346\241\206\346\236\266", :name => "description"}/
+    %meta{:content => "testdrape,drape,python,web,后台，框架", :name => "keywords"}/
+    %meta{:content => "testdrape,drape,drape是一个Python的web后台框架", :name => "description"}/
     %title {{title}}
     {% for res in reslist -%}
     {% if res.type == 'css' -%}
@@ -22,10 +22,11 @@
       var WEB_ROOT = "{{ROOT}}";
       var my_userid= {{my_userid}};
       var dje = {
-      	version:'{{version}}',
-      	drape:{
-      		version : '{{drape_version}}'
-      	}
+        version:'{{version}}',
+        drape:{
+          version : '{{drape_version}}'
+        ,
+        libcdn: '{{LIBCDN}}'
       };
   %body
     {{body}}

@@ -1,4 +1,4 @@
-STYLE_COMPILER = lessc --yui-compress
+STYLE_COMPILER = lessc
 SCRIPT_COMPILER = coffee -b -c -o
 MIN_SCRIPT_COMPILER = uglifyjs -o
 TEMPLATE_COMPILER = haml
