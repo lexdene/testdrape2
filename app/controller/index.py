@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import frame,app
 import drape
 
-class Index(frame.DefaultFrame):
-	def process(self):
-		self.setTitle(u'首页')
-		
-		# version
-		self.set_variable('testdrape_version',app.version)
-		self.set_variable('drape_version',drape.version)
+import frame
+import app
+
+
+def Index(request):
+    return frame.default_frame(
+        request,
+        {
+            'title': u'首页',
+            'testdrape_version': app.version,
+            'drape_version': drape.version
+        }
+    )

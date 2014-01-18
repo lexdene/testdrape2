@@ -2,9 +2,11 @@
 ''' some controllers about tag '''
 import random
 
-from drape.controller import JsonController, post_only
+from drape.controller import JsonController
+from drape.http import post_only
 from drape.db import Db
 from drape.model import LinkedModel
+from drape.response import json_response
 import drape.config
 from drape.util import tile_list_data, toInt
 
@@ -12,9 +14,8 @@ from .frame import DefaultFrame
 from app.lib.cache import Cache, remove_cache
 
 
-@JsonController.controller
 @post_only
-def update_tag_cache(self):
+def update_tag_cache(request):
     ''' 更新tag_cache表 '''
     db_object = Db()
 
@@ -48,22 +49,25 @@ def update_tag_cache(self):
         'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
     ).order('tag_cache.reply_count', 'DESC').limit(50).select()
 
-    self.set_variable('tag_list', tag_list)
+    return json_response({
+        'tag_list': tag_list
+    })
 
 
-@JsonController.controller
-def random_tag_list(self):
+def get_hot_tag_list_from_db():
+    ''' 从数据库中读取热门标签列表 '''
+    tag_model = LinkedModel('tag')
+    limit = drape.config.TAG_RANDOM_RANGE_LENGTH
+    tag_list = tag_model.join(
+        'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
+    ).order(
+        'tag_cache.reply_count', 'DESC'
+    ).limit(limit).select()
+    return tag_list
+
+
+def random_tag_list(request):
     ''' 从最热门的标签中，随机选取标签列表 '''
-    def get_hot_tag_list_from_db():
-        ''' 从数据库中读取热门标签列表 '''
-        tag_model = LinkedModel('tag')
-        limit = drape.config.TAG_RANDOM_RANGE_LENGTH
-        tag_list = tag_model.join(
-            'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
-        ).order(
-            'tag_cache.reply_count', 'DESC'
-        ).limit(limit).select()
-        return tag_list
 
     # 从缓存中读取热门标签列表
     cache = Cache()
@@ -98,7 +102,9 @@ def random_tag_list(self):
                     tag['enable'] = False
                     break
 
-    self.set_variable('tag_list', tile_list_data(result_list))
+    return json_response({
+        'tag_list': tile_list_data(result_list)
+    })
 
 
 @DefaultFrame.controller

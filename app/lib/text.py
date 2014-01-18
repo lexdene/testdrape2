@@ -27,3 +27,9 @@ def timeStamp2Short(t):
 		return time.strftime('%m月%d日',sti)
 	else:
 		return time.strftime('%H:%M',sti)
+
+def avatarFunc(request):
+	root = request.root_path()
+	def avatar(a):
+		return a if a else root+'/static/image/avatar.jpg'
+	return avatar

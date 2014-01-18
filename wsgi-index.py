@@ -3,7 +3,5 @@ app_root = os.path.dirname(__file__)
 os.chdir(app_root)
 sys.path.append(app_root)
 
-import drape.application
-
-application = drape.application.WsgiApplication()
-application.start()
+from drape.application import WsgiApplication
+application = WsgiApplication()

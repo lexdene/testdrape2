@@ -11,149 +11,136 @@ from app.lib.cache import Cache
 
 
 class Resource(object):
-	'''
-	管理css / js等资源
-	'''
-	def __init__(self,controller):
-		self.__levels = list()
-		self.__resources = list()
-		self.__controller = controller
+    '''
+    管理css / js等资源
+    '''
+    def __init__(self, path=None):
+        self.__levels = list()
+        self.__resources = list()
+        self.__path = path
 
-	def __iter__(self):
-		for level in reversed(self.__levels):
-			for res in level:
-				yield res
+    def __iter__(self):
+        for level in reversed(self.__levels):
+            for res in level:
+                yield res
 
-		for res in self.__resources:
-			yield res
+        for res in self.__resources:
+            yield res
 
-	def create_level(self, controller):
-		res = Resource(controller)
-		self.__levels.append(res)
-		return res
+    def create_level(self, path):
+        res = Resource(path)
+        self.__levels.append(res)
+        return res
 
-	def add(self, path, type=('js', 'css'), version=0):
-		if isinstance(type, tuple):
-			for i in type:
-				self.add(path, i, version)
-		else:
-			self.__resources.append(dict(
-				path = path,
-				type = type,
-				version = version
-			))
+    def add(self, path, type=('js', 'css'), version=0):
+        if isinstance(type, tuple):
+            for i in type:
+                self.add(path, i, version)
+        else:
+            self.__resources.append(dict(
+                path = path,
+                type = type,
+                version = version
+            ))
 
-	def addResByPath(self, type=('js', 'css'), version=0):
-		path = self.__controller.path()
-		self.add(path, type, version)
-
-class FrameBase(drape.controller.Controller):
-	def notLogin(self):
-		raise drape.controller.Forbidden()
-		
-	def run(self):
-		g = self.runbox().variables()
-		if 'res' not in g:
-			g['res'] = Resource(self)
-		
-		res = g['res']
-		self.set_variable('res',res.create_level(self))
-		
-		self.set_variable('ROOT', self.request().rootPath())
-		self.set_variable('ctrl',self)
-
-		# lib cdn
-		self.set_variable('LIBCDN', drape.config.LIBCDN)
-
-		return super(FrameBase, self).run()
-		
-	def setTitle(self,t):
-		g = self.runbox().variables()
-		g['title'] = t
-		
-	def title(self):
-		g = self.runbox().variables()
-		return g['title']
-
-class DefaultFrame(FrameBase):
-	def __init__(self,runbox):
-		super(DefaultFrame,self).__init__(runbox)
-		self._set_parent('frame/Layout')
-
-class EmptyFrame(FrameBase):
-	def __init__(self,runbox):
-		super(EmptyFrame,self).__init__(runbox)
-		self._set_parent('frame/HtmlBody')
-
-class HtmlBody(FrameBase):
-	def process(self):
-		# res
-		g = self.runbox().variables()
-		
-		reslist = g['res']
-		self.set_variable('reslist',reslist)
-		
-		# title
-		sitename = u'testdrape'
-		subtitle = u'无标题'
-		if 'title' in g:
-			subtitle = g['title']
-		title = u'%s - %s' % (subtitle, sitename)
-		self.set_variable('title', title)
-		
-		# user id
-		aSession = self.session()
-		self.set_variable('my_userid', drape.util.toInt(aSession.get('uid', -1)))
-
-		# coffee debug
-		self.set_variable('coffee_debug', drape.config.COFFEE_IS_DEBUG)
-
-		# version
-		self.set_variable('version', app.version)
-		self.set_variable('drape_version', drape.version)
-
-class Layout(FrameBase):
-	def __init__(self,runbox):
-		super(Layout,self).__init__(runbox)
-		self._set_parent('frame/HtmlBody')
-		
-	def process(self):
-		# uid
-		aSession = self.session()
-		uid = aSession.get('uid',-1)
-		self.set_variable('uid',uid)
-		
-		if uid > 0:
-			cache = Cache()
-			self.set_variable('userinfo', cache.get(
-				'userinfo/%s' % uid,
-				lambda: LinkedModel('userinfo').where(id=uid).find()
-			))
-			
-			self.set_variable('notice_count', cache.get(
-				'notice_count/%s' % uid,
-				lambda: LinkedModel('notice').where(
-						to_uid = uid,
-						isRead = 0,
-					).count()
-			))
-			
-			self.set_variable('mail_count', cache.get(
-				'mail_count/%s' % uid,
-				lambda: LinkedModel('mail').where(
-						to_uid = uid,
-						isRead = 0
-					).count()
-			))
-			
-
-class NotLogin(DefaultFrame):
-	def process(self):
-		urlPath = self.request().urlPath()
-		self.set_variable('urlPath',urlPath)
-		self.set_variable('urlquote',drape.util.urlquote(urlPath))
+    def addResByPath(self, type=('js', 'css'), version=0):
+        path = self.__path
+        self.add(path, type, version)
 
 
-@DefaultFrame.controller
-def Error(self):
-	pass
+def html_body(request, variables, path=None):
+    if path is None:
+        path = request.controller_path
+
+    variables['ROOT'] = request.root_path()
+    variables['LIBCDN'] = drape.config.LIBCDN
+
+    if request.res is None:
+        request.res = Resource()
+
+    variables['res'] = request.res.create_level(path)
+
+    body = drape.render.render(
+        path,
+        variables
+    )
+
+    uid = request.session.get('uid', -1)
+    html = drape.render.render(
+        'frame/HtmlBody',
+        {
+            'reslist': request.res,
+            'ROOT': request.root_path(),
+            'title': variables.get('title', u'无标题'),
+            'my_userid': uid,
+            'coffee_debug': drape.config.COFFEE_IS_DEBUG,
+            'version': app.version,
+            'drape_version': drape.version,
+            'body': body,
+        }
+    )
+
+    return drape.response.Response(
+        body = html
+    )
+
+
+def default_frame(request, variables):
+    # uid
+    session = request.session
+    uid = session.get('uid', -1)
+
+    # res
+    request.res = Resource()
+    res_level = request.res.create_level(
+        request.controller_path
+    )
+
+    # render content
+    variables['uid'] = uid
+    variables['res'] = res_level
+    variables['ROOT'] = request.root_path()
+
+    content = drape.render.render(
+        request.controller_path,
+        variables
+    )
+
+    if uid > 0:
+        cache = Cache()
+        userinfo = cache.get(
+            'userinfo/%s' % uid,
+            lambda: LinkedModel('userinfo').where(id=uid).find()
+        )
+
+        notice_count = cache.get(
+            'notice_count/%s' % uid,
+            lambda: LinkedModel('notice').where(
+                    to_uid = uid,
+                    isRead = 0,
+                ).count()
+        )
+
+        mail_count = cache.get(
+            'mail_count/%s' % uid,
+            lambda: LinkedModel('mail').where(
+                    to_uid = uid,
+                    isRead = 0
+                ).count()
+        )
+    else:
+        userinfo = None
+        notice_count = 0
+        mail_count = 0
+
+    return html_body(
+        request,
+        {
+            'uid': uid,
+            'userinfo': userinfo,
+            'notice_count': notice_count,
+            'mail_count': mail_count,
+            'body': content,
+        },
+        'frame/Layout'
+    )

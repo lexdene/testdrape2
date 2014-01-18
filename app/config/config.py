@@ -21,5 +21,4 @@ FONT_FILE_PATH = '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf'
 TAG_RANDOM_RANGE_LENGTH = 20
 
 MARKDOWN_DIR = 'frontend/markdown'
-
-from .distribution import *
+TEMPLATE_DIR = 'data/compiled/html'
