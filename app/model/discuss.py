@@ -2,7 +2,7 @@
 import datetime
 
 import drape
-from drape.model import LinkedModel
+from drape.model import LinkedModel, F
 
 from app.lib.cache import Cache
 
@@ -88,19 +88,33 @@ class TopicModel(drape.model.LinkedModel):
             返回主题列表和总数
         '''
         self.alias('dt').join(
-            'discuss_topic_cache', 'tc', 'tc.id = dt.id'
+            'discuss_topic_cache',
+            {
+                'tc.id': F('dt.id')
+            },
+            'tc',
         ).join(
-            'discuss_reply', 'last_reply', 'last_reply.id = tc.last_reply_id'
+            'discuss_reply',
+            {
+                'last_reply.id': F('tc.last_reply_id')
+            },
+            'last_reply',
         ).join(
-            'discuss_topic_tag_bridge', 'ttb', 'ttb.topic_id = dt.id'
+            'discuss_topic_tag_bridge',
+            {
+                'ttb.topic_id': F('dt.id')
+            },
+            'ttb',
         ).order(
-            'last_reply.ctime',  'DESC'
+            'last_reply.ctime',  self.DESC
         ).order(
             'id'
         ).group(
             'dt.id'
         ).limit(
-            length, offset
+            length
+        ).offset(
+            offset
         )
 
         if where_obj:
@@ -125,24 +139,48 @@ class TopicModel(drape.model.LinkedModel):
         topic = self.alias(
             'dt'
         ).join(
-            'userinfo', 'topic_ui', 'dt.uid = topic_ui.id'
+            'userinfo',
+            {
+                'dt.uid': F('topic_ui.id')
+            },
+            'topic_ui'
         ).join(
-            'discuss_topic_cache', 'tc', 'tc.id = dt.id'
+            'discuss_topic_cache',
+            {
+                'tc.id': F('dt.id')
+            },
+            'tc'
         ).join(
-            'discuss_reply', 'last_reply', 'last_reply.id = tc.last_reply_id'
+            'discuss_reply',
+            {
+                'last_reply.id': F('tc.last_reply_id')
+            },
+            'last_reply'
         ).join(
-            'userinfo', 'last_reply_ui', 'last_reply.uid = last_reply_ui.id'
+            'userinfo',
+            {
+                'last_reply.uid': F('last_reply_ui.id')
+            },
+            'last_reply_ui',
         ).join(
-            'discuss_reply', 'count_dr', 'count_dr.tid = dt.id'
-        ).field(
-            'COUNT(DISTINCT count_dr.id) as reply_count'
+            'discuss_reply',
+            {
+                'count_dr.tid': F('dt.id')
+            },
+            'count_dr'
         ).where({
             'dt.id': topic_id
-        }).find()
+        }).find(
+            ['COUNT(DISTINCT count_dr.id) as reply_count']
+        )
 
-        tag_model = drape.model.LinkedModel('tag')
+        tag_model = LinkedModel('tag')
         topic['tag_list'] = tag_model.join(
-            'discuss_topic_tag_bridge', 'ttb', 'ttb.tag_id = tag.id'
+            'discuss_topic_tag_bridge',
+            {
+                'ttb.tag_id': F('tag.id')
+            },
+            'ttb'
         ).where({
             'ttb.topic_id': topic['id']
         }).select()
