@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from functools import wraps
-
 import drape
 from drape.util import toInt
 from drape.model import LinkedModel
@@ -38,9 +36,9 @@ class Resource(object):
                 self.add(path, i, version)
         else:
             self.__resources.append(dict(
-                path = path,
-                type = type,
-                version = version
+                path=path,
+                type=type,
+                version=version
             ))
 
     def addResByPath(self, type=('js', 'css'), version=0):
@@ -81,7 +79,7 @@ def html_body(request, variables, path=None):
     )
 
     return drape.response.Response(
-        body = html
+        body=html
     )
 
 
@@ -116,16 +114,16 @@ def default_frame(request, variables):
         notice_count = cache.get(
             'notice_count/%s' % uid,
             lambda: LinkedModel('notice').where(
-                    to_uid = uid,
-                    isRead = 0,
+                    to_uid=uid,
+                    isRead=0,
                 ).count()
         )
 
         mail_count = cache.get(
             'mail_count/%s' % uid,
             lambda: LinkedModel('mail').where(
-                    to_uid = uid,
-                    isRead = 0
+                    to_uid=uid,
+                    isRead=0
                 ).count()
         )
     else:
