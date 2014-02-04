@@ -128,3 +128,17 @@ def ajaxLogin(request):
         return json_response({
             'result': 'success'
         })
+
+
+def Logout(request):
+    session = request.session
+    session.remove('uid')
+
+    params = request.params()
+    return frame.default_frame(
+        request,
+        {
+            'title': u'退出登录',
+            'redirect': params.get('redirect', ''),
+        }
+    )
