@@ -139,6 +139,7 @@ def default_frame(request, variables):
             'notice_count': notice_count,
             'mail_count': mail_count,
             'body': content,
+            'title': variables.get('title', u'无标题'),
         },
         'frame/Layout'
     )
