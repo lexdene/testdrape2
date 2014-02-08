@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+
 from drape.util import md5sum, random_str, pick_dict
 from drape.response import json_response
 from drape.http import post_only
@@ -11,8 +13,14 @@ from . import frame
 from app.lib import validate_code
 
 _common_validates = {
+    'loginname': {
+        'name': u'登录名',
+        'validates': (
+            ('notempty',),
+            ('len', 4, 20),
+        )
+    },
     'password': {
-        'key': 'password',
         'name': u'密码',
         'validates': (
             ('notempty',),
@@ -20,21 +28,33 @@ _common_validates = {
         )
     },
     'repassword': {
-        'key': 'repassword',
         'name': u'重复密码',
         'validates': (
             ('notempty',),
             ('equal', 'password')
         ),
     },
-    'loginname': {
-        'key': 'loginname',
-        'name': u'登录名',
+    'nickname': {
+        'name': u'昵称',
         'validates': (
             ('notempty',),
-            ('len', 4, 20),
+            ('len', 4, 20)
         )
     },
+    'email': {
+        'name': u'昵称',
+        'validates': (
+            ('notempty',),
+            ('email',)
+        )
+    },
+    'intro': {
+        'name': u'个人介绍',
+        'validates': (
+            ('notempty',),
+            ('len', 4, 1000)
+        )
+    }
 }
 
 
@@ -44,6 +64,18 @@ def encrypt_password(password, salt=None):
 
     return md5sum(
         '%s|%s' % (
+            password,
+            salt
+        )
+    )
+
+
+def password_for_db(password):
+    ''' 将加密后的密码保存到数据库时，还要保存salt '''
+    salt = random_str(8)
+    return '%s#%s' % (
+        salt,
+        encrypt_password(
             password,
             salt
         )
@@ -88,12 +120,13 @@ def ajaxLogin(request):
         pick_dict(
             _common_validates,
             ('loginname', 'password')
-        ).values()
+        )
     )
-    if not result['result']:
+    if result:
         return json_response({
             'result': 'failed',
-            'msg': result['msg']
+            'msg': u'填写内容不符合要求',
+            'validate_result': result,
         })
 
     # login model
@@ -142,3 +175,84 @@ def Logout(request):
             'redirect': params.get('redirect', ''),
         }
     )
+
+
+def Register(request):
+    return frame.default_frame(
+        request,
+        {
+            'title': u'注册',
+            'redirect': request.params().get('redirect', '/'),
+        }
+    )
+
+
+@post_only
+def ajaxRegister(request):
+    params = request.params()
+
+    # validate code
+    if not validate_code.validate(
+        request,
+        params.get('valcode', '')
+    ):
+        return json_response({
+            'result': 'failed',
+            'msg': u'验证码错误'
+        })
+
+    # validate params
+    result = validate_params(
+        params,
+        pick_dict(
+            _common_validates,
+            (
+                'loginname', 'password', 'repassword',
+                'nickname', 'email', 'intro'
+            )
+        )
+    )
+    if result:
+        return json_response({
+            'result': 'failed',
+            'msg': u'填写内容不符合要求',
+            'validate_result': result,
+        })
+
+    # db model
+    login_model = LinkedModel('logininfo')
+
+    # already exist same loginname
+    exist_user = login_model.where(
+        loginname=params.get('loginname')
+    ).find()
+    if exist_user:
+        return json_response({
+            'result': 'failed',
+            'msg': u'存在登录名相同的用户'
+        })
+
+    # save to db
+    user_id = login_model.insert(
+        loginname=params.get('loginname'),
+        password=password_for_db(
+            params.get('password')
+        )
+    )
+
+    # user info
+    user_model = LinkedModel('userinfo')
+    user_model.insert(
+        id=user_id,
+        nickname=params.get('nickname'),
+        email=params.get('email'),
+        intro=params.get('intro'),
+        ctime=datetime.datetime.now(),
+        score=0
+    )
+
+    # response
+    return json_response({
+        'result': 'success',
+        'id': user_id
+    })
