@@ -1,4 +1,4 @@
-from drape.model import LinkedModel
+from drape.model import LinkedModel, F
 
 
 class ActionModel(LinkedModel):
@@ -12,10 +12,12 @@ class ActionModel(LinkedModel):
 
         action_list = self.join(
             'focus',
-            'focus',
-            'focus.focus_type = action.from_object_type'
-            + ' AND focus.target_id = action.from_object_id'
-            + ' AND focus.is_del = 0'
+            {
+                'focus.focus_type': F('action.from_object_type'),
+                'focus.target_id': F('action.from_object_id'),
+                'focus.is_del': 0
+            },
+            'focus'
         ).where(
             where
         ).group(
