@@ -19,7 +19,7 @@ do(jq=jQuery)->
 
       jq.delay 1000, (set_result)->
         jq.getJSON(
-          WEB_ROOT + '/userinfo2/ajax_user_info',
+          WEB_ROOT + '/userinfo/ajax_user_info',
             uid: userid
           ,(data)->
             set_result data
@@ -29,6 +29,8 @@ do(jq=jQuery)->
             'msg': '系统错误'
       ,(data)->
         if data.result == 'success'
+          # 只显示日期，不显示时间
+          data.userinfo.ctime = data.userinfo.ctime.substring 0, 10
           dialog.html template
               userinfo: data.userinfo
         else
