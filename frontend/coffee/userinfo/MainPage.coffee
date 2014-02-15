@@ -22,7 +22,7 @@ do(jq=jQuery)->
       this.button = jq '#focus_button'
       this.load_text()
 
-      this.button.click (e)->
+      this.button.click (e)=>
         e.preventDefault()
 
         dire = if this.button.data('is-focused') == 'True' then 'remove' else 'add'
@@ -32,7 +32,7 @@ do(jq=jQuery)->
           dire: dire
         ,(data)->
           if data.result = 'success'
-            if dire == 'True'
+            if dire == 'remove'
               focus.button.data 'is-focused', 'False'
               alert '取消关注成功'
             else

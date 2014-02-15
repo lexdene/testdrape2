@@ -8,6 +8,7 @@ from app.lib.text import datetime2Str, avatarFunc
 from . import frame
 from .focus import isFocused
 
+
 def ajax_user_info(request):
     ''' ajax获取用户资料 '''
     # uid

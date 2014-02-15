@@ -39,9 +39,17 @@ class ActionModel(LinkedModel):
             return userinfo_model.where(id=id).find()
 
         def get_reply_info(id):
-            return reply_model.alias('reply').where({'reply.id': id}).join(
-                'discuss_topic', 'topic', 'reply.tid=topic.id'
-                ).find()
+            return reply_model.alias(
+                'reply'
+            ).where({
+                'reply.id': id
+            }).join(
+                'discuss_topic',
+                {
+                    'reply.tid': F('topic.id')
+                },
+                'topic'
+            ).find()
 
         def get_tag_info(id):
             return tag_model.where(id=id).find()
