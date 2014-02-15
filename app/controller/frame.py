@@ -83,16 +83,18 @@ def html_body(request, variables, path=None):
     )
 
 
-def default_frame(request, variables):
+def default_frame(request, variables, path=None):
+    # path
+    if path is None:
+        path = request.controller_path
+
     # uid
     session = request.session
     uid = session.get('uid', -1)
 
     # res
     request.res = Resource()
-    res_level = request.res.create_level(
-        request.controller_path
-    )
+    res_level = request.res.create_level(path)
 
     # render content
     variables['uid'] = uid
@@ -100,7 +102,7 @@ def default_frame(request, variables):
     variables['ROOT'] = request.root_path()
 
     content = drape.render.render(
-        request.controller_path,
+        path,
         variables
     )
 
@@ -142,4 +144,14 @@ def default_frame(request, variables):
             'title': variables.get('title', u'无标题'),
         },
         'frame/Layout'
+    )
+
+
+def Error(request, message):
+    return default_frame(
+        request,
+        {
+            'error': message
+        },
+        'frame/Error'
     )

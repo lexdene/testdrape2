@@ -112,13 +112,13 @@ class ajaxFocus(JsonController):
         self.set_variable('msg', '')
 
 
-def isFocused(controller, focus_type, target_id):
+def isFocused(request, focus_type, target_id):
     # current user id
-    aSession = controller.session()
-    current_uid = toInt(aSession.get('uid', -1))
+    session = request.session
+    current_uid = toInt(session.get('uid', -1))
 
-    aFocusModel = LinkedModel('focus')
-    if aFocusModel.where(
+    # find in db
+    if LinkedModel('focus').where(
         from_uid=current_uid,
         focus_type=focus_type,
         target_id=target_id,
