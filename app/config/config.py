@@ -18,7 +18,7 @@ AUTOLOGIN_DAY_LENGTH = 7
 
 FONT_FILE_PATH = '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf'
 
-TAG_RANDOM_RANGE_LENGTH = 20
+TAG_RANDOM_RANGE_LENGTH = 100
 
 MARKDOWN_DIR = 'frontend/markdown'
 TEMPLATE_DIR = 'data/compiled/html'

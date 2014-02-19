@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 ''' some controllers about tag '''
 import random
+from bisect import bisect_left
 
-from drape.controller import JsonController
 from drape.http import post_only
 from drape.db import Db
-from drape.model import LinkedModel
+from drape.model import LinkedModel, F
 from drape.response import json_response
 import drape.config
 from drape.util import tile_list_data, toInt
 
-from .frame import DefaultFrame
 from app.lib.cache import Cache, remove_cache
+from . import frame
 
 
 @post_only
@@ -46,7 +46,9 @@ def update_tag_cache(request):
     # 输出结果
     tag_model = LinkedModel('tag')
     tag_list = tag_model.join(
-        'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
+        'tag_cache',
+        {'tag.id': F('tag_cache.id')},
+        'tag_cache'
     ).order('tag_cache.reply_count', 'DESC').limit(50).select()
 
     return json_response({
@@ -59,7 +61,9 @@ def get_hot_tag_list_from_db():
     tag_model = LinkedModel('tag')
     limit = drape.config.TAG_RANDOM_RANGE_LENGTH
     tag_list = tag_model.join(
-        'tag_cache', 'tag_cache', 'tag.id = tag_cache.id'
+        'tag_cache',
+        {'tag.id': F('tag_cache.id')},
+        'tag_cache'
     ).order(
         'tag_cache.reply_count', 'DESC'
     ).limit(limit).select()
@@ -73,60 +77,71 @@ def random_tag_list(request):
     cache = Cache()
     tag_list = cache.get('tag/hot_list', get_hot_tag_list_from_db)
 
+    # 随机产生若干个
     result_list_length = 10
     result_list = list()
     random_key = 'tag_cache.reply_count'
+
+    # 统计各个tag的权重之和
+    tag_heavy_list = list()
+    heavy = 0
+    for tag in tag_list:
+        if tag[random_key] is None:
+            tag[random_key] = 1
+
+        heavy += tag[random_key]
+        tag_heavy_list.append(heavy)
+
+    # 随机若干次，取出值
+    random_tag_index_set = set()
     for _ in range(result_list_length):
-        random_top = 0
-        for tag in tag_list:
-            if tag.get('enable', True):
-                if tag[random_key] is None:
-                    random_top += 1
-                else:
-                    random_top += tag[random_key]
+        random_int = random.randint(0, heavy - 1)
+        random_tag_index_set.add(
+            bisect_left(
+                tag_heavy_list, random_int
+            )
+        )
 
-        if random_top < 1:
-            break
+    # 标签列表
+    result_tag_list = [
+        tag_list[i] for i in random_tag_index_set
+    ]
 
-        n_random = random.randint(0, random_top - 1)
-        random_top = 0
-        for tag in tag_list:
-            if tag.get('enable', True):
-                if tag[random_key] is None:
-                    random_top += 1
-                else:
-                    random_top += tag[random_key]
+    # 按权重排序
+    result_tag_list = sorted(
+        result_tag_list,
+        key=lambda tag: tag[random_key]
+    )
 
-                if random_top >= n_random:
-                    result_list.append(tag)
-                    tag['enable'] = False
-                    break
-
+    # 返回数据
     return json_response({
-        'tag_list': tile_list_data(result_list)
+        'tag_list': tile_list_data(result_tag_list)
     })
 
 
-@DefaultFrame.controller
-def tag_list_page(self):
+def tag_list_page(request):
     ''' 全部标签的排行页面 '''
-    self.setTitle(u'全部标签')
+    return frame.default_frame(
+        request,
+        {
+            'title': u'全部标签'
+        }
+    )
 
 
-@JsonController.controller
-def ajax_tag_list(self):
+def ajax_tag_list(request):
     ''' ajax请求标签列表 '''
     # page
-    params = self.params()
+    params = request.params()
     per_page = 20
     page = toInt(params.get('page', 0))
-    self.set_variable('page', page)
-    self.set_variable('per_page', per_page)
 
     # tag list
     tag_model = LinkedModel('tag')
-    tag_list = tag_model.join(
-        'tag_cache', 'cache', 'cache.id = tag.id'
+    tag_list, count = tag_model.join(
+        'tag_cache',
+        {'cache.id': F('tag.id')},
+        'cache'
     ).order(
         'cache.reply_count', 'DESC'
     ).order(
@@ -134,11 +149,14 @@ def ajax_tag_list(self):
     ).order(
         'id'
     ).limit(
-        per_page,
+        per_page
+    ).offset(
         per_page * page
-    ).select(['SQL_CALC_FOUND_ROWS'])
-    self.set_variable('tag_list', tile_list_data(tag_list))
+    ).select_and_count()
 
-    # count
-    count = tag_model.found_rows()
-    self.set_variable('total_count', count)
+    return json_response({
+        'page': page,
+        'per_page': per_page,
+        'tag_list': tile_list_data(tag_list),
+        'total_count': count
+    })
