@@ -182,3 +182,25 @@ def pager_ajax(func):
         )
 
     return pager_controller
+
+
+def ajax_check_login(fun):
+    '''
+        装饰器
+        在ajax接口中判断是否登录
+        未登录，则返回失败信息
+    '''
+    @wraps(fun)
+    def new_fun(request):
+        ''' check login before fun '''
+        session = request.session
+        uid = toInt(session.get('uid', -1))
+        if uid < 0:
+            return json_response({
+                'result': 'failed',
+                'msg': u'请先登录'
+            })
+
+        return fun(request, uid)
+
+    return new_fun

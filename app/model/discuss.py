@@ -217,10 +217,12 @@ def add_new_topic(uid, title, text, tag_id_list):
     )
 
     # topic tag bridge
-    LinkedModel('discuss_topic_tag_bridge').insert(
-        tag_id=tag_id_list,
-        topic_id=[topicid] * len(tag_id_list)
-    )
+    bridge_model = LinkedModel('discuss_topic_tag_bridge')
+    for tag_id in tag_id_list:
+        bridge_model.insert(
+            tag_id=tag_id,
+            topic_id=topicid
+        )
 
     # action
     # user post topic
@@ -235,11 +237,12 @@ def add_new_topic(uid, title, text, tag_id_list):
     )
 
     # tag post topic
-    action_model.insert(
-        from_object_id=tag_id_list,
-        from_object_type='tag',
-        action_type='post',
-        target_object_id=topicid,
-        target_object_type='topic',
-        ctime=now
-    )
+    for tag_id in tag_id_list:
+        action_model.insert(
+            from_object_id=tag_id,
+            from_object_type='tag',
+            action_type='post',
+            target_object_id=topicid,
+            target_object_type='topic',
+            ctime=now
+        )

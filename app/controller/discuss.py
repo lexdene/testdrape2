@@ -4,14 +4,36 @@ import datetime
 
 import drape
 from drape.model import LinkedModel
-from drape.util import toInt
+from drape.util import toInt, pick_dict
+from drape.response import json_response
+from drape.http import post_only
+from drape.validate import validate_params
 
 from app.lib.text import datetime2Str, avatarFunc
-from app.model.discuss import TopicModel
+from app.model.discuss import TopicModel, add_new_topic
+from app.lib.tags import Tags
 
 from . import widget, frame
 
 DEFAULT_CONTROLLER = 'List'
+
+
+_common_validates = {
+    'title': {
+        'name': u'标题',
+        'validates': (
+            ('notempty',),
+            ('len', 4, 50)
+        )
+    },
+    'text': {
+        'name': u'内容',
+        'validates': (
+            ('notempty',),
+            ('len', 4, 500)
+        )
+    },
+}
 
 
 def List(request):
@@ -74,3 +96,62 @@ def List(request):
             'uid': uid
         }
     )
+
+
+def post_topic(request):
+    ''' 发表主题的页面 '''
+    return frame.default_frame(
+        request,
+        {
+            'title': u'发表新主题'
+        }
+    )
+
+
+@post_only
+@frame.ajax_check_login
+def ajax_post_topic(request, uid):
+    ''' 发表主题的ajax接口 '''
+    params = request.params()
+
+    # validates
+    result = validate_params(
+        params,
+        pick_dict(
+            _common_validates,
+            ('title', 'text')
+        )
+    )
+    if result:
+        return json_response({
+            'result': 'failed',
+            'msg': u'填写内容不符合要求',
+            'validate_result': result,
+        })
+
+    # tags
+    tags = Tags()
+    tags.set_tag_list(params.get('tags', []))
+
+    # validate tags
+    res = tags.validate()
+    if not res['result']:
+        return json_response({
+            'result': 'failed',
+            'msg': res['msg']
+        })
+
+    # add topic to db
+    tag_id_list = tags.idListInDb()
+    add_new_topic(
+        uid=uid,
+        title=params.get('title', ''),
+        text=params.get('text', ''),
+        tag_id_list=tag_id_list
+    )
+
+    # response
+    return json_response({
+        'result': 'success',
+        'msg': u'发表成功'
+    })
