@@ -12,14 +12,12 @@ do (jq=jQuery)->
         {
           page: want_page
         }
-      ).success (tag_list_data)->
+      ).success (tag_list_data, status, resp)->
         # page
-        page_widget.setData(
-          tag_list_data.page,
-          Math.ceil(tag_list_data.total_count/tag_list_data.per_page)
-        )
+        page_widget.setDataByResp resp
 
-        render_tag_list tag_list_data.tag_list
+        # reder data
+        render_tag_list tag_list_data
 
     render_tag_list = (tag_list)->
       tag_list_container.html tag_list_template tag_list: tag_list

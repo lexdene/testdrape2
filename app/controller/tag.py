@@ -129,16 +129,12 @@ def tag_list_page(request):
     )
 
 
-def ajax_tag_list(request):
+@frame.pager_ajax
+def ajax_tag_list(request, page, per_page):
     ''' ajax请求标签列表 '''
-    # page
-    params = request.params()
-    per_page = 20
-    page = toInt(params.get('page', 0))
-
     # tag list
     tag_model = LinkedModel('tag')
-    tag_list, count = tag_model.join(
+    return tag_model.join(
         'tag_cache',
         {'cache.id': F('tag.id')},
         'cache'
@@ -153,10 +149,3 @@ def ajax_tag_list(request):
     ).offset(
         per_page * page
     ).select_and_count()
-
-    return json_response({
-        'page': page,
-        'per_page': per_page,
-        'tag_list': tile_list_data(tag_list),
-        'total_count': count
-    })

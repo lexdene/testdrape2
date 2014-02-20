@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from functools import wraps
+
 import drape
-from drape.util import toInt
+from drape.util import tile_list_data, toInt
 from drape.model import LinkedModel
+from drape.response import json_response
 
 import app
 from app.lib.cache import Cache
@@ -155,3 +158,27 @@ def Error(request, message):
         },
         'frame/Error'
     )
+
+
+def pager_ajax(func):
+    ''' 为ajax请求封装pager相关操作 '''
+    @wraps(func)
+    def pager_controller(request):
+        ''' 处理分页请求 '''
+        # page
+        params = request.params()
+        page = toInt(params.get('page', 0))
+        per_page = toInt(params.get('per_page', 20))
+
+        data, count = func(request, page, per_page)
+
+        return json_response(
+            tile_list_data(data),
+            headers={
+                'X-Record-Page': page,
+                'X-Record-PerPage': per_page,
+                'X-Record-Count': count
+            }
+        )
+
+    return pager_controller

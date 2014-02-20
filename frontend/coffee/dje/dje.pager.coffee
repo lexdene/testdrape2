@@ -63,6 +63,22 @@ do(jq=jQuery)->
 
       this.update()
 
+    this.setDataByResp = (resp)->
+      # 后端统一使用这些响应头来返回page相关数据
+      headers =
+        'X-Record-Page': 'page'
+        'X-Record-PerPage': 'per_page'
+        'X-Record-Count': 'count'
+
+      data = {}
+      for header, key of headers
+        data[key] = resp.getResponseHeader header
+
+      this.setData(
+        data['page'],
+        Math.ceil(data['count'] / data['per_page'])
+      )
+
     this.update = ->
       page_begin = _current_page - Math.floor(_page_width/2)
       page_end = page_begin + _page_width
