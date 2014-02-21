@@ -24,7 +24,7 @@ do(jq=jQuery)->
         this.add_mask
           type: 'success'
           text: '发表成功'
-        window.location = "#{WEB_ROOT}/discuss2/filter_topic"
+        window.location = "#{WEB_ROOT}/discuss/filter_topic"
 
       loading_text: '发表中...'
 

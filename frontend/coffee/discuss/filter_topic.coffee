@@ -13,18 +13,16 @@ do(jq=jQuery)->
         # show loading icon
         loading_icon all_tag_list
         jq.getJSON(
-          "#{WEB_ROOT}/discuss2/ajax_tag_list",
+          "#{WEB_ROOT}/tag/ajax_tag_list",
           {
             page: want_page
           }
-        ).success (tag_list_data)->
+        ).success (tag_list_data, status, resp)->
           # page
-          page_widget.setData(
-            tag_list_data.page,
-            Math.ceil(tag_list_data.total_count/tag_list_data.per_page)
-          )
+          page_widget.setDataByResp resp
 
-          render_tag_list tag_list_data.tag_list
+          # render data
+          render_tag_list tag_list_data
 
       # render tag list
       template = _.template(
@@ -89,20 +87,33 @@ do(jq=jQuery)->
       fetch_topic_list = ->
         # show loading icon
         loading_icon jtopic_list
-        jq.getJSON(
-          "#{WEB_ROOT}/discuss2/ajax_topic_list",
-          {
-            page: topic_list_params.page
-            tag_list: topic_list_params.tag_list.join ','
-          },
-        ).success (topic_list_data)->
-          # page
-          page_widget.setData(
-            topic_list_data.page,
-            Math.ceil(topic_list_data.total_count/topic_list_data.per_page)
-          )
 
-          render_topic_list topic_list_data.topic_list, topic_list_data.now
+        # request data
+        data = ({
+          'name': 'tags[]',
+          'value': tag_id
+        } for tag_id in topic_list_params.tag_list)
+        data.push(
+          'name': 'page'
+          'value': topic_list_params.page
+        )
+
+        # send request
+        jq.getJSON(
+          "#{WEB_ROOT}/discuss/ajax_topic_list", data
+        ).success (topic_list_data, status, resp)->
+          # page
+          page_widget.setDataByResp resp
+
+          # read now from header
+          now = Date resp.getResponseHeader 'Date'
+          if now == null
+            jtopic_list.html dje.error_msg_html
+              msg: '服务器错误: 未返回正确的Date信息'
+            return
+
+          # render data
+          render_topic_list topic_list_data, now
 
       # render topic list
       template = _.template jq('#topic_list_template').html()

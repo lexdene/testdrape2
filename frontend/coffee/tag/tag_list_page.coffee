@@ -16,7 +16,7 @@ do (jq=jQuery)->
         # page
         page_widget.setDataByResp resp
 
-        # reder data
+        # render data
         render_tag_list tag_list_data
 
     render_tag_list = (tag_list)->

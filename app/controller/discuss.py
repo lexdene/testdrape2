@@ -155,3 +155,36 @@ def ajax_post_topic(request, uid):
         'result': 'success',
         'msg': u'发表成功'
     })
+
+
+def filter_topic(request):
+    ''' 筛选主题的页面 '''
+    return frame.default_frame(
+        request,
+        {
+            'title': u'筛选主题'
+        }
+    )
+
+
+@frame.pager_ajax
+def ajax_topic_list(request, page, per_page):
+    # tag list
+    params = request.params()
+    where_obj = None
+    tag_list = params.get('tags', [])
+    if tag_list:
+        where_obj = {
+            'ttb.tag_id': (
+                'in',
+                [int(tag_id) for tag_id in tag_list]
+            )
+        }
+
+    # read data from model
+    topic_model = TopicModel()
+    return topic_model.get_topic_list_and_count(
+        where_obj,
+        per_page,
+        page * per_page
+    )
