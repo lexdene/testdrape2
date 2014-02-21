@@ -11,32 +11,32 @@
     .push_right.right_buttons
       %a#focus_topic_btn.jf_button{:href => "#"} 关注此主题
   .jf_tag_line.common_horizontal_block
-    {% for tag in aTagIter %}
+    {% for tag in tagList %}
     %span.jf_tag {{ tag['content'] | e }}
     {% else %}
     %span.jf_tag 无标签
     {% endfor %}
   .building
-    {% for reply in aReplyIter %}
+    {% for reply in replyList %}
     .floor.common_horizontal_block.clearfix{"data-floor-id" => "{{reply['id']}}", :floor_num => "{{ reply['floor'] }}"}
       %a{:name => "reply{{reply['id']}}"}
       .common_layout_column.floor_left_column
         .user_panel
           .common_avatar_block
-            %img.avatar{:alt => "avatar", :src => "{{ avatar( reply['ui.avatar'] ) }}"}/
+            %img.avatar{:alt => "avatar", :src => "{{ avatar( reply['userinfo.avatar'] ) }}"}/
           .nickname
-            %a.username_btn{"data-userid" => "{{reply['ui.id']}}", :href => "#"}
-              {{reply['ui.nickname']}}
+            %a.username_btn{"data-userid" => "{{reply['userinfo.id']}}", :href => "#"}
+              {{reply['userinfo.nickname']}}
       .common_layout_column.floor_right_column
-        {% if reply['reply_to_id'] > 0 and reply['rtr.id'] %}
+        {% if reply['reply_to_id'] > 0 and reply['reply_to_reply.id'] %}
         .reply_to_reply{"data-reply-to-id" => "{{reply['reply_to_id']}}"}
           %span reply to:
           %span
-            %a.username_btn{"data-userid" => "{{reply['rtrui.id']}}", :href => "#"}
-              {{reply['rtrui.nickname']|e}}
+            %a.username_btn{"data-userid" => "{{reply['reply_to_reply_userinfo.id']}}", :href => "#"}
+              {{reply['reply_to_reply_userinfo.nickname']|e}}
           .content
-            %script{:type => "text/markdown"} {{ reply['rtr.text']|e}}
-            .jf_markdown {{ reply['rtr.text'] |e}}
+            %script{:type => "text/markdown"} {{ reply['reply_to_reply.text']|e}}
+            .jf_markdown {{ reply['reply_to_reply.text'] |e}}
           .buttons
             %a.jump_button{:href => "#"} jump to
         {% endif %}
@@ -45,7 +45,7 @@
             %script{:type => "text/markdown"} {{ reply['text']|e }}
             .jf_markdown {{ reply['text']|e }}
           .floor_edit
-            {% if reply['ui.id'] == uid %}
+            {% if reply['userinfo.id'] == uid %}
             %form.edit_form{:action => "{{ROOT}}/discuss/ajaxEditReply", :method => "post", :onsubmit => "return false;"}
               <input type='hidden' name='reply_id' value='{{reply['id']}}' />
               %textarea{:name => "text", :placeholder => "请输入回复内容..."}
@@ -56,7 +56,7 @@
           .floor_time {{ timestr(reply['ctime']) }}
           .floor_button
             %a.reply_button{:href => "#"} 回复
-            {% if reply['ui.id'] == uid %}
+            {% if reply['userinfo.id'] == uid %}
             %a.edit_button{:href => "#"} 编辑
             {% endif %}
     {% endfor %}

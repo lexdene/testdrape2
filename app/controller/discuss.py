@@ -3,7 +3,7 @@
 import datetime
 
 import drape
-from drape.model import LinkedModel
+from drape.model import LinkedModel, F
 from drape.util import toInt, pick_dict
 from drape.response import json_response
 from drape.http import post_only
@@ -187,4 +187,70 @@ def ajax_topic_list(request, page, per_page):
         where_obj,
         per_page,
         page * per_page
+    )
+
+
+def Topic(request):
+    ''' 主题页面 '''
+    # get topic id from params
+    params = request.params()
+    topic_id = toInt(params.get('id', -1))
+
+    # read topic info from model
+    topic_model = LinkedModel('discuss_topic')
+    topic_info = topic_model.alias(
+        'topic'
+    ).join(
+        'userinfo',
+        {'topic.uid': F('userinfo.id')}
+    ).where({
+        'topic.id': topic_id
+    }).find()
+
+    # error if not exist
+    if topic_info is None:
+        return frame.Error(request, u'无此主题')
+
+    # read reply list from model
+    reply_model = LinkedModel('discuss_reply')
+    reply_list = reply_model.alias(
+        'reply'
+    ).join(
+        'userinfo',
+        {'reply.uid': F('userinfo.id')}
+    ).join(
+        'discuss_reply',
+        {'reply.reply_to_id': F('reply_to_reply.id')},
+        'reply_to_reply'
+    ).join(
+        'userinfo',
+        {'reply_to_reply.uid': F('reply_to_reply_userinfo.id')},
+        'reply_to_reply_userinfo'
+    ).where({
+        'reply.tid': topic_id
+    }).select()
+    for floor, reply in enumerate(reply_list):
+        reply['floor'] = floor + 1
+
+    # read tag list from model
+    tag_model = LinkedModel('tag')
+    tag_list = tag_model.join(
+        'discuss_topic_tag_bridge',
+        {'bridge.tag_id': F('tag.id')},
+        'bridge'
+    ).where({
+        'bridge.topic_id': topic_id
+    }).select()
+
+    # return frame
+    return frame.default_frame(
+        request,
+        {
+            'topicInfo': topic_info,
+            'title': u'%s - 讨论区' % topic_info['title'],
+            'replyList': reply_list,
+            'tagList': tag_list,
+            'timestr': datetime2Str,
+            'avatar': avatarFunc(request)
+        }
     )

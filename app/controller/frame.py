@@ -78,6 +78,7 @@ def html_body(request, variables, path=None):
             'version': app.version,
             'drape_version': drape.version,
             'body': body,
+            'LIBCDN': drape.config.LIBCDN,
         }
     )
 
@@ -103,6 +104,7 @@ def default_frame(request, variables, path=None):
     variables['uid'] = uid
     variables['res'] = res_level
     variables['ROOT'] = request.root_path()
+    variables['LIBCDN'] = drape.config.LIBCDN
 
     content = drape.render.render(
         path,
@@ -154,6 +156,7 @@ def Error(request, message):
     return default_frame(
         request,
         {
+            'title': u'错误',
             'error': message
         },
         'frame/Error'
