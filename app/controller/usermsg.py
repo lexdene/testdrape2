@@ -9,7 +9,7 @@ from drape.validate import validate_params
 from drape.model import LinkedModel
 
 from app.lib.cache import remove_cache
-from frame import DefaultFrame
+from .frame import DefaultFrame
 
 class AjaxPostMsg(JsonController):
     ''' 发表留言 '''
@@ -19,7 +19,7 @@ class AjaxPostMsg(JsonController):
         my_uid = toInt(session.get('uid', -1))
         if my_uid < 0:
             self.set_variable('result', 'failed')
-            self.set_variable('msg', u'请先登录')
+            self.set_variable('msg', '请先登录')
             return
 
         # validate
@@ -29,14 +29,14 @@ class AjaxPostMsg(JsonController):
             [
                 {
                     'key': 'to_uid',
-                    'name': u'目标用户',
+                    'name': '目标用户',
                     'validates': [
                         ('int', ),
                     ]
                 },
                 {
                     'key': 'text',
-                    'name': u'内容',
+                    'name': '内容',
                     'validates': [
                         ('notempty', ),
                         ('len', 1, 200)
@@ -77,7 +77,7 @@ class AjaxPostMsg(JsonController):
 
         # result
         self.set_variable('result', 'success')
-        self.set_variable('msg', u'留言成功')
+        self.set_variable('msg', '留言成功')
 
 
 class AjaxMsgList(JsonController):
@@ -109,7 +109,7 @@ class AjaxMsgList(JsonController):
         session = self.session()
         my_uid = toInt(session.get('uid', -1))
         if my_uid < 0:
-            self.set_variable('errormsg', u'未登录用户无法查看留言板')
+            self.set_variable('errormsg', '未登录用户无法查看留言板')
             self.set_variable('data', [])
             return
 
@@ -162,4 +162,4 @@ class AjaxMsgList(JsonController):
 
 @DefaultFrame.controller
 def MyMsgList(self):
-    self.setTitle(u'我的留言板')
+    self.setTitle('我的留言板')

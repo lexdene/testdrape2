@@ -44,7 +44,7 @@ def ajax_check_login(fun):
         uid = toInt(session.get('uid', -1))
         if uid < 0:
             self.set_variable('result', 'failed')
-            self.set_variable('msg', u'请先登录')
+            self.set_variable('msg', '请先登录')
             return
 
         fun(self)

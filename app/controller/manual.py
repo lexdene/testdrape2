@@ -28,13 +28,13 @@ class Layout(frame.DefaultFrame):
     def process(self):
         subtitle = self.runbox().variables().get('subtitle')
         self.set_variable('subtitle', subtitle)
-        self.setTitle(u'%s - drape开发手册' % subtitle)
+        self.setTitle('%s - drape开发手册' % subtitle)
 
 
 class Index(ManualFrame):
     ''' 简介 '''
     def process(self):
-        self.set_sub_title(u'简介')
+        self.set_sub_title('简介')
 
 
 class Mvc(ManualFrame):

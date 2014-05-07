@@ -129,7 +129,7 @@ class TopicModel(drape.model.LinkedModel):
                 'topic_info/%s' % topic['id'],
                 lambda: self.get_topic_info(topic['id'])
             )
-            for key, value in topic_info.iteritems():
+            for key, value in topic_info.items():
                 if key not in topic:
                     topic[key] = value
 

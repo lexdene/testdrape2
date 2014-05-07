@@ -22,7 +22,7 @@ def ajax_user_info(request):
         return json_response({
             'uid': uid,
             'result': 'failed',
-            'msg': u'无此用户'
+            'msg': '无此用户'
         })
 
     # topic count
@@ -54,7 +54,7 @@ def MainPage(request):
     userinfo_model = LinkedModel('userinfo')
     userinfo = userinfo_model.where(id=uid).find()
     if userinfo is None:
-        return frame.Error(request, u'无此用户')
+        return frame.Error(request, '无此用户')
 
     return frame.default_frame(
         request,

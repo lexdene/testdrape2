@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import StringIO
+import io
 import random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -13,7 +13,7 @@ _letter_cases = "abcdefghjkmnpqrstuvwxy"
 # 大写字母
 _upper_cases = _letter_cases.upper()
 # 数字
-_numbers = ''.join(map(str, range(3, 10)))
+_numbers = ''.join(map(str, list(range(3, 10))))
 # 全部可用字符
 CHARS_COLLECTION = ''.join((_letter_cases, _upper_cases, _numbers))
 
@@ -67,8 +67,8 @@ def _draw_points(img, draw):
     ''' 画干扰点 '''
     assert 0 <= POINT_CHANCE <= 100
 
-    for i in xrange(WIDTH):
-        for j in xrange(HEIGHT):
+    for i in range(WIDTH):
+        for j in range(HEIGHT):
             tmp = random.randint(0, 100)
             if tmp < POINT_CHANCE:
                 draw.point(
@@ -149,7 +149,7 @@ def create_image_body(request):
     )
 
     img = _create_image(code)
-    output = StringIO.StringIO()
+    output = io.BytesIO()
     img.save(output, format='PNG')
     return output.getvalue()
 

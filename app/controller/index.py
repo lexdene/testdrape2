@@ -2,16 +2,17 @@
 
 import drape
 
-import frame
+from . import frame
 import app
 
 
-def Index(request):
+def index(request):
     return frame.default_frame(
         request,
         {
-            'title': u'首页',
+            'title': '首页',
             'testdrape_version': app.version,
             'drape_version': drape.version
-        }
+        },
+        'index/Index'
     )

@@ -22,7 +22,7 @@ def ajax_focus(request):
     if current_uid < 0:
         return json_response({
             'result': 'failed',
-            'msg': u'请先登录'
+            'msg': '请先登录'
         })
 
     # target type and target id
@@ -35,25 +35,25 @@ def ajax_focus(request):
     if not focus_type in ('user', 'topic', 'tag'):
         return json_response({
             'result': 'failed',
-            'msg': u'参数非法: type'
+            'msg': '参数非法: type'
         })
 
     if target_id < 0:
         return json_response({
             'result': 'failed',
-            'msg': u'参数非法: target'
+            'msg': '参数非法: target'
         })
 
     if not dire in ('add', 'remove'):
         return json_response({
             'result': 'failed',
-            'msg': u'参数非法: dire'
+            'msg': '参数非法: dire'
         })
 
     if current_uid == target_id and 'user' == focus_type:
         return json_response({
             'result': 'failed',
-            'msg': u'不可以关注自己'
+            'msg': '不可以关注自己'
         })
 
     # check repeat
@@ -66,7 +66,7 @@ def ajax_focus(request):
     ).find():
         return json_response({
             'result': 'failed',
-            'msg': u'已经关注，不可以重复关注'
+            'msg': '已经关注，不可以重复关注'
         })
 
     # save to db

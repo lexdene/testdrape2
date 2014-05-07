@@ -142,7 +142,7 @@ class DbFrame(DefaultFrame):
 @DefaultFrame.controller
 def layout(self):
     ''' 此页的布局 '''
-    self.setTitle(u'数据库')
+    self.setTitle('数据库')
 
 
 @DbFrame.controller
@@ -154,7 +154,7 @@ def create_tables(self):
     result = []
     for table_name, table_sql in __tables__:
         sql = (
-            u'CREATE TABLE IF NOT EXISTS '
+            'CREATE TABLE IF NOT EXISTS '
             '`%s%s`(\n%s)'
             'ENGINE=MyISAM DEFAULT CHARSET=utf8'
         ) % (

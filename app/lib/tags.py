@@ -15,10 +15,7 @@ class Tags(object):
         tagList = tagString.split(self.__separator)
 
         # remove empty item
-        tagList = filter(
-            lambda x: x != '',
-            tagList
-        )
+        tagList = [x for x in tagList if x != '']
 
         self.__tagList = tagList
 
@@ -28,20 +25,20 @@ class Tags(object):
     def validate(self):
         result = dict(
             result=True,
-            msg=u'',
+            msg='',
         )
 
         # is empty
         if len(self.tagList()) == 0:
             result['result'] = False
-            result['msg'] = u'标签不能为空'
+            result['msg'] = '标签不能为空'
 
         # 只能包含英文字母、数字、下划线、减号、井号
         reg = re.compile('^[-0-9a-zA-Z_#]+$')
         for tag in self.tagList():
             if not reg.match(tag):
                 result['result'] = False
-                result['msg'] = u'只能包含英文字母、数字、下划线、减号、井号'
+                result['msg'] = '只能包含英文字母、数字、下划线、减号、井号'
                 result['debug'] = tag
                 break
 
@@ -78,7 +75,7 @@ class Tags(object):
 if '__main__' == __name__:
     tags = Tags()
     tags.setTagString('')
-    print tags.tagList()
+    print(tags.tagList())
 
     tags.setTagString('  a  b  c  ')
-    print tags.tagList()
+    print(tags.tagList())

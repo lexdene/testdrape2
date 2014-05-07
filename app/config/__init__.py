@@ -1,2 +1,2 @@
-from config import *
-from distribution import *
+from .config import *
+from .distribution import *

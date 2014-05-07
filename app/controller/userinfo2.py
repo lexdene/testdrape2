@@ -24,7 +24,7 @@ def ajax_user_info(self):
     userinfo = userinfo_model.where(id=uid).find()
     if userinfo is None:
         self.set_variable('result', 'failed')
-        self.set_variable('msg', u'无此用户')
+        self.set_variable('msg', '无此用户')
         return
 
     # ctime

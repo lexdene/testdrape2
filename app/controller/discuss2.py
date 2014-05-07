@@ -22,7 +22,7 @@ DEFAULT_CLS = 'filter_topic'
 @DefaultFrame.controller
 def filter_topic(self):
     ''' 筛选主题的页面 '''
-    self.setTitle(u'筛选主题')
+    self.setTitle('筛选主题')
 
 
 @JsonController.controller
@@ -98,7 +98,7 @@ def ajax_topic_list(self):
 @check_login
 def post_topic(self):
     ''' 发表主题的页面 '''
-    self.setTitle(u'发表新主题')
+    self.setTitle('发表新主题')
 
 
 @JsonController.controller
@@ -107,7 +107,7 @@ def post_topic(self):
 def ajax_post_topic(self):
     ''' 发表主题的ajax接口 '''
     params = self.params()
-    for key, value in params.iteritems():
+    for key, value in params.items():
         self.set_variable(key, value)
 
     session = self.session()
@@ -117,7 +117,7 @@ def ajax_post_topic(self):
     validates = [
         dict(
             key='title',
-            name=u'标题',
+            name='标题',
             validates=[
                 ('notempty',),
                 ('len', 4, 50)
@@ -125,7 +125,7 @@ def ajax_post_topic(self):
         ),
         dict(
             key='text',
-            name=u'内容',
+            name='内容',
             validates=[
                 ('notempty',),
                 ('len', 4, 500)
@@ -161,4 +161,4 @@ def ajax_post_topic(self):
     )
 
     self.set_variable('result', 'success')
-    self.set_variable('msg', u'发表成功')
+    self.set_variable('msg', '发表成功')

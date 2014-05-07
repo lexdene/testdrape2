@@ -4,13 +4,13 @@ import datetime
 
 import drape
 
-import frame
+from . import frame
 from app.lib.text import datetime2Str
 from app.lib.cache import remove_cache
 
 class Write(frame.DefaultFrame):
 	def process(self):
-		self.setTitle(u'发送私信')
+		self.setTitle('发送私信')
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))
 		if uid < 0:
@@ -22,7 +22,7 @@ class Write(frame.DefaultFrame):
 		aUserinfoModel = drape.model.LinkedModel('userinfo')
 		to_userinfo = aUserinfoModel.where(id=to_uid).find()
 		if to_userinfo is None:
-			self.Error(u'用户不存在: %s' % to_uid)
+			self.Error('用户不存在: %s' % to_uid)
 		
 		self.set_variable('to_userinfo',to_userinfo)
 
@@ -93,7 +93,7 @@ class MailBoxLayout(frame.DefaultFrame):
 
 class ReceiveBox(MailBox):
 	def process(self):
-		self.setTitle(u'收件箱')
+		self.setTitle('收件箱')
 		
 		aSession = self.session()
 		uid = drape.util.toInt(aSession.get('uid',-1))

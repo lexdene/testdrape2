@@ -14,42 +14,42 @@ from app.lib import validate_code
 
 _common_validates = {
     'loginname': {
-        'name': u'登录名',
+        'name': '登录名',
         'validates': (
             ('notempty',),
             ('len', 4, 20),
         )
     },
     'password': {
-        'name': u'密码',
+        'name': '密码',
         'validates': (
             ('notempty',),
             ('len', 4, 20)
         )
     },
     'repassword': {
-        'name': u'重复密码',
+        'name': '重复密码',
         'validates': (
             ('notempty',),
             ('equal', 'password')
         ),
     },
     'nickname': {
-        'name': u'昵称',
+        'name': '昵称',
         'validates': (
             ('notempty',),
             ('len', 4, 20)
         )
     },
     'email': {
-        'name': u'昵称',
+        'name': '昵称',
         'validates': (
             ('notempty',),
             ('email',)
         )
     },
     'intro': {
-        'name': u'个人介绍',
+        'name': '个人介绍',
         'validates': (
             ('notempty',),
             ('len', 4, 1000)
@@ -93,7 +93,7 @@ def Login(request):
     return frame.default_frame(
         request,
         {
-            'title': u'登录',
+            'title': '登录',
             'redirect': params.get('redirect', '/home'),
             'autologin_daylength': config.AUTOLOGIN_DAY_LENGTH
         }
@@ -111,7 +111,7 @@ def ajaxLogin(request):
     ):
         return json_response({
             'result': 'failed',
-            'msg': u'验证码错误'
+            'msg': '验证码错误'
         })
 
     # validate params
@@ -125,7 +125,7 @@ def ajaxLogin(request):
     if result:
         return json_response({
             'result': 'failed',
-            'msg': u'填写内容不符合要求',
+            'msg': '填写内容不符合要求',
             'validate_result': result,
         })
 
@@ -137,7 +137,7 @@ def ajaxLogin(request):
     if login_info is None:
         return json_response({
             'result': 'failed',
-            'msg': u'登录名不存在'
+            'msg': '登录名不存在'
         })
     elif not validate_password(
         params['password'],
@@ -145,7 +145,7 @@ def ajaxLogin(request):
     ):
         return json_response({
             'result': 'failed',
-            'msg': u'密码错误'
+            'msg': '密码错误'
         })
     else:
         session = request.session
@@ -171,7 +171,7 @@ def Logout(request):
     return frame.default_frame(
         request,
         {
-            'title': u'退出登录',
+            'title': '退出登录',
             'redirect': params.get('redirect', ''),
         }
     )
@@ -181,7 +181,7 @@ def Register(request):
     return frame.default_frame(
         request,
         {
-            'title': u'注册',
+            'title': '注册',
             'redirect': request.params().get('redirect', '/'),
         }
     )
@@ -198,7 +198,7 @@ def ajaxRegister(request):
     ):
         return json_response({
             'result': 'failed',
-            'msg': u'验证码错误'
+            'msg': '验证码错误'
         })
 
     # validate params
@@ -215,7 +215,7 @@ def ajaxRegister(request):
     if result:
         return json_response({
             'result': 'failed',
-            'msg': u'填写内容不符合要求',
+            'msg': '填写内容不符合要求',
             'validate_result': result,
         })
 
@@ -229,7 +229,7 @@ def ajaxRegister(request):
     if exist_user:
         return json_response({
             'result': 'failed',
-            'msg': u'存在登录名相同的用户'
+            'msg': '存在登录名相同的用户'
         })
 
     # save to db

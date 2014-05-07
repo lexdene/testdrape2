@@ -18,7 +18,7 @@ class DateList(frame.DefaultFrame):
         日志的日期列表
     '''
     def process(self):
-        self.setTitle(u'日期列表 - 查看日志')
+        self.setTitle('日期列表 - 查看日志')
 
         log_dir_path = 'data/log'
         datelist = [f.split('.')[0] for f in listdir(log_dir_path)]
@@ -31,7 +31,7 @@ class Content(frame.DefaultFrame):
         日志的内容
     '''
     def process(self):
-        self.setTitle(u'日志内容 - 查看日志')
+        self.setTitle('日志内容 - 查看日志')
 
         params = self.params()
         date = params.get('date', '')

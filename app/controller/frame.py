@@ -51,7 +51,7 @@ class Resource(object):
 
 def html_body(request, variables, path=None):
     if path is None:
-        path = request.controller_path
+        path = request.path()[1:]
 
     variables['ROOT'] = request.root_path()
     variables['LIBCDN'] = drape.config.LIBCDN
@@ -72,7 +72,7 @@ def html_body(request, variables, path=None):
         {
             'reslist': request.res,
             'ROOT': request.root_path(),
-            'title': variables.get('title', u'无标题'),
+            'title': variables.get('title', '无标题'),
             'my_userid': uid,
             'coffee_debug': drape.config.COFFEE_IS_DEBUG,
             'version': app.version,
@@ -90,7 +90,7 @@ def html_body(request, variables, path=None):
 def default_frame(request, variables, path=None):
     # path
     if path is None:
-        path = request.controller_path
+        path = request.path()[1:]
 
     # uid
     session = request.session
@@ -146,7 +146,7 @@ def default_frame(request, variables, path=None):
             'notice_count': notice_count,
             'mail_count': mail_count,
             'body': content,
-            'title': variables.get('title', u'无标题'),
+            'title': variables.get('title', '无标题'),
         },
         'frame/Layout'
     )
@@ -156,7 +156,7 @@ def Error(request, message):
     return default_frame(
         request,
         {
-            'title': u'错误',
+            'title': '错误',
             'error': message
         },
         'frame/Error'
@@ -201,7 +201,7 @@ def ajax_check_login(fun):
         if uid < 0:
             return json_response({
                 'result': 'failed',
-                'msg': u'请先登录'
+                'msg': '请先登录'
             })
 
         return fun(request, uid)

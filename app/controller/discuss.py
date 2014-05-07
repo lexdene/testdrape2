@@ -21,27 +21,27 @@ DEFAULT_CONTROLLER = 'List'
 
 _common_validates = {
     'title': {
-        'name': u'标题',
+        'name': '标题',
         'validates': (
             ('notempty',),
             ('len', 4, 50)
         )
     },
     'text': {
-        'name': u'内容',
+        'name': '内容',
         'validates': (
             ('notempty',),
             ('len', 4, 500)
         )
     },
     'tid': {
-        'name': u'主题id',
+        'name': '主题id',
         'validates': (
             ('int',),
         )
     },
     'reply_to_id': {
-        'name': u'回复id',
+        'name': '回复id',
         'validates': (
             ('int',),
         )
@@ -66,14 +66,14 @@ def List(request):
             tag_id=tagid
         ).count()
 
-        title = u'标签: %s' % tag_info['content']
+        title = '标签: %s' % tag_info['content']
 
         where_obj = {
             'ttb.tag_id': tagid
         }
     else:
         tag_info = None
-        title = u'讨论区'
+        title = '讨论区'
 
     # topic list
     per_page = 10
@@ -116,7 +116,7 @@ def post_topic(request):
     return frame.default_frame(
         request,
         {
-            'title': u'发表新主题'
+            'title': '发表新主题'
         }
     )
 
@@ -138,7 +138,7 @@ def ajax_post_topic(request, uid):
     if result:
         return json_response({
             'result': 'failed',
-            'msg': u'填写内容不符合要求',
+            'msg': '填写内容不符合要求',
             'validate_result': result,
         })
 
@@ -166,7 +166,7 @@ def ajax_post_topic(request, uid):
     # response
     return json_response({
         'result': 'success',
-        'msg': u'发表成功'
+        'msg': '发表成功'
     })
 
 
@@ -175,7 +175,7 @@ def filter_topic(request):
     return frame.default_frame(
         request,
         {
-            'title': u'筛选主题'
+            'title': '筛选主题'
         }
     )
 
@@ -222,7 +222,7 @@ def Topic(request):
 
     # error if not exist
     if topic_info is None:
-        return frame.Error(request, u'无此主题')
+        return frame.Error(request, '无此主题')
 
     # read reply list from model
     reply_model = LinkedModel('discuss_reply')
@@ -260,7 +260,7 @@ def Topic(request):
         request,
         {
             'topicInfo': topic_info,
-            'title': u'%s - 讨论区' % topic_info['title'],
+            'title': '%s - 讨论区' % topic_info['title'],
             'replyList': reply_list,
             'tagList': tag_list,
             'timestr': datetime2Str,
@@ -284,7 +284,7 @@ def ajaxPostReply(request, uid):
     if result:
         return json_response({
             'result': 'failed',
-            'msg': u'填写内容不符合要求',
+            'msg': '填写内容不符合要求',
             'validate_result': result,
         })
 
@@ -388,5 +388,5 @@ def ajaxPostReply(request, uid):
     # success
     return json_response({
         'result': 'success',
-        'msg': u'回复成功'
+        'msg': '回复成功'
     })

@@ -124,7 +124,7 @@ def tag_list_page(request):
     return frame.default_frame(
         request,
         {
-            'title': u'全部标签'
+            'title': '全部标签'
         }
     )
 

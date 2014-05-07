@@ -23,7 +23,7 @@ def HomeLine(request):
     return frame.default_frame(
         request,
         {
-            'title': u'首页',
+            'title': '首页',
         }
     )
 
