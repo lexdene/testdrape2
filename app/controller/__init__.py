@@ -1,3 +1,3 @@
-__all__ = ['frame', 'common', 'index', 'user']
+__all__ = ['frame', 'common', 'index', 'user', 'db']
 
 from . import *

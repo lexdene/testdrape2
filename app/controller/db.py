@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 ''' create tables in db '''
 from drape.db import Db
-
-from .frame import DefaultFrame
-
+from drape.response import json_response
 
 __tables__ = (
     ("logininfo", (
@@ -131,22 +129,12 @@ __tables__ = (
 )
 
 
-class DbFrame(DefaultFrame):
-    ''' 此页的模板 '''
-    def __init__(self, path):
-        super(DbFrame, self).__init__(path)
-        self._set_parent('db/layout')
-        self._set_template_path('/db/CreateTables')
-
-
-@DefaultFrame.controller
 def layout(self):
     ''' 此页的布局 '''
     self.setTitle('数据库')
 
 
-@DbFrame.controller
-def create_tables(self):
+def create_tables(request):
     ''' 创建数据表 '''
     db_object = Db.singleton()
     table_prefix = db_object.table_prefix()
@@ -167,10 +155,9 @@ def create_tables(self):
             'res': res
         })
 
-    self.set_variable('result', result)
+    return json_response(result)
 
 
-@DbFrame.controller
 def drop_tables(self):
     ''' 删除数据表 '''
     db_object = Db.singleton()

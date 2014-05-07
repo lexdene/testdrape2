@@ -225,7 +225,7 @@ def ajaxRegister(request):
     # already exist same loginname
     exist_user = login_model.where(
         loginname=params.get('loginname')
-    ).find()
+    ).exist()
     if exist_user:
         return json_response({
             'result': 'failed',
