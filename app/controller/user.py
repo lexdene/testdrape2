@@ -4,7 +4,6 @@ import datetime
 
 from drape.util import md5sum, random_str, pick_dict
 from drape.response import json_response
-from drape.http import post_only
 from drape.validate import validate_params
 from drape.model import LinkedModel
 from drape import config
@@ -100,7 +99,6 @@ def Login(request):
     )
 
 
-@post_only
 def ajaxLogin(request):
     params = request.params()
 
@@ -187,7 +185,6 @@ def Register(request):
     )
 
 
-@post_only
 def ajaxRegister(request):
     params = request.params()
 

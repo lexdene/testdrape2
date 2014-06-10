@@ -12,15 +12,13 @@ routes = [
         GET,
         'db.create_tables'
     ),
-    Url(
-        '^/user/Login$',
-        GET,
-        'user.Login'
-    ),
-    Url(
-        '^/user/ajaxRegister$',
-        POST,
-        'user.ajaxRegister'
+    Group(
+        'user',
+        Url.get('Register'),
+        Url.post('ajaxRegister'),
+        Url.get('Login'),
+        Url.post('ajaxLogin'),
+        Url.get('Logout'),
     ),
     Url(
         '^/common/validate_code_image$',
