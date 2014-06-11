@@ -26,4 +26,9 @@ ROUTES = [
         GET,
         'common.validate_code_image'
     ),
+    Url(
+        '^/discuss(/List)?$',
+        GET,
+        'discuss.List'
+    ),
 ]

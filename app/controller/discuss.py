@@ -6,17 +6,13 @@ import drape
 from drape.model import LinkedModel, F
 from drape.util import toInt, pick_dict
 from drape.response import json_response
-from drape.http import post_only
 from drape.validate import validate_params
 
 from app.lib.text import datetime2Str, avatarFunc
 from app.model.discuss import TopicModel, add_new_topic
 from app.lib.tags import Tags
-from app.lib.cache import remove_cache
 
 from . import widget, frame
-
-DEFAULT_CONTROLLER = 'List'
 
 
 _common_validates = {
@@ -121,7 +117,6 @@ def post_topic(request):
     )
 
 
-@post_only
 @frame.ajax_check_login
 def ajax_post_topic(request, uid):
     ''' 发表主题的ajax接口 '''

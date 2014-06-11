@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 'some common functions that all controllers need'
 
+import inspect
 from functools import wraps
 
 import drape
@@ -93,7 +94,13 @@ def default_frame(request, variables, path=None):
     'frame by default frame'
     # path
     if path is None:
-        path = request.path()[1:]
+        cur_frame = inspect.currentframe()
+        back_frame = cur_frame.f_back
+        back_module = inspect.getmodule(back_frame)
+        path = '%s/%s' % (
+            back_module.__name__.split('.')[-1],
+            back_frame.f_code.co_name
+        )
 
     # uid
     session = request.session
