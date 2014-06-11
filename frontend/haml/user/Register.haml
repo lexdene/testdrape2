@@ -1,5 +1,5 @@
 {% include 'widget/form.html' %}
-{% do res.addResByPath('js') -%}
+{% do res.add(res_type='js') -%}
 .user_login.common_center_block
   %h1 注册
   %form#register_form.jdmd_form{:action => "{{ROOT}}/user/ajaxRegister", "data-redirect" => "{{redirect}}", :method => "post"}

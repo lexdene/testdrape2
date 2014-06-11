@@ -1,7 +1,8 @@
-from drape.router import Resource, Group, Url
-from drape.request import GET, POST
+'define routes'
+from drape.router import Group, Url
+from drape.request import GET
 
-routes = [
+ROUTES = [
     Url(
         '^/$',
         GET,

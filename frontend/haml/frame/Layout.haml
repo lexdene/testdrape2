@@ -1,9 +1,9 @@
-{%- do res.add(LIBCDN + '/jquery/1.9.1/jquery.min', 'publicjs') %}
-{%- do res.add(LIBCDN + '/underscore/1.6.0/underscore-min', 'publicjs') %}
+{%- do res.add('jquery/1.9.1/jquery.min', 'libjs') %}
+{%- do res.add('underscore/1.6.0/underscore-min', 'libjs') %}
 {%- do res.add('frame/notice','js') %}
 {%- do res.add('jdmd_widget','css') %}
 {%- do res.add('dje/dje.util','js') %}
-{%- do res.addResByPath() %}
+{%- do res.add() %}
 {%- do res.add('Common', 'js') %}
 {%- do res.add('hot/LoadHot', 'js') %}
 .layout_head_line.clearfix

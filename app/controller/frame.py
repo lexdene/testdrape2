@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+'some common functions that all controllers need'
 
 from functools import wraps
 
@@ -28,32 +29,33 @@ class Resource(object):
             yield res
 
     def create_level(self, path):
+        'create a new resource level'
         res = Resource(path)
         self.__levels.append(res)
         return res
 
-    def add(self, path, type=('js', 'css'), version=0):
-        if isinstance(type, tuple):
-            for i in type:
+    def add(self, path=None, res_type=('js', 'css'), version=0):
+        'add resource'
+        if path is None:
+            path = self.__path
+
+        if isinstance(res_type, tuple):
+            for i in res_type:
                 self.add(path, i, version)
         else:
             self.__resources.append(dict(
                 path=path,
-                type=type,
+                res_type=res_type,
                 version=version
             ))
 
-    def addResByPath(self, type=('js', 'css'), version=0):
-        path = self.__path
-        self.add(path, type, version)
-
 
 def html_body(request, variables, path=None):
+    'frame by html body'
     if path is None:
         path = request.path()[1:]
 
     variables['ROOT'] = request.root_path()
-    variables['LIBCDN'] = drape.config.LIBCDN
 
     if request.res is None:
         request.res = Resource()
@@ -73,11 +75,12 @@ def html_body(request, variables, path=None):
             'ROOT': request.root_path(),
             'title': variables.get('title', '无标题'),
             'my_userid': uid,
+            # pylint: disable=no-member
             'coffee_debug': drape.config.COFFEE_IS_DEBUG,
             'version': app.version,
             'drape_version': drape.version,
             'body': body,
-            'LIBCDN': drape.config.LIBCDN,
+            'LIBCDN': drape.config.LIBCDN,  # pylint: disable=no-member
         }
     )
 
@@ -87,6 +90,7 @@ def html_body(request, variables, path=None):
 
 
 def default_frame(request, variables, path=None):
+    'frame by default frame'
     # path
     if path is None:
         path = request.path()[1:]
@@ -103,7 +107,6 @@ def default_frame(request, variables, path=None):
     variables['uid'] = uid
     variables['res'] = res_level
     variables['ROOT'] = request.root_path()
-    variables['LIBCDN'] = drape.config.LIBCDN
 
     content = drape.render.render(
         path,
@@ -133,7 +136,8 @@ def default_frame(request, variables, path=None):
     )
 
 
-def Error(request, message):
+def show_error_page(request, message):
+    'show error page'
     return default_frame(
         request,
         {

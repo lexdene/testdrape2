@@ -1,5 +1,5 @@
 {% include 'widget/form.html' %}
-{% do res.addResByPath('js') %}
+{% do res.add(res_type='js') %}
 .user_login.common_center_block
   %h1 登录
   %form#submit_form.jdmd_form{:action => "{{ROOT}}/user/ajaxLogin", "data-redirect" => "{{redirect}}", :method => "post", :onsubmit => "return false;"}

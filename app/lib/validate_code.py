@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+'validate code image and validate'
 
 import io
 import random
@@ -9,13 +10,13 @@ from drape.util import md5sum
 
 # 字符
 # 小写字母，去除可能干扰的i，l，o，z
-_letter_cases = "abcdefghjkmnpqrstuvwxy"
+_LETTER_CASES = "abcdefghjkmnpqrstuvwxy"
 # 大写字母
-_upper_cases = _letter_cases.upper()
+_UPPER_CASES = _LETTER_CASES.upper()
 # 数字
-_numbers = ''.join(map(str, list(range(3, 10))))
+_NUMBERS = ''.join((str(i) for i in range(3, 10)))
 # 全部可用字符
-CHARS_COLLECTION = ''.join((_letter_cases, _upper_cases, _numbers))
+CHARS_COLLECTION = ''.join((_LETTER_CASES, _UPPER_CASES, _NUMBERS))
 
 # session key
 SESSION_KEY = 'validate_code_session_key'
@@ -32,21 +33,22 @@ BG_COLOR = (255, 255, 255)
 # 前景色
 FG_COLOR = (0, 0, 255)
 # 字体文件路径
-FONT_FILE = config.FONT_FILE_PATH
+FONT_FILE = config.FONT_FILE_PATH  # pylint: disable=no-member
 # 字体大小
 FONT_SIZE = 18
 # 是否画干扰线
 DRAW_LINES = True
 # 干扰线的条数范围
-LINE_NUM_RANGE = (3, 5)
+LINE_NUM_RANGE = (1, 3)
 # 是否画干扰点
 DRAW_POINTS = True
 # 干扰点出现的概率, 大小范围[0, 100]
-POINT_CHANCE = 5
+POINT_CHANCE = 1
 
 
-def _draw_lines(img, draw):
+def _draw_lines(draw):
     ''' 画干扰线 '''
+    # pylint: disable=star-args
     for _ in range(random.randint(*LINE_NUM_RANGE)):
         draw.line(
             [
@@ -63,7 +65,7 @@ def _draw_lines(img, draw):
         )
 
 
-def _draw_points(img, draw):
+def _draw_points(draw):
     ''' 画干扰点 '''
     assert 0 <= POINT_CHANCE <= 100
 
@@ -77,7 +79,7 @@ def _draw_points(img, draw):
                 )
 
 
-def _draw_text(img, draw, text):
+def _draw_text(draw, text):
     ''' 画文本 '''
     # 混入空格
     text = ' '.join(list(text))
@@ -99,6 +101,7 @@ def _draw_text(img, draw, text):
 
 
 def _create_image(code):
+    'create validate image by code'
     # 创建图形
     img = Image.new(IMAGE_MODE, (WIDTH, HEIGHT), BG_COLOR)
     # 创建画笔
@@ -106,14 +109,14 @@ def _create_image(code):
 
     # 干扰线
     if DRAW_LINES:
-        _draw_lines(img, draw)
+        _draw_lines(draw)
 
     # 干扰点
     if DRAW_POINTS:
-        _draw_points(img, draw)
+        _draw_points(draw)
 
     # 画文字
-    _draw_text(img, draw, code)
+    _draw_text(draw, code)
 
     # 图形扭曲
     img = img.transform(
@@ -137,6 +140,7 @@ def _create_image(code):
 
 
 def create_image_body(request):
+    'create validate image response body'
     code = ''.join(random.sample(
         CHARS_COLLECTION,
         4
@@ -155,6 +159,7 @@ def create_image_body(request):
 
 
 def validate(request, code):
+    'validate by code'
     session = request.session
     hashed_code = session.get(SESSION_KEY)
     session.remove(SESSION_KEY)

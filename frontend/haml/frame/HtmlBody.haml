@@ -8,13 +8,13 @@
     %meta{:content => "testdrape,drape,drape是一个Python的web后台框架", :name => "description"}/
     %title {{title}}
     {% for res in reslist -%}
-    {% if res.type == 'css' -%}
+    {% if res.res_type == 'css' -%}
     {%- if res.path[0] == '/' -%}
     %link{:href => "/slash/{{res.path}}.css", :rel => "stylesheet", :type => "text/css"}/
     {%- else -%}
     %link{:href => "{{ROOT}}/static/css/{{res.path}}.css?v={{res.version}}", :rel => "stylesheet", :type => "text/css"}/
     {%- endif -%}
-    {%- elif res.type == 'publiccss' -%}
+    {%- elif res.res_type == 'publiccss' -%}
     %link{:href => "{{res.path}}.css", :rel => "stylesheet", :type => "text/css"}/
     {%- endif -%}
     {%- endfor %}
@@ -31,9 +31,11 @@
   %body
     {{body}}
     {% for res in reslist -%}
-    {%- if res.type == 'publicjs' -%}
+    {%- if res.res_type == 'publicjs' -%}
     %script{:language => "javascript", :src => "{{res.path}}.js", :type => "text/javascript"}
-    {%- elif res.type == 'js' -%}
+    {%- elif res.res_type == 'libjs' -%}
+    %script{:language => "javascript", :src => "{{LIBCDN}}/{{res.path}}.js", :type => "text/javascript"}
+    {%- elif res.res_type == 'js' -%}
     {%- if res.path[0] == '/' -%}
     %script{:language => "javascript", :src => "/slash/{{res.path}}.js", :type => "text/javascript"}
     {%- elif coffee_debug -%}
@@ -41,7 +43,7 @@
     {%- else -%}
     %script{:language => "javascript", :src => "{{ROOT}}/static/js/{{res.path}}.min.js?v={{ res.version }}", :type => "text/javascript"}
     {%- endif -%}
-    {%- elif res.type == 'css' -%}
+    {%- elif res.res_type == 'css' -%}
     {%- else -%}
     %script{:language => "javascript", :src => "/unknown/{{res.path}}.js", :type => "text/javascript"}
     {%- endif -%}

@@ -1,5 +1,5 @@
 {% do res.add('dje/dje.count_down', 'js') -%}
-{% do res.addResByPath('js') %}
+{% do res.add(res_type='js') %}
 .user_login.common_center_block
   .common_page_title 退出成功
   #count_down{"data-location" => "{{redirect}}", "data-time" => "3"}
