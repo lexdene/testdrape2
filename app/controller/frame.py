@@ -4,11 +4,10 @@ from functools import wraps
 
 import drape
 from drape.util import tile_list_data, toInt
-from drape.model import LinkedModel
 from drape.response import json_response
 
 import app
-from app.lib.cache import Cache
+from app.model import caches
 
 
 class Resource(object):
@@ -112,27 +111,9 @@ def default_frame(request, variables, path=None):
     )
 
     if uid > 0:
-        cache = Cache()
-        userinfo = cache.get(
-            'userinfo/%s' % uid,
-            lambda: LinkedModel('userinfo').where(id=uid).find()
-        )
-
-        notice_count = cache.get(
-            'notice_count/%s' % uid,
-            lambda: LinkedModel('notice').where(
-                    to_uid=uid,
-                    isRead=0,
-                ).count()
-        )
-
-        mail_count = cache.get(
-            'mail_count/%s' % uid,
-            lambda: LinkedModel('mail').where(
-                    to_uid=uid,
-                    isRead=0
-                ).count()
-        )
+        userinfo = caches.get_userinfo(uid)
+        notice_count = caches.get_notice_count(uid)
+        mail_count = caches.get_mail_count(uid)
     else:
         userinfo = None
         notice_count = 0
