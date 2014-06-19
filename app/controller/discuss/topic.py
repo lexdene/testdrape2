@@ -107,7 +107,7 @@ def index(request):
     )
 
 
-def post_topic(request):
+def new(request):
     ''' 发表主题的页面 '''
     return frame.default_frame(
         request,

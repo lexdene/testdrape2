@@ -1,5 +1,5 @@
 {% include 'widget/form.html' %}
-{% do res.addResByPath() -%}
+{% do res.add() -%}
 .discuss2_post_topic
   %h1 发表新主题
   .form_block
@@ -24,4 +24,4 @@
         %span.jf_hint
         %span.c
           %input.jdmd_validate_submit{:type => "submit"}/
-  %a{:href => "{{ROOT}}/discuss2/filter_topic"} 返回主题列表
+  %a{:href => "{{ROOT}}/discuss/topics/index"} 返回主题列表
