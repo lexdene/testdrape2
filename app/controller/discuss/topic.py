@@ -12,7 +12,7 @@ from app.lib.text import datetime2Str, avatarFunc
 from app.model.discuss import TopicModel, add_new_topic
 from app.lib.tags import Tags
 
-from . import widget, frame
+from .. import widget, frame
 
 
 _common_validates = {
@@ -45,7 +45,7 @@ _common_validates = {
 }
 
 
-def List(request):
+def index(request):
     params = request.params()
     tagid = toInt(params.get('tag', 0))
 

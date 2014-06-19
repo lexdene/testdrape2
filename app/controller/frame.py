@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 'some common functions that all controllers need'
 
+import re
 import inspect
 from functools import wraps
 
@@ -97,8 +98,20 @@ def default_frame(request, variables, path=None):
         cur_frame = inspect.currentframe()
         back_frame = cur_frame.f_back
         back_module = inspect.getmodule(back_frame)
+
+        match = re.match(
+            r'^app\.controller\.(.*)$',
+            back_module.__name__
+        )
+        if match is None:
+            raise ValueError(
+                'module name error: %s' % (
+                    back_module.__name__
+                )
+            )
+
         path = '%s/%s' % (
-            back_module.__name__.split('.')[-1],
+            match.group(1).replace('.', '/'),
             back_frame.f_code.co_name
         )
 

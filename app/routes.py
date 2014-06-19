@@ -1,5 +1,5 @@
 'define routes'
-from drape.router import Group, Url
+from drape.router import Group, Url, Resource
 from drape.request import GET
 
 ROUTES = [
@@ -26,9 +26,8 @@ ROUTES = [
         GET,
         'common.validate_code_image'
     ),
-    Url(
-        '^/discuss(/List)?$',
-        GET,
-        'discuss.List'
+    Group(
+        'discuss',
+        Resource('topic')
     ),
 ]
