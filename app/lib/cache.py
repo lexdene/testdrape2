@@ -47,7 +47,7 @@ def cache_by(key_tmpl):
         @wraps(func)
         def cache_value_generator(*argv):
             'real function'
-            key = key_tmpl % argv
+            key = key_tmpl.format(*argv)
             value = cache.get(key)
             if value is None:
                 value = func(*argv)

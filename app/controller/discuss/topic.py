@@ -118,7 +118,7 @@ def new(request):
 
 
 @frame.ajax_check_login
-def ajax_post_topic(request, uid):
+def create(request, uid):
     ''' 发表主题的ajax接口 '''
     params = request.params()
 

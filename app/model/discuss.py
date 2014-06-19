@@ -4,7 +4,7 @@ import datetime
 import drape
 from drape.model import LinkedModel, F
 
-from app.lib.cache import Cache
+from app.lib.cache import cache_by
 
 
 class TopicModel(drape.model.LinkedModel):
@@ -123,18 +123,15 @@ class TopicModel(drape.model.LinkedModel):
         topic_list, count = self.select_and_count()
 
         # filter tags
-        cache = Cache()
         for topic in topic_list:
-            topic_info = cache.get(
-                'topic_info/%s' % topic['id'],
-                lambda: self.get_topic_info(topic['id'])
-            )
+            topic_info = self.get_topic_info(topic['id'])
             for key, value in topic_info.items():
                 if key not in topic:
                     topic[key] = value
 
         return topic_list, count
 
+    @cache_by('topic_info/{1}')
     def get_topic_info(self, topic_id):
         topic = self.alias(
             'dt'
