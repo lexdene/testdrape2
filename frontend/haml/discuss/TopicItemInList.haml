@@ -8,7 +8,7 @@
           {{ topic_item['topic_ui.nickname'] }}
     .common_layout_column
       .title
-        %a{:href => "{{ROOT}}/discuss/Topic/id/{{ topic_item['id']}}"}
+        %a{:href => "{{ROOT}}/discuss/topic/{{ topic_item['id']}}"}
           {{topic_item['title']|e}}
       .jf_tag_line
         {% for tag in topic_item['tag_list'] %}

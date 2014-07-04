@@ -1,6 +1,6 @@
 {% do res.add('dje/dje.ajax_form', 'js') -%}
 {% do res.add('dje/dje.mask', 'js') -%}
-{% do res.addResByPath() %}
+{% do res.add() %}
 {% include 'widget/UserPanel.html' %}
 {% include 'widget/TransText.html' %}
 .discuss_topic{"data-topic-id" => "{{ topicInfo['id'] }}"}

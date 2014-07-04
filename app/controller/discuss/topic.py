@@ -198,12 +198,8 @@ def ajax_topic_list(request, page, per_page):
     )
 
 
-def Topic(request):
+def show(request, topic_id):
     ''' 主题页面 '''
-    # get topic id from params
-    params = request.params()
-    topic_id = toInt(params.get('id', -1))
-
     # read topic info from model
     topic_model = LinkedModel('discuss_topic')
     topic_info = topic_model.alias(
