@@ -1,17 +1,11 @@
 'define routes'
-from drape.router import Group, Url, Resource
-from drape.request import GET
+from drape.router import Group, Url, Resource, define_routes
 
-ROUTES = [
-    Url(
-        '^/$',
-        GET,
-        'index.index'
-    ),
-    Url(
-        '^/db/create_tables$',
-        GET,
-        'db.create_tables'
+define_routes(
+    Url.get('', 'index.index'),
+    Group(
+        'db',
+        Url.get('create_tables'),
     ),
     Group(
         'user',
@@ -21,13 +15,17 @@ ROUTES = [
         Url.post('ajaxLogin'),
         Url.get('Logout'),
     ),
-    Url(
-        '^/common/validate_code_image$',
-        GET,
-        'common.validate_code_image'
+    Group(
+        'common',
+        Url.get('validate_code_image')
     ),
     Group(
         'discuss',
-        Resource('topic')
-    ),
-]
+        Resource(
+            'topic',
+            members=[
+                Resource('reply')
+            ]
+        )
+    )
+)

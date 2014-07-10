@@ -64,7 +64,7 @@
     %a{:href => "{{ROOT}}/discuss/List"} 返回讨论区列表
   .reply_block
     {% if uid > 0 %}
-    %form#reply_form{:action => "{{ROOT}}/discuss/ajaxPostReply", :method => "post", :onsubmit => "return false;"}
+    %form#reply_form{:action => "{{ROOT}}/discuss/topic/{{topicInfo['id']}}/replys", :method => "post", :onsubmit => "return false;"}
       <input type='hidden' name='tid' value='{{topicInfo['id']}}' />
       %input{:name => "reply_to_id", :type => "hidden", :value => "-1"}/
       %h1 发表回复
@@ -82,5 +82,5 @@
     %div 未登录用户无法评论。
     %div
       请先
-      %a{:href => "{{ROOT}}/user/Login?redirect=/discuss/Topic/id/{{topicInfo['id']}}"} 登录
+      %a{:href => "{{ROOT}}/user/Login?redirect=/discuss/topic/{{topicInfo['id']}}"} 登录
     {% endif %}

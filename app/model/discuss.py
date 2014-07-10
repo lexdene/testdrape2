@@ -4,7 +4,7 @@ import datetime
 import drape
 from drape.model import LinkedModel, F
 
-from app.lib.cache import cache_by
+from app.model import caches
 
 
 class TopicModel(drape.model.LinkedModel):
@@ -124,65 +124,12 @@ class TopicModel(drape.model.LinkedModel):
 
         # filter tags
         for topic in topic_list:
-            topic_info = self.get_topic_info(topic['id'])
+            topic_info = caches.get_topic_info(topic['id'])
             for key, value in topic_info.items():
                 if key not in topic:
                     topic[key] = value
 
         return topic_list, count
-
-    @cache_by('topic_info/{1}')
-    def get_topic_info(self, topic_id):
-        topic = self.alias(
-            'dt'
-        ).join(
-            'userinfo',
-            {
-                'dt.uid': F('topic_ui.id')
-            },
-            'topic_ui'
-        ).join(
-            'discuss_topic_cache',
-            {
-                'tc.id': F('dt.id')
-            },
-            'tc'
-        ).join(
-            'discuss_reply',
-            {
-                'last_reply.id': F('tc.last_reply_id')
-            },
-            'last_reply'
-        ).join(
-            'userinfo',
-            {
-                'last_reply.uid': F('last_reply_ui.id')
-            },
-            'last_reply_ui',
-        ).join(
-            'discuss_reply',
-            {
-                'count_dr.tid': F('dt.id')
-            },
-            'count_dr'
-        ).where({
-            'dt.id': topic_id
-        }).find(
-            ['COUNT(DISTINCT count_dr.id) as reply_count']
-        )
-
-        tag_model = LinkedModel('tag')
-        topic['tag_list'] = tag_model.join(
-            'discuss_topic_tag_bridge',
-            {
-                'ttb.tag_id': F('tag.id')
-            },
-            'ttb'
-        ).where({
-            'ttb.topic_id': topic['id']
-        }).select()
-
-        return topic
 
 
 def add_new_topic(uid, title, text, tag_id_list):
