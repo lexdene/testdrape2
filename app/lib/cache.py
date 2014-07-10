@@ -55,6 +55,13 @@ def cache_by(key_tmpl):
 
             return value
 
+        def remove_cache(*argv):
+            'remove cache'
+            key = key_tmpl.format(*argv)
+            cache.remove(key)
+
+        cache_value_generator.remove = remove_cache
+
         return cache_value_generator
 
     return cache_deco
