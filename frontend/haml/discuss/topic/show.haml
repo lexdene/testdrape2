@@ -64,7 +64,7 @@
     %a{:href => "{{ROOT}}/discuss/List"} 返回讨论区列表
   .reply_block
     {% if uid > 0 %}
-    %form#reply_form{:action => "{{ROOT}}/discuss/topic/{{topicInfo['id']}}/replys", :method => "post", :onsubmit => "return false;"}
+    %form#reply_form{:action => "{{ROOT}}/discuss/topic/{{topicInfo['id']}}/replies", :method => "post", :onsubmit => "return false;"}
       <input type='hidden' name='tid' value='{{topicInfo['id']}}' />
       %input{:name => "reply_to_id", :type => "hidden", :value => "-1"}/
       %h1 发表回复

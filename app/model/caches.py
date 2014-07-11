@@ -1,5 +1,5 @@
 'some cache by functions'
-from drape.model import LinkedModel
+from drape.model import LinkedModel, F
 
 from app.lib.cache import cache_by
 
@@ -36,8 +36,10 @@ def get_mail_count(uid):
     ).count()
 
 @cache_by('topic_info/{0}')
-def get_topic_info(self, topic_id):
-    topic = self.alias(
+def get_topic_info(topic_id):
+    topic_model = LinkedModel('discuss_topic')
+
+    topic = topic_model.alias(
         'dt'
     ).join(
         'userinfo',
