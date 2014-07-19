@@ -21,7 +21,6 @@ do(jq=jQuery)->
       validate: {}
       before_submit: ->
         true
-      loading_text: 'loading'
       validate_code: false
 
     jq.extend default_option, options
@@ -55,8 +54,7 @@ do(jq=jQuery)->
       return
 
     form.add_mask
-      type: 'loading'
-      text: options.loading_text
+      content_html: '<div class="jf_icon" data-icon="loading"></div>'
 
     jq.post(
       form.attr('action'),
