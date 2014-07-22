@@ -18,9 +18,11 @@ do(jq=jQuery) ->
       # delay data
       jq.delay 1000, (set_result)->
         jq.getJSON(
-          WEB_ROOT + '/notice/ajax_unread_list'
+          WEB_ROOT + '/notices'
         ).success (data)->
-          set_result data
+          set_result
+            result: 'success'
+            notice_list: data
         .error ->
           set_result
             result: 'failed'

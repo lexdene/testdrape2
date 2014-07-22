@@ -1,3 +1,1 @@
-__all__ = ['frame', 'common', 'index', 'user', 'db', 'discuss', 'widget']
-
-from . import *
+from . import index, db, user, common, discuss, notice

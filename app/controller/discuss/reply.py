@@ -115,7 +115,7 @@ def create(request, uid):
             ctime=now,
             isRead=False
         )
-        caches.get_notice_count.remove(uid)
+        caches.get_notice_count.remove(topic_info['uid'])
 
     # reply to reply notice
     # except to myself
@@ -128,7 +128,7 @@ def create(request, uid):
             ctime=now,
             isRead=False
         )
-        caches.get_notice_count.remove(topic_info['uid'])
+        caches.get_notice_count.remove(reply_to_reply_info['uid'])
 
     # action
     # user reply topic

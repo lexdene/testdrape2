@@ -27,5 +27,8 @@ define_routes(
                 Resource('reply')
             ]
         )
-    )
+    ),
+    Resource(
+        'notice'
+    ),
 )

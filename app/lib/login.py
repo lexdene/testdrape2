@@ -29,24 +29,3 @@ def check_login(fun):
             self.notLogin()
 
     return new_fun
-
-
-def ajax_check_login(fun):
-    '''
-    装饰器
-    在ajax接口中判断是否登录
-    未登录，则返回失败信息
-    '''
-    @wraps(fun)
-    def new_fun(self):
-        ''' check login before fun '''
-        session = self.session()
-        uid = toInt(session.get('uid', -1))
-        if uid < 0:
-            self.set_variable('result', 'failed')
-            self.set_variable('msg', '请先登录')
-            return
-
-        fun(self)
-
-    return new_fun

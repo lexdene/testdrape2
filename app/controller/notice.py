@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
 ''' 跟通知有关的模块 '''
-from drape.controller import JsonController, post_only
-from drape.model import LinkedModel
-from drape.util import toInt, tile_list_data
+from drape.model import LinkedModel, F
+from drape.util import tile_list_data
+from drape.response import json_response
 
-from app.lib.cache import remove_cache
-from app.lib.login import ajax_check_login
+from . import frame
 
-
-@JsonController.controller
-@ajax_check_login
-def ajax_unread_list(self):
+@frame.ajax_check_login
+def index(request, uid):
     ''' 未读消息列表 '''
-    session = self.session()
-    uid = toInt(session.get('uid', -1))
-
     notice_model = LinkedModel('notice')
     notice_list = notice_model.join(
-        'userinfo', 'fromuser', 'fromuser.id = notice.from_uid'
+        'userinfo',
+        {
+            'fromuser.id': F('notice.from_uid')
+        },
+        'fromuser'
     ).where(
         to_uid=uid,
         isRead=0
@@ -33,7 +31,11 @@ def ajax_unread_list(self):
             notice['reply_info'] = reply_model.alias(
                 're'
             ).join(
-                'discuss_topic', 'dt', 'dt.id = re.tid'
+                'discuss_topic',
+                {
+                    'dt.id': F('re.tid')
+                },
+                'dt'
             ).where({
                 're.id': notice['item_id']
             }).find()
@@ -42,13 +44,10 @@ def ajax_unread_list(self):
         else:
             raise ValueError('no such type: %s' % notice['type'])
 
-    self.set_variable('result', 'success')
-    self.set_variable('notice_list', tile_list_data(notice_list))
+    return json_response(tile_list_data(notice_list))
 
 
-@JsonController.controller
-@ajax_check_login
-@post_only
+@frame.ajax_check_login
 def ajax_set_is_read(self):
     ''' 将消息设置成已读 '''
     session = self.session()
