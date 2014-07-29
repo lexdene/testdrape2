@@ -31,4 +31,7 @@ define_routes(
     Resource(
         'notice'
     ),
+    Resource(
+        'userinfo'
+    ),
 )

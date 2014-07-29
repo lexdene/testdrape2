@@ -9,8 +9,6 @@ from drape.util import toInt
 from drape.model import LinkedModel
 from drape.response import json_response
 
-from app.lib.cache import remove_cache
-
 
 def ajax_focus(request):
     '''

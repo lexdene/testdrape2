@@ -19,10 +19,11 @@ do(jq=jQuery)->
 
       jq.delay 1000, (set_result)->
         jq.getJSON(
-          WEB_ROOT + '/userinfo/ajax_user_info',
-            uid: userid
-          ,(data)->
-            set_result data
+          WEB_ROOT + '/userinfo/' + userid,
+          (data)->
+            set_result
+              result: 'success'
+              userinfo: data
         ).error ->
           set_result
             'result': 'failed',
@@ -32,7 +33,7 @@ do(jq=jQuery)->
           # 只显示日期，不显示时间
           data.userinfo.ctime = data.userinfo.ctime.substring 0, 10
           dialog.html template
-              userinfo: data.userinfo
+            userinfo: data.userinfo
         else
           dialog.html dje.error_msg_html
             msg: data.msg
@@ -62,7 +63,7 @@ do(jq=jQuery)->
           </div>
           <div class="button_block">
             <a href="<%- WEB_ROOT %>/mail/Write/to_uid/<%- userinfo.id %>">发送私信</a>
-            <a href="<%- WEB_ROOT %>/userinfo/MainPage/id/<%- userinfo.id %>">个人主页</a>
+            <a href="<%- WEB_ROOT %>/userinfo/<%- userinfo.id %>">个人主页</a>
           </div>
         </div>
         <div class="common_layout_column right_column jdmd_form">

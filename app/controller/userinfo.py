@@ -3,27 +3,24 @@
 from drape.util import toInt
 from drape.model import LinkedModel
 from drape.response import json_response
+import drape.http
 
 from app.lib.text import datetime2Str, avatarFunc
 from . import frame
 from .focus import isFocused
 
 
-def ajax_user_info(request):
+def show(request):
     ''' ajax获取用户资料 '''
     # uid
     params = request.params()
-    uid = toInt(params.get('uid'), 0)
+    uid = toInt(params.get('userinfo_id'), 0)
 
     # user info
     userinfo_model = LinkedModel('userinfo')
     userinfo = userinfo_model.where(id=uid).find()
     if userinfo is None:
-        return json_response({
-            'uid': uid,
-            'result': 'failed',
-            'msg': '无此用户'
-        })
+        raise drape.http.NotFound('record not found')
 
     # topic count
     userinfo['topic_count'] = LinkedModel(
@@ -39,30 +36,18 @@ def ajax_user_info(request):
         uid=uid
     ).count()
 
-    # response
-    return json_response({
-        'uid': uid,
-        'result': 'success',
-        'userinfo': userinfo
-    })
-
-
-def MainPage(request):
-    params = request.params()
-    uid = toInt(params.get('id', 0))
-
-    userinfo_model = LinkedModel('userinfo')
-    userinfo = userinfo_model.where(id=uid).find()
-    if userinfo is None:
-        return frame.Error(request, '无此用户')
-
-    return frame.default_frame(
-        request,
-        {
-            'title': userinfo['nickname'],
-            'userinfo': userinfo,
-            'timestr': datetime2Str,
-            'avatar': avatarFunc(request),
-            'isFocused': isFocused(request, 'user', uid)
-        }
-    )
+    # response by accept
+    accept = request.chief_accept()
+    if accept == 'application/json':
+        return json_response(userinfo)
+    else:
+        return frame.default_frame(
+            request,
+            {
+                'title': userinfo['nickname'],
+                'userinfo': userinfo,
+                'timestr': datetime2Str,
+                'avatar': avatarFunc(request),
+                'isFocused': isFocused(request, 'user', uid)
+            }
+        )
