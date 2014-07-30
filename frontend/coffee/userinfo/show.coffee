@@ -26,7 +26,7 @@ do(jq=jQuery)->
         e.preventDefault()
 
         dire = if this.button.data('is-focused') == 'True' then 'remove' else 'add'
-        jq.post WEB_ROOT + '/focus/ajax_focus',
+        jq.post WEB_ROOT + '/focuses',
           type: 'user'
           target: userinfo.id
           dire: dire

@@ -34,7 +34,8 @@ define_routes(
     Resource(
         'userinfo',
         members=[
-            Resource('action')
+            Resource('action'),
         ],
     ),
+    Resource('focus'),
 )

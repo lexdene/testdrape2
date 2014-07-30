@@ -9,20 +9,13 @@ from drape.util import toInt
 from drape.model import LinkedModel
 from drape.response import json_response
 
+from . import frame
 
-def ajax_focus(request):
+@frame.ajax_check_login
+def create(request, uid):
     '''
         focus or unfocus user / topic / tag by ajax
     '''
-    # current user id
-    session = request.session
-    current_uid = toInt(session.get('uid', -1))
-    if current_uid < 0:
-        return json_response({
-            'result': 'failed',
-            'msg': '请先登录'
-        })
-
     # target type and target id
     params = request.params()
     focus_type = params.get('type', '')
@@ -48,7 +41,7 @@ def ajax_focus(request):
             'msg': '参数非法: dire'
         })
 
-    if current_uid == target_id and 'user' == focus_type:
+    if uid == target_id and 'user' == focus_type:
         return json_response({
             'result': 'failed',
             'msg': '不可以关注自己'
@@ -57,7 +50,7 @@ def ajax_focus(request):
     # check repeat
     focus_model = LinkedModel('focus')
     if 'add' == dire and focus_model.where(
-        from_uid=current_uid,
+        from_uid=uid,
         focus_type=focus_type,
         target_id=target_id,
         is_del=False
@@ -72,7 +65,7 @@ def ajax_focus(request):
     if 'add' == dire:
         # same but deleted focus
         exist_deleted_focus = focus_model.where(
-            from_uid=current_uid,
+            from_uid=uid,
             focus_type=focus_type,
             target_id=target_id,
             is_del=True
@@ -88,7 +81,7 @@ def ajax_focus(request):
             )
         else:
             focus_id = focus_model.insert(
-                from_uid=current_uid,
+                from_uid=uid,
                 focus_type=focus_type,
                 target_id=target_id,
                 ctime=now,
@@ -97,7 +90,7 @@ def ajax_focus(request):
 
         # add action
         LinkedModel('action').insert(
-            from_object_id=current_uid,
+            from_object_id=uid,
             from_object_type='user',
             action_type='focus',
             target_object_id=target_id,
@@ -109,7 +102,7 @@ def ajax_focus(request):
         if 'user' == focus_type:
             notice_model = LinkedModel('notice')
             notice_model.insert(
-                from_uid=current_uid,
+                from_uid=uid,
                 to_uid=target_id,
                 item_id=focus_id,
                 type='focus_user',
@@ -120,7 +113,7 @@ def ajax_focus(request):
 
     elif 'remove' == dire:
         focus_model.where(
-            from_uid=current_uid,
+            from_uid=uid,
             focus_type=focus_type,
             target_id=target_id
         ).update(
