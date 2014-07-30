@@ -32,6 +32,9 @@ define_routes(
         'notice'
     ),
     Resource(
-        'userinfo'
+        'userinfo',
+        members=[
+            Resource('action')
+        ],
     ),
 )

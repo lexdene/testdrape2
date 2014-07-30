@@ -37,7 +37,9 @@ do(jq=jQuery)->
         WEB_ROOT + request_url,
         request_params
       ).success (data)->
-        set_result data
+        set_result
+          errormsg: ''
+          data: data
       .error ->
         set_result
           errormsg: '网络错误'
@@ -68,7 +70,7 @@ do(jq=jQuery)->
   dje.newsfeed = (area, url, params)->
     newsfeed_area = area
     request_url = url
-    request_params = params
+    request_params = params || {}
 
     bind_events()
     newsfeed_area.html ''

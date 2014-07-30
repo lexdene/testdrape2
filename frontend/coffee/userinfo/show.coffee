@@ -53,8 +53,7 @@ do(jq=jQuery)->
         this.first_load()
     first_load: ->
       me = this
-      dje.newsfeed me.area, '/userinfo/ajaxUserActionList',
-        uid: userinfo.id
+      dje.newsfeed me.area, "/userinfo/#{userinfo.id}/actions"
 
   topic_page =
     area: null
