@@ -30,6 +30,9 @@ do(jq=jQuery)->
       format_number item_val, len
 
   create_date_formater = (now)->
+    if not now
+      throw "now is empty"
+
     now = new Date now
 
     today = new Date now

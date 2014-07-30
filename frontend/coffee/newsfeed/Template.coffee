@@ -36,10 +36,11 @@ do(jq=jQuery)->
       jq.getJSON(
         WEB_ROOT + request_url,
         request_params
-      ).success (data)->
+      ).success (data, status, xhr)->
         set_result
           errormsg: ''
           data: data
+          now: xhr.getResponseHeader 'Date'
       .error ->
         set_result
           errormsg: '网络错误'

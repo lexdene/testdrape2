@@ -15,17 +15,21 @@ from app.model.action import ActionModel
 DEFAULT_CONTROLLER = 'HomeLine'
 
 
-def HomeLine(request):
+def index(request):
     '''
         只是显示个页面, 没有实际数据.
         数据通过ajax请求.
     '''
-    return frame.default_frame(
-        request,
-        {
-            'title': '首页',
-        }
-    )
+    accept = request.chief_accept()
+    if accept == 'application/json':
+        return AjaxHomeLine(request)
+    else:
+        return frame.default_frame(
+            request,
+            {
+                'title': '新鲜事',
+            }
+        )
 
 
 def AjaxHomeLine(request):
@@ -55,8 +59,4 @@ def AjaxHomeLine(request):
         from_id
     )
 
-    return json_response({
-        'data': tile_list_data(action_list),
-        'now': datetime.datetime.now(),
-        'errormsg': ''
-    })
+    return json_response(tile_list_data(action_list))

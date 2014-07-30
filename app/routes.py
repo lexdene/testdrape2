@@ -38,4 +38,5 @@ define_routes(
         ],
     ),
     Resource('focus'),
+    Url.get('home', 'home.index'),
 )
