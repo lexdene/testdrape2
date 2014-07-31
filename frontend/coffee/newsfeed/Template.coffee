@@ -1,78 +1,90 @@
 do(jq=jQuery)->
-  no_more_html = '<div class="nomore">没有更多新鲜事了</div>'
-  more_button_html = '<a href="#" class="load_more">更多新鲜事</a>'
+  jq.fn.extend
+    # options:
+    #     url:
+    #     params:
+    newsfeed: (options={})->
+      render_container this
+      bind_events this, options
+      fetch this, options
+      this
 
-  newsfeed_template = null
+  render_container = (jobj)->
+    load_template()
+    jobj.html container_template()
+    jobj.data 'from_id', -1
+    jobj
 
-  jq ->
-    newsfeed_template = _.template jq('#newsfeed_template').html()
+  bind_events = (jobj, options)->
+    jobj.on 'click', '.load_more', (e)->
+      e.preventDefault()
 
-  newsfeed_area = null
-  request_url = null
-  request_params = {}
-  from_id = -1
+      $(this).hide()
+      fetch jobj, options
+
+  fetch = (jobj, options)->
+    params = options['params'] || {}
+    loading_obj = jobj.find('.loading')
+
+    jq.delay
+      action: (set_result)->
+        loading_obj.show()
+
+        params['from_id'] = jobj.data('from_id')
+        jq.ajax
+          url: WEB_ROOT + options['url'],
+          data: params
+          dataType: 'json'
+          success: (data, status, xhr)->
+            set_result
+              errormsg: ''
+              data: data
+              now: xhr.getResponseHeader 'Date'
+          error: ->
+            set_result
+              errormsg: '网络错误'
+              data: []
+      finish: (data)->
+        loading_obj.hide()
+
+        # error
+        if data.errormsg != ''
+          jobj.find('.errormsg').html(data.errormsg)
+          jobj.find('.error').show()
+          return
+
+        # emtpy
+        if data.data.length == 0
+          jobj.find('.nomore').show()
+          return
+
+        # min from_id
+        from_id = parseInt jobj.data('from_id')
+        data.data.forEach (d)->
+          if from_id == -1 or d.id < from_id
+            from_id = d.id
+        jobj.data 'from_id', from_id
+
+        # render data
+        jobj.find('.items-container').append render data
+        jobj.find('.load_more').show()
+
+  # global data
+  container_template = null
+  items_template = null
+
+  load_template = ->
+    if container_template == null
+      container_template = _.template jq('#newsfeed-container-template').html()
+
+    if items_template == null
+      items_template = _.template jq('#newsfeed-items-template').html()
 
   render = (data)->
     _(data.data).each (value)->
       if value.from_object_type == 'topic' and value.action_type == 'reply'
         value.action_type = 'replied'
 
-    newsfeed_template
+    items_template
       newsfeed_list: data.data
       format_date: jq.create_date_formater data.now
-
-  bind_events = ->
-    newsfeed_area.on 'click', '.load_more', (e)->
-      e.preventDefault()
-      jq(this).remove()
-      fetch()
-
-  fetch = ->
-    loading_obj = jq dje.loading_html
-    jq.delay 1000, (set_result)->
-      newsfeed_area.append loading_obj
-
-      request_params['from_id'] = from_id
-      jq.getJSON(
-        WEB_ROOT + request_url,
-        request_params
-      ).success (data, status, xhr)->
-        set_result
-          errormsg: ''
-          data: data
-          now: xhr.getResponseHeader 'Date'
-      .error ->
-        set_result
-          errormsg: '网络错误'
-          data: []
-    ,(data)->
-      # remove loading
-      loading_obj.remove()
-
-      # error
-      if data.errormsg != ''
-        newsfeed_area.append dje.error_msg_html
-          msg: data.errormsg
-        return
-
-      # empty
-      if data.data.length == 0
-        newsfeed_area.append no_more_html
-        return
-
-      # min from_id
-      data.data.forEach (d)->
-        if from_id == -1 or d.id < from_id
-          from_id = d.id
-
-      newsfeed_area.append render data
-      newsfeed_area.append more_button_html
-
-  dje.newsfeed = (area, url, params)->
-    newsfeed_area = area
-    request_url = url
-    request_params = params || {}
-
-    bind_events()
-    newsfeed_area.html ''
-    fetch()

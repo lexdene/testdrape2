@@ -52,8 +52,8 @@ do(jq=jQuery)->
         this.area = area
         this.first_load()
     first_load: ->
-      me = this
-      dje.newsfeed me.area, "/userinfo/#{userinfo.id}/actions"
+      this.area.newsfeed
+        url: "/userinfo/#{userinfo.id}/actions"
 
   topic_page =
     area: null
@@ -67,24 +67,25 @@ do(jq=jQuery)->
     first_load: ->
       me = this
       topic_list_area = me.area.find '.discuss_list .list'
-      jq.delay 1000, (set_result)->
-        topic_list_area.html dje.loading_html
-        jq.getJSON(WEB_ROOT + '/userinfo2/ajax_user_topic_list',
-          uid: userinfo.id
-        ).success (data)->
-          set_result data
-        .error ->
-          set_result
-            result: 'failed'
-            msg: '网络错误'
-      ,(result)->
-        if result.result == 'success'
-          topic_list_area.html me.template
-            topic_list: result.topic_list
-            format_date: jq.create_date_formater result.now
-        else
-          topic_list_area.html dje.error_msg_html
-            msg: result.msg
+      jq.delay
+        action: (set_result)->
+          topic_list_area.html dje.loading_html
+          jq.getJSON(WEB_ROOT + '/userinfo2/ajax_user_topic_list',
+            uid: userinfo.id
+          ).success (data)->
+            set_result data
+          .error ->
+            set_result
+              result: 'failed'
+              msg: '网络错误'
+        finish: (result)->
+          if result.result == 'success'
+            topic_list_area.html me.template
+              topic_list: result.topic_list
+              format_date: jq.create_date_formater result.now
+          else
+            topic_list_area.html dje.error_msg_html
+              msg: result.msg
 
   msg_page =
     area: null
@@ -124,27 +125,28 @@ do(jq=jQuery)->
     fetch_msg_list: (to_page=0)->
       me = this
       msg_list_area = this.area.find '.msg_list'
-      jq.delay 1000, (set_result)->
-        msg_list_area.html dje.loading_html
-        jq.getJSON(WEB_ROOT + '/usermsg/AjaxMsgList/',
-          to_uid: userinfo.id
-          page: to_page
-        ).success (data)->
-          set_result data
-        .error ->
-          set_result
-            'result': 'failed'
-            'msg': '系统错误'
-      ,(data)->
-        if data.errormsg == ''
-          me.page_widget.setData data.page, Math.ceil data.count / data.per_page
-          msg_list_area.html me.template
-            msg_list: data.data
-            format_date: jq.create_date_formater data.now
-        else
-          me.page_widget.setData 0, 1
-          msg_list_area.html dje.error_msg_html
-            msg: data.errormsg
+      jq.delay
+        action: (set_result)->
+          msg_list_area.html dje.loading_html
+          jq.getJSON(WEB_ROOT + '/usermsg/AjaxMsgList/',
+            to_uid: userinfo.id
+            page: to_page
+          ).success (data)->
+            set_result data
+          .error ->
+            set_result
+              'result': 'failed'
+              'msg': '系统错误'
+        finish: (data)->
+          if data.errormsg == ''
+            me.page_widget.setData data.page, Math.ceil data.count / data.per_page
+            msg_list_area.html me.template
+              msg_list: data.data
+              format_date: jq.create_date_formater data.now
+          else
+            me.page_widget.setData 0, 1
+            msg_list_area.html dje.error_msg_html
+              msg: data.errormsg
 
   tabs =
     init: ->

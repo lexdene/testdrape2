@@ -16,24 +16,25 @@ do(jq=jQuery) ->
       dialog.show()
 
       # delay data
-      jq.delay 1000, (set_result)->
-        jq.getJSON(
-          WEB_ROOT + '/notices'
-        ).success (data)->
-          set_result
-            result: 'success'
-            notice_list: data
-        .error ->
-          set_result
-            result: 'failed'
-            msg: '网络错误'
-      ,(data)->
-        if data.result == 'success'
-          dialog.html template
-            notice_list: data.notice_list
-        else
-          dialog.html dje.error_msg_html
-            msg: data.msg
+      jq.delay
+        action: (set_result)->
+          jq.getJSON(
+            WEB_ROOT + '/notices'
+          ).success (data)->
+            set_result
+              result: 'success'
+              notice_list: data
+          .error ->
+            set_result
+              result: 'failed'
+              msg: '网络错误'
+        finish: (data)->
+          if data.result == 'success'
+            dialog.html template
+              notice_list: data.notice_list
+          else
+            dialog.html dje.error_msg_html
+              msg: data.msg
 
     get_dialog_object = ->
       if get_dialog_object.__dialog_singleton == undefined

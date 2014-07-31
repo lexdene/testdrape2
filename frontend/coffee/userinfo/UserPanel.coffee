@@ -17,26 +17,28 @@ do(jq=jQuery)->
       dialog.css pos
       dialog.show()
 
-      jq.delay 1000, (set_result)->
-        jq.getJSON(
-          WEB_ROOT + '/userinfo/' + userid,
-          (data)->
-            set_result
-              result: 'success'
-              userinfo: data
-        ).error ->
-          set_result
-            'result': 'failed',
-            'msg': '系统错误'
-      ,(data)->
-        if data.result == 'success'
-          # 只显示日期，不显示时间
-          data.userinfo.ctime = data.userinfo.ctime.substring 0, 10
-          dialog.html template
-            userinfo: data.userinfo
-        else
-          dialog.html dje.error_msg_html
-            msg: data.msg
+      jq.delay
+        action: (set_result)->
+          jq.ajax
+            url: WEB_ROOT + '/userinfo/' + userid
+            dataType: 'json'
+            success: (data)->
+              set_result
+                result: 'success'
+                userinfo: data
+            error: ->
+              set_result
+                'result': 'failed',
+                'msg': '系统错误'
+        finish: (data)->
+          if data.result == 'success'
+            # 只显示日期，不显示时间
+            data.userinfo.ctime = data.userinfo.ctime.substring 0, 10
+            dialog.html template
+              userinfo: data.userinfo
+          else
+            dialog.html dje.error_msg_html
+              msg: data.msg
 
     get_dialog_object = ->
       if get_dialog_object.__dialog_singleton == undefined

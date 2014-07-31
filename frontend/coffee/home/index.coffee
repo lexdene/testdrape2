@@ -7,4 +7,5 @@ do(jq=jQuery)->
       return
 
     # content area
-    dje.newsfeed jq('#content-area'), '/home'
+    jq('#content-area').newsfeed
+      url: '/home'

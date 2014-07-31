@@ -65,7 +65,12 @@ do(jq=jQuery)->
       else
         return 0
 
-    delay: (time, action, finish)->
+    delay: (options={})->
+      # defaults
+      time = options['time'] || 700
+      action = options['action']
+      finish = options['finish']
+
       result = undefined
       is_timer_finished = false
 

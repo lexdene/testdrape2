@@ -1,7 +1,7 @@
 {% do res.add('dje/dje.format_date', 'js') %}
 {% do res.add('newsfeed/Template') %}
 {% include 'widget/UserPanel.html' %}
-%script#newsfeed_template{:type => "text/template"}
+%script#newsfeed-items-template{:type => "text/template"}
   <% _(newsfeed_list).each(function(newsfeed){ %>
   <div class="newsfeed_item clearfix" action_id="<%- newsfeed.id %>">
   <div class="item_avatar push_left">
@@ -110,3 +110,15 @@
   <div class="ctime"><%- format_date(newsfeed.ctime) %></div>
   </div>
   <% }) %>
+
+%script#newsfeed-container-template{:type => "text/template"}
+  .items-container
+  .nomore{:style => "display: none"} 没有更多新鲜事了
+  .loading{:style => "display: none"}
+    .jf_icon{"data-icon" => "loading"}
+    载入中...
+  %a.load_more{:href => '#', :style => "display: none"} 更多新鲜事
+  .error{:style => "display: none"}
+    .jf_icon{"data-icon" => "error"}
+    %span 载入失败！
+    %span.errormsg

@@ -99,9 +99,8 @@ do (jq=jQuery) ->
           msg: data.errormsg
 
     refresh: (page=0) ->
-      jq.delay(
-        1000,
-        (r) =>
+      jq.delay
+        action: (r) =>
           @container.html dje.loading_html
 
           jq.get(
@@ -118,11 +117,9 @@ do (jq=jQuery) ->
                 data: []
             }
             true
-        ,(data) =>
+        finish: (data) =>
           @render data
-
           true
-      )
 
     set_page_buttons: (buttons) ->
       me = @
