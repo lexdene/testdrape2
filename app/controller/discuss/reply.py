@@ -98,7 +98,6 @@ def create(request, uid):
 
     # notice model
     notice_model = LinkedModel('notice')
-    notice_cache_model = LinkedModel('notice_cache')
 
     # reply topic notice
     # except to myself

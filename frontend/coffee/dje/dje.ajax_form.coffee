@@ -9,6 +9,7 @@ do(jq=jQuery)->
         '''
           type: post/network/validate
         '''
+        return true
         action = get_action_name this
         switch type
           when 'post'
@@ -56,21 +57,17 @@ do(jq=jQuery)->
     form.add_mask
       content_html: '<div class="jf_icon" data-icon="loading"></div>'
 
-    jq.post(
-      form.attr('action'),
-      jq.param(params),
-      null,
-      'json'
-    ).success( (data)->
-      form.remove_mask()
-      if data.result == 'success'
+    jq.ajax
+      url: form.attr 'action'
+      type: form.attr 'method'
+      data: jq.param(params)
+      dataType: 'json'
+      success: ->
         options.success.call form
-      else
-        on_failed form, 'post', data.msg, options
-    ).error( ->
-      form.remove_mask()
-      on_failed form, 'network', '系统错误', options
-    )
+      error: (xhr)->
+        on_failed form, 'network', ('错误: ' + jq.error_msg xhr.status), options
+      complete: ->
+        form.remove_mask()
 
   get_form_params = (form)->
     return form.serializeArray()

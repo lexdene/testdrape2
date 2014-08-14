@@ -89,4 +89,39 @@ do(jq=jQuery)->
         load()
       , time
 
+    delay_ajax: (options={})->
+      result = undefined
+      is_timer_finished = false
+
+      load = ->
+        if result and is_timer_finished
+          options['finish'].call this, result
+
+      xhr = options['action'].call this
+      xhr.success (data, status, xhr)->
+        result =
+          errormsg: ''
+          data: data
+          now: xhr.getResponseHeader 'Date'
+          page: xhr.getResponseHeader 'X-Record-Page'
+          per_page: xhr.getResponseHeader 'X-Record-PerPage'
+          count: xhr.getResponseHeader 'X-Record-Count'
+        load()
+      .error (xhr)->
+        result =
+          errormsg: jq.error_msg xhr.status
+        load()
+
+      timer = setTimeout ->
+        is_timer_finished = true
+        load()
+      , options['time'] || 700
+
+    error_msg: (status_code)->
+      map =
+        401: '请先登录'
+        500: '服务器错误，请联系客服'
+
+      map[status_code] or "未知错误: #{status_code}"
+
   true

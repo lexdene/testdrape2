@@ -8,6 +8,7 @@ from functools import wraps
 import drape
 from drape.util import tile_list_data, toInt
 from drape.response import json_response
+from drape import http
 
 import app
 from app.model import caches
@@ -171,14 +172,17 @@ def show_error_page(request, message):
 def pager_ajax(func):
     ''' 为ajax请求封装pager相关操作 '''
     @wraps(func)
-    def pager_controller(request):
+    def pager_controller(request, *argv, **kwargs):
         ''' 处理分页请求 '''
         # page
         params = request.params()
         page = toInt(params.get('page', 0))
         per_page = toInt(params.get('per_page', 20))
 
-        data, count = func(request, page, per_page)
+        if per_page > 100:
+            per_page = 100
+
+        data, count = func(request, page, per_page, *argv, **kwargs)
 
         return json_response(
             tile_list_data(data),
@@ -204,10 +208,7 @@ def ajax_check_login(fun):
         session = request.session
         uid = toInt(session.get('uid', -1))
         if uid < 0:
-            return json_response({
-                'result': 'failed',
-                'msg': '请先登录'
-            })
+            raise http.Unauthorized()
 
         return fun(request, uid)
 

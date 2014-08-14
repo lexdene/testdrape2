@@ -51,8 +51,7 @@
               .list
           .tab_page{:tab_page => "album"} 相册功能仍在开发中...
           .tab_page{:tab_page => "msg"}
-            %form.jdmd_form{:action => "{{ROOT}}/usermsg/AjaxPostMsg", :method => "post"}
-              %input{:name => "to_uid", :type => "hidden", :value => "{{ userinfo['id'] }}"}/
+            %form.jdmd_form{:action => "{{ROOT}}/userinfo/{{userinfo['id']}}/messages", :method => "post"}
               %div 给TA留言
               %div
                 %textarea.jf_textarea{:name => "text"}

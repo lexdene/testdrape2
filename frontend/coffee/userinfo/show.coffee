@@ -125,18 +125,12 @@ do(jq=jQuery)->
     fetch_msg_list: (to_page=0)->
       me = this
       msg_list_area = this.area.find '.msg_list'
-      jq.delay
-        action: (set_result)->
+      jq.delay_ajax
+        action: ->
           msg_list_area.html dje.loading_html
-          jq.getJSON(WEB_ROOT + '/usermsg/AjaxMsgList/',
-            to_uid: userinfo.id
+
+          jq.getJSON WEB_ROOT + "/userinfo/#{userinfo.id}/messages",
             page: to_page
-          ).success (data)->
-            set_result data
-          .error ->
-            set_result
-              'result': 'failed'
-              'msg': '系统错误'
         finish: (data)->
           if data.errormsg == ''
             me.page_widget.setData data.page, Math.ceil data.count / data.per_page
