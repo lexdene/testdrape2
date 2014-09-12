@@ -14,3 +14,26 @@ do ->
   '''
   dje.avatar = (a) ->
     a or "#{WEB_ROOT}/static/image/avatar.jpg"
+
+  window.gws = ->
+    websocket = new WebSocket "ws://#{location.host}#{WEB_ROOT}/websocket/"
+
+    websocket.onopen = ->
+      console.log 'open'
+      console.log arguments
+
+    websocket.onclose = ->
+      console.log 'close'
+      console.log arguments
+
+    websocket.onmessage = (e)->
+      console.log 'message', e.data
+      console.log arguments
+
+    websocket.onerror = ->
+      console.log 'error'
+      console.log arguments
+
+    window.gws.socket = websocket
+
+    true
