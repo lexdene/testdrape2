@@ -1,5 +1,15 @@
 'define routes'
-from drape.router import Group, Url, Resource, define_routes
+from drape.router import (
+    Group,
+    Url,
+    Resource,
+    define_routes,
+    define_controller
+)
+from . import controller
+
+
+define_controller(controller)
 
 define_routes(
     Url.get('', 'index.index'),

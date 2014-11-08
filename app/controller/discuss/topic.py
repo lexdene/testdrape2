@@ -46,7 +46,7 @@ _common_validates = {
 
 
 def index(request):
-    params = request.params()
+    params = request.params
     tagid = toInt(params.get('tag', 0))
 
     # where for topic model

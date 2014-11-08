@@ -1,2 +1,5 @@
 from .config import *
-from .distribution import *
+try:
+    from .distribution import *
+except ImportError:
+    pass

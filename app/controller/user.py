@@ -87,7 +87,7 @@ def validate_password(source, encrypted):
 
 
 def Login(request):
-    params = request.params()
+    params = request.params
 
     return frame.default_frame(
         request,
@@ -100,7 +100,7 @@ def Login(request):
 
 
 def ajaxLogin(request):
-    params = request.params()
+    params = request.params
 
     # validate code
     if not validate_code.validate(
@@ -165,7 +165,7 @@ def Logout(request):
     session = request.session
     session.remove('uid')
 
-    params = request.params()
+    params = request.params
     return frame.default_frame(
         request,
         {
@@ -180,13 +180,13 @@ def Register(request):
         request,
         {
             'title': '注册',
-            'redirect': request.params().get('redirect', '/'),
+            'redirect': request.params.get('redirect', '/'),
         }
     )
 
 
 def ajaxRegister(request):
-    params = request.params()
+    params = request.params
 
     # validate code
     if not validate_code.validate(
